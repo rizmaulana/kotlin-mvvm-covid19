@@ -1,7 +1,7 @@
 # Android kotlin-mvvm-covid19
 This repository contains simple COVID19 data monitoring with android stack MVVM, Live Data, Koin, RxJava, RxBinding, Offline first with simple caching, etc
 
-https://cdn.dribbble.com/users/1114210/screenshots/10641183/media/6211ec34b59accaf915f588c05910c60.png
+![alt text](https://cdn.dribbble.com/users/1114210/screenshots/10641183/media/6211ec34b59accaf915f588c05910c60.png)
 
 ### Library References
 1. RxJava2 
