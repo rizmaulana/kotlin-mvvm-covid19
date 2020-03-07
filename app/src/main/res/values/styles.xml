@@ -1,0 +1,227 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_white</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="homeAsUpIndicator">@drawable/ic_arrow_back_white</item>
+
+    </style>
+
+
+    <style name="TextAppearance.App.TextView" parent="@android:style/TextAppearance">
+        <item name="android:textSize">@dimen/text_12</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <style name="AppTheme.ThemeOverlay.Dark.ActionBar.Base" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="titleTextAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="android:titleTextStyle">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="titleTextStyle">@style/TextAppearance.AppCompat.Body1</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme.ThemeOverlay.Light" parent="AppTheme.ThemeOverlay.Light.Base" />
+
+    <style name="AppTheme.ThemeOverlay.Light.Base" parent="ThemeOverlay.AppCompat.Light">
+        <item name="titleTextAppearance">@style/TextAppearance.Toolbar</item>
+        <item name="android:titleTextStyle">@style/TextAppearance.Toolbar</item>
+        <item name="titleTextStyle">@style/TextAppearance.Toolbar</item>
+    </style>
+
+    <style name="TextAppearance.App.TextView.H4" parent="@style/TextAppearance.App.TextView">
+        <item name="android:textSize">@dimen/text_18</item>
+    </style>
+
+    <style name="TextAppearance.App.TextView.H4.Reverse" parent="@style/TextAppearance.App.TextView.H4">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextAppearance.App.TextView.H4.Reverse.Bold" parent="@style/TextAppearance.App.TextView.H4.Reverse">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.App.TextView.Display" parent="@style/TextAppearance.App.TextView">
+        <item name="android:textSize">@dimen/text_12</item>
+    </style>
+
+    <style name="TextAppearance.App.TextView.Display.Reverse" parent="@style/TextAppearance.App.TextView.Display">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextAppearance.App.TextView.H5" parent="@style/TextAppearance.App.TextView">
+        <item name="android:textSize">@dimen/text_16</item>
+    </style>
+
+    <style name="Widget.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="titleTextAppearance">@style/TextAppearance.App.TextView.H4.Reverse.Bold</item>
+        <item name="subtitleTextAppearance">@style/TextAppearance.App.TextView.Display.Reverse
+        </item>
+        <item name="android:actionMenuTextAppearance">@style/TextAppearance.App.TextView.H5</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+    </style>
+
+    <style name="TextAppearance.Toolbar" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textSize">@dimen/text_12</item>
+    </style>
+
+
+    <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/onyx</item>
+    </style>
+
+    <style name="TextAppearance.App.TextInputLayout.White" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/manatee</item>
+        <item name="android:textColorHint">@color/manatee</item>
+    </style>
+
+    <style name="TextAppearance.App.TextInputLayout.Bold" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/onyx</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontPath">fonts/GoogleSans-Bold.ttf</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+
+    <style name="TextAppearance.App.TextView.Secondary" parent="@style/TextAppearance.App.TextView">
+        <item name="android:textColor">@color/manatee</item>
+    </style>
+
+    <style name="TextAppearance.App.TextView.Secondary.Small" parent="@style/TextAppearance.App.TextView.Secondary">
+        <item name="android:textSize">@dimen/text_8</item>
+    </style>
+
+    <style name="TextAppearance.App.TextInputLayout.Bold.Big" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/onyx</item>
+        <item name="android:textStyle">bold</item>
+        <item name="fontPath">fonts/GoogleSans-Bold.ttf</item>
+        <item name="android:textSize">@dimen/text_18</item>
+    </style>
+
+    <style name="TextAppearance.App.TextView.Normal" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/onyx</item>
+        <item name="android:textSize">@dimen/text_14</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextAppearance.App.TextView.Normal.Grey" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/manatee</item>
+        <item name="android:textSize">@dimen/text_16</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="TextAppearance.App.TextView.H5.Medium" parent="@style/TextAppearance.App.TextView.H5">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TextAppearance.App.TextView.H4.Medium" parent="@style/TextAppearance.App.TextView.H4">
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="TextAppearance.App.TextView.Toolbar" parent="@style/TextAppearance.App.TextView">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/text_20</item>
+    </style>
+
+    <style name="TextAppearance.App.TextView.Floating" parent="@style/TextAppearance.App.TextView.Display">
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
+
+
+    <style name="TextAppearance.App.TextView.Display.Red" parent="@style/TextAppearance.App.TextView.Display">
+        <item name="android:textColor">@color/red</item>
+    </style>
+
+
+    <style name="TextAppearance.App.TextView.Display.Reverse.Background" parent="@style/TextAppearance.App.TextView.Display.Reverse">
+        <item name="android:paddingTop">@dimen/space_x1_half</item>
+        <item name="android:paddingBottom">@dimen/space_x1_half</item>
+        <item name="android:paddingLeft">@dimen/space_x2</item>
+        <item name="android:paddingRight">@dimen/space_x2</item>
+    </style>
+
+    <style name="TextAppearance.App.TextView.Display.Reverse.Background.Orange" parent="@style/TextAppearance.App.TextView.Display.Reverse.Background">
+        <item name="android:background">@color/prince_ton_orange</item>
+    </style>
+
+    <style name="TextAppearance.App.TextView.Display.Reverse.Background.Primary" parent="@style/TextAppearance.App.TextView.Display.Reverse.Background">
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.App.TextView.Display.Reverse.Background.Orange.Status" parent="@style/TextAppearance.App.TextView.Display.Reverse.Background.Orange">
+        <item name="android:background">@color/prince_ton_orange</item>
+        <item name="android:paddingTop">@dimen/space_half</item>
+        <item name="android:paddingBottom">@dimen/space_half</item>
+        <item name="android:paddingLeft">@dimen/space</item>
+        <item name="android:paddingRight">@dimen/space</item>
+        <item name="android:layout_marginTop">@dimen/space_half</item>
+        <item name="android:layout_marginBottom">@dimen/space_half</item>
+    </style>
+
+    <style name="TextAppearance.App.TextView.Small.Grey" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/manatee</item>
+        <item name="android:textSize">@dimen/text_12</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="AppTheme.Base.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="TextAppearance.App.TextView.H5.White" parent="@style/TextAppearance.App.TextView">
+        <item name="android:textSize">@dimen/text_16</item>
+    </style>
+
+    <style name="AppTheme.Base.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.Base.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="ExpandedAppbar" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textStyle">bold</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
+
+
+    <style name="TextAppearance.App.TextView.H5.White.Bold" parent="@style/TextAppearance.App.TextView.H5.White">
+        <item name="android:textStyle">bold</item>
+        <item name="fontPath">fonts/GoogleSans-Bold.ttf</item>
+    </style>
+
+</resources>

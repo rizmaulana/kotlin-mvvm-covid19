@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.sothree.slidinguppanel.SlidingUpPanelLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:sothree="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    app:umanoPanelHeight="320dp"
+    sothree:umanoScrollableView="@+id/recycler_view"
+    sothree:umanoShadowHeight="0dp">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="310dp">
+
+        <FrameLayout
+            android:id="@+id/layout_visual"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_back"
+            app:fabSize="mini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_x2"
+            app:backgroundTint="@color/davy_grey"
+            app:srcCompat="@drawable/ic_arrow_back_white" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_rounded_top_grey"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/img_drag"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingTop="@dimen/space"
+            android:layout_marginBottom="@dimen/space_x2"
+            app:srcCompat="@drawable/ic_drag_handle" />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_x2"
+            android:layout_marginRight="@dimen/space_x2"
+            android:layout_marginBottom="@dimen/space_x2"
+            android:background="@drawable/bg_rounded_grey_stroke"
+            android:gravity="center_vertical"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal"
+            android:padding="@dimen/space_x1_half">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_search" />
+
+            <EditText
+                android:id="@+id/txt_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_x3"
+                android:background="@null"
+                android:hint="Type city or province region ..."
+                android:textAppearance="@style/TextAppearance.App.TextView.H5.White"
+                android:textColor="@color/white"
+                android:textColorHint="@color/cool_grey"
+                android:textSize="@dimen/text_14" />
+
+        </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+
+
+</com.sothree.slidinguppanel.SlidingUpPanelLayout>

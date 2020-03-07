@@ -1,0 +1,114 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+apply plugin: 'kotlin-kapt'
+
+apply plugin: 'com.google.gms.google-services'
+
+def versionMajor = 0
+def versionMinor = 2
+def versionPatch = 3
+
+def packageName = "id.rizmaulana.covid19"
+def appName = "COVID19"
+
+android {
+    compileSdkVersion 29
+    defaultConfig {
+        applicationId packageName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        versionCode versionMajor * 1000000 + versionMinor * 1000 + versionPatch * 100
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath false
+            }
+        }
+        packagingOptions {
+            doNotStrip '*/mips/*.so'
+            doNotStrip '*/mips64/*.so'
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    flavorDimensions "mode"
+    productFlavors {
+        dev {
+            resValue "string", "app_alias_name", "Dev " + appName
+            applicationIdSuffix ".dev"
+            dimension "mode"
+            buildConfigField "String", "BASE_URL", "\"https://covid19.mathdro.id/\""
+
+        }
+        production {
+            resValue "string", "app_alias_name", appName
+            dimension "mode"
+            buildConfigField "String", "BASE_URL", "\"https://covid19.mathdro.id/\""
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+
+    implementation "androidx.appcompat:appcompat:$rootProject.appCompatVersion"
+    implementation "androidx.core:core-ktx:$rootProject.appCompatVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.rvVersion"
+    implementation "com.google.android.material:material:$rootProject.materialVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.lifecycleVersion"
+
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.rxAndroidVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.rxJavaVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.okHttpInterceptorVersion"
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
+
+    implementation "uk.co.chrisjenx:calligraphy:$rootProject.calligraphyVersion"
+
+    implementation "com.orhanobut:hawk:$rootProject.hawkVersion"
+    implementation "com.github.rizmaulana:SheenValidator:$rootProject.sheenValidator"
+
+    // koin
+    implementation "org.koin:koin-android:$rootProject.koinVersion"
+    implementation "org.koin:koin-android-scope:$rootProject.koinVersion"
+    implementation "org.koin:koin-android-viewmodel:$rootProject.koinVersion"
+
+    implementation "com.rengwuxian.materialedittext:library:$rootProject.materialEditText"
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.sothree.slidinguppanel:library:3.4.0'
+    implementation 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    implementation "com.google.android.gms:play-services-maps:17.0.0"
+    implementation "com.karumi:dexter:$rootProject.dexterVersion"
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    implementation 'com.google.firebase:firebase-messaging:20.1.1'
+
+
+
+
+
+}

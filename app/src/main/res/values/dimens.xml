@@ -1,0 +1,86 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="nav_header_vertical_spacing">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="design_fab_image_size" tools:override="true">40dp</dimen>
+
+    <!-- SPACES -->
+    <dimen name="quarter">0.25dp</dimen>
+    <dimen name="half">0.5dp</dimen>
+    <dimen name="minus_6dp">-6dp</dimen>
+    <dimen name="separator">0.5dp</dimen>
+    <dimen name="space_quarter">2dp</dimen>
+    <dimen name="space_half">4dp</dimen>
+    <dimen name="space">8dp</dimen>
+    <dimen name="space_x1_half">12dp</dimen>
+    <dimen name="space_x2">16dp</dimen>
+    <dimen name="space_x2_half">20dp</dimen>
+    <dimen name="space_x3">24dp</dimen>
+    <dimen name="space_x3_half">28dp</dimen>
+    <dimen name="space_x4">32dp</dimen>
+    <dimen name="space_x4_half">36dp</dimen>
+    <dimen name="space_x5">40dp</dimen>
+    <dimen name="space_x5_half">44dp</dimen>
+    <dimen name="space_x6">48dp</dimen>
+    <dimen name="space_x6_half">52dp</dimen>
+    <dimen name="space_x7">56dp</dimen>
+    <dimen name="space_x7_half">60dp</dimen>
+    <dimen name="space_x8">64dp</dimen>
+    <dimen name="space_x9">72dp</dimen>
+    <dimen name="space_x9_half">76dp</dimen>
+    <dimen name="space_x10">80dp</dimen>
+    <dimen name="space_x10_half">84dp</dimen>
+    <dimen name="space_x11">88dp</dimen>
+    <dimen name="space_x12">96dp</dimen>
+    <dimen name="space_x12_half">100dp</dimen>
+    <dimen name="space_x13">104dp</dimen>
+    <dimen name="space_x14">112dp</dimen>
+    <dimen name="space_x15">120dp</dimen>
+    <dimen name="space_x16">128dp</dimen>
+    <dimen name="space_x16_half">132dp</dimen>
+    <dimen name="space_x17">136dp</dimen>
+    <dimen name="space_x18">144dp</dimen>
+    <dimen name="space_x19">152dp</dimen>
+    <dimen name="space_x20">160dp</dimen>
+    <dimen name="space_x21">168dp</dimen>
+    <dimen name="space_x22">176dp</dimen>
+    <dimen name="space_x23">184dp</dimen>
+    <dimen name="space_x24">192dp</dimen>
+    <dimen name="space_x25">200dp</dimen>
+    <dimen name="space_x26">208dp</dimen>
+    <dimen name="space_x27">216dp</dimen>
+    <dimen name="space_x28">224dp</dimen>
+    <dimen name="space_x30">240dp</dimen>
+    <dimen name="space_x31">248dp</dimen>
+    <dimen name="space_x32">256dp</dimen>
+    <dimen name="space_x32_half">260dp</dimen>
+    <dimen name="space_x33">264dp</dimen>
+    <dimen name="space_x34">272dp</dimen>
+    <dimen name="space_x35">280dp</dimen>
+    <dimen name="space_x36">288dp</dimen>
+    <dimen name="space_x37">296dp</dimen>
+    <dimen name="space_x38">304dp</dimen>
+    <dimen name="space_x40">320dp</dimen>
+    <dimen name="space_x45">360dp</dimen>
+    <dimen name="space_x46">368dp</dimen>
+    <dimen name="space_x48">384dp</dimen>
+    <dimen name="space_x50">400dp</dimen>
+    <dimen name="space_x55">440dp</dimen>
+    <dimen name="space_x56">448dp</dimen>
+    <dimen name="space_x60">480dp</dimen>
+
+
+    <dimen name="text_8">8sp</dimen>
+    <dimen name="text_10">10sp</dimen>
+    <dimen name="text_12">12sp</dimen>
+    <dimen name="text_14">14sp</dimen>
+    <dimen name="text_16">16sp</dimen>
+    <dimen name="text_18">18sp</dimen>
+    <dimen name="text_20">20sp</dimen>
+    <dimen name="text_22">22sp</dimen>
+    <dimen name="text_24">24sp</dimen>
+    <dimen name="text_32">32sp</dimen>
+
+
+
+</resources>
