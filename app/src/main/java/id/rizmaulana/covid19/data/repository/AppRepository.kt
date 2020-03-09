@@ -12,7 +12,11 @@ import java.util.*
 /**
  * rizmaulana@live.com 2019-06-14.
  */
-class AppRepository constructor(private val api: AppRemoteSource, private val pref: AppPrefSource) {
+class AppRepository constructor(
+    private val api: AppRemoteSource,
+    private val pref: AppPrefSource
+) {
+
     fun overview() = api.overview()
         .flatMap {
             setCacheOverview(it)
@@ -40,7 +44,7 @@ class AppRepository constructor(private val api: AppRemoteSource, private val pr
                 latestConfirmed = covid.deltaConfirmed
                 covid
             }.toMutableList()
-            Collections.reverse(proceedData)
+            proceedData.reverse()
             setCacheDaily(proceedData)
             Observable.just(proceedData)
         }
@@ -65,23 +69,22 @@ class AppRepository constructor(private val api: AppRemoteSource, private val pr
 
     fun getCacheOverview(): CovidOverview? = pref.getOverview()
 
-    fun setCacheOverview(covidOverview: CovidOverview) = pref.setOverview(covidOverview)
-
     fun getCacheDaily(): List<CovidDaily>? = pref.getDaily()
-
-    fun setCacheDaily(covid: List<CovidDaily>) = pref.setDaily(covid)
 
     fun getCacheConfirmed(): List<CovidDetail>? = pref.getConfirmed()
 
-    fun setCacheConfirmed(covid: List<CovidDetail>) = pref.setConfirmed(covid)
-
     fun getCacheDeath(): List<CovidDetail>? = pref.getDeath()
-
-    fun setCacheDeath(covid: List<CovidDetail>) = pref.setDeath(covid)
 
     fun getCacheRecovered(): List<CovidDetail>? = pref.getRecovered()
 
-    fun setCacheRecovered(covid: List<CovidDetail>) = pref.setRecovered(covid)
+    private fun setCacheOverview(covidOverview: CovidOverview) = pref.setOverview(covidOverview)
 
+    private fun setCacheDaily(covid: List<CovidDaily>) = pref.setDaily(covid)
+
+    private fun setCacheConfirmed(covid: List<CovidDetail>) = pref.setConfirmed(covid)
+
+    private fun setCacheDeath(covid: List<CovidDetail>) = pref.setDeath(covid)
+
+    private fun setCacheRecovered(covid: List<CovidDetail>) = pref.setRecovered(covid)
 
 }
