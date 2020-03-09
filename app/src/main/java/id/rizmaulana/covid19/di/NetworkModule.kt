@@ -1,9 +1,5 @@
 package id.rizmaulana.covid19.di
 
-/**
- * rizmaulana 2020-02-24.
- */
-
 import id.rizmaulana.covid19.BuildConfig
 import id.rizmaulana.covid19.data.source.remote.Api
 import id.rizmaulana.covid19.data.source.remote.AppRemoteSource
@@ -45,7 +41,6 @@ val networkModule = module {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-
     }
 
     single {
