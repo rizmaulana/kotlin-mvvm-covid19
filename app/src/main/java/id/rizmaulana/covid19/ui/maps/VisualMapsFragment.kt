@@ -19,39 +19,45 @@ import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.ui.base.BaseFragment
 import id.rizmaulana.covid19.util.CaseType
+import kotlin.math.pow
 
 
 class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
+
+    private val markers = mutableListOf<Marker>()
     private var googleMap: GoogleMap? = null
+    private var pulseCircle: Circle? = null
+
     private val detailData by lazy {
         arguments?.getParcelableArrayList<CovidDetail>(DATA).orEmpty()
     }
+
     private val caseType by lazy {
         arguments?.getInt(TYPE) ?: CaseType.CONFIRMED
     }
-    private val markers = mutableListOf<Marker>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_visual_maps, container, false)
+        return inflater.inflate(
+            R.layout.fragment_visual_maps,
+            container,
+            false
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val mapFragment = childFragmentManager
             .findFragmentById(R.id.map_fr) as SupportMapFragment
+
         mapFragment.getMapAsync(this)
     }
 
-    override fun observeChange() {
+    override fun onMapReady(map: GoogleMap?) {
+        this.googleMap = map
 
-    }
-
-    override fun onMapReady(p0: GoogleMap?) {
-        this.googleMap = p0
         try {
             googleMap?.setMapStyle(
                 MapStyleOptions.loadRawResourceStyle(
@@ -61,6 +67,7 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
         } catch (e: NotFoundException) {
             e.printStackTrace()
         }
+
         moveCamera(LatLng(LAT_DEFAULT, LON_DEFAULT))
         initMarker()
     }
@@ -99,7 +106,6 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
         }
     }
 
-    /*Related to Animation */
     private val valueAnimator by lazy {
         ValueAnimator.ofFloat(
             0f,
@@ -110,10 +116,9 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
             interpolator = AccelerateDecelerateInterpolator()
         }
     }
-    private var pulseCircle: Circle? = null
 
     private fun calculatePulseRadius(zoomLevel: Float): Float {
-        return Math.pow(2.0, 16 - zoomLevel.toDouble()).toFloat() * 160
+        return 2.0.pow(16 - zoomLevel.toDouble()).toFloat() * 160
     }
 
     private fun startPulsAnimation(latLng: LatLng) {
@@ -122,36 +127,45 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
             removeAllListeners()
             end()
         }
-        pulseCircle?.remove()
 
+        pulseCircle?.remove()
         pulseCircle = googleMap?.addCircle(
             CircleOptions().center(
                 latLng
             ).radius(0.0).strokeWidth(0f)
         )
+
         valueAnimator.addUpdateListener {
             pulseCircle?.fillColor = when (caseType) {
-                CaseType.DEATHS -> Color.argb(70, 226, 108, 90)
-                CaseType.RECOVERED -> Color.argb(70, 0, 204, 153)
-                else -> Color.argb(70, 242, 185, 0)
+                CaseType.RECOVERED -> RECOVERED_COLOR
+                CaseType.DEATHS -> DEATH_COLOR
+                else -> CONFIRMED_COLOR
 
             }
             pulseCircle?.radius = (valueAnimator.animatedValue as Float).toDouble()
         }
+
         valueAnimator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator?) {
                 valueAnimator.startDelay = 100
                 valueAnimator.start()
             }
         })
+
         valueAnimator.start()
     }
 
+    override fun observeChange() { /* no-op */ }
+
     companion object {
-        const val LAT_DEFAULT = 30.360227
-        const val LON_DEFAULT = 114.8260094
-        const val DATA = "data"
-        const val TYPE = "type"
+        private val RECOVERED_COLOR = Color.argb(70, 0, 204, 153)
+        private val CONFIRMED_COLOR = Color.argb(70, 242, 185, 0)
+        private val DEATH_COLOR = Color.argb(70, 226, 108, 90)
+
+        private const val LAT_DEFAULT = 30.360227
+        private const val LON_DEFAULT = 114.8260094
+        private const val DATA = "data"
+        private const val TYPE = "type"
 
         @JvmStatic
         fun newInstance(data: ArrayList<CovidDetail>, caseType: Int) =
@@ -162,6 +176,5 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
                 }
             }
     }
-
 
 }

@@ -3,7 +3,6 @@ package id.rizmaulana.covid19.ui.detail
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.jakewharton.rxbinding.widget.RxTextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import id.rizmaulana.covid19.R
@@ -18,9 +17,14 @@ import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
 
 class DetailActivity : BaseActivity() {
-    private val viewModel by viewModel<DetailViewModel>()
 
-    private val caseType by lazy { intent.getIntExtra(CASE_TYPE, CaseType.CONFIRMED) }
+    private val viewModel by viewModel<DetailViewModel>()
+    private var mapsFragment: VisualMapsFragment? = null
+
+    private val caseType by lazy {
+        intent.getIntExtra(CASE_TYPE, CaseType.CONFIRMED)
+    }
+
     private val detailAdapter by lazy {
         DetailAdapter(caseType) {
             layout_content.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
@@ -28,25 +32,19 @@ class DetailActivity : BaseActivity() {
             mapsFragment?.selectItem(it)
         }
     }
-    private val detailLayoutManager by lazy { LinearLayoutManager(this) }
-    private var mapsFragment: VisualMapsFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
         initView()
-
         viewModel.getDetail(caseType)
-
     }
 
     private fun initView() {
-        with(recycler_view) {
-            adapter = detailAdapter
-            layoutManager = detailLayoutManager
-        }
+        recycler_view.adapter = detailAdapter
         fab_back.setOnClickListener { onBackPressed() }
-        RxTextView.textChanges(txt_search).debounce(500, TimeUnit.MILLISECONDS)
+        RxTextView.textChanges(txt_search)
+            .debounce(500, TimeUnit.MILLISECONDS)
             .subscribe {
                 viewModel.findLocation(it.toString())
             }
@@ -74,7 +72,7 @@ class DetailActivity : BaseActivity() {
     }
 
     companion object {
-        const val CASE_TYPE = "case_type"
+        private const val CASE_TYPE = "case_type"
 
         fun startActivity(context: Context?, type: Int) = context?.startActivity(
             Intent(context, DetailActivity::class.java).apply {
@@ -82,6 +80,5 @@ class DetailActivity : BaseActivity() {
             }
         )
     }
-
 
 }
