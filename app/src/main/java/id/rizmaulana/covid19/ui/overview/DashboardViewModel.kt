@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import id.rizmaulana.covid19.data.model.CovidDaily
 import id.rizmaulana.covid19.data.model.CovidOverview
 import id.rizmaulana.covid19.data.repository.AppRepository
+import id.rizmaulana.covid19.data.repository.Repository
 import id.rizmaulana.covid19.ui.base.BaseViewModel
 import id.rizmaulana.covid19.util.Constant
 import id.rizmaulana.covid19.util.SingleLiveEvent
@@ -15,7 +16,7 @@ import id.rizmaulana.covid19.util.rx.SchedulerProvider
  * rizmaulana
  */
 class DashboardViewModel(
-    private val appRepository: AppRepository,
+    private val appRepository: Repository,
     private val schedulerProvider: SchedulerProvider
 ) : BaseViewModel() {
 
@@ -40,13 +41,11 @@ class DashboardViewModel(
             .observeOn(schedulerProvider.ui())
             .doOnSubscribe {
                 val cache = appRepository.getCacheOverview()
-                if (cache == null) {
-                    _loading.value = true
-                } else {
+                if (cache == null) _loading.postValue(true) else {
                     _overviewData.postValue(cache)
                 }
             }
-            .doFinally { _loading.value = false }
+            .doFinally { _loading.postValue(false) }
             .subscribe({
                 _overviewData.postValue(it)
             }, {

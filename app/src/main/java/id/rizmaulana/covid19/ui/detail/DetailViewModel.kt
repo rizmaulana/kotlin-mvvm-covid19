@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.data.repository.AppRepository
+import id.rizmaulana.covid19.data.repository.Repository
 import id.rizmaulana.covid19.ui.base.BaseViewModel
 import id.rizmaulana.covid19.util.CaseType
 import id.rizmaulana.covid19.util.Constant
@@ -15,7 +16,7 @@ import id.rizmaulana.covid19.util.rx.SchedulerProvider
  * rizmaulana 2020-02-24.
  */
 class DetailViewModel(
-    private val appRepository: AppRepository,
+    private val appRepository: Repository,
     private val schedulerProvider: SchedulerProvider
 ) : BaseViewModel() {
 
@@ -58,14 +59,12 @@ class DetailViewModel(
                     CaseType.DEATHS -> appRepository.getCacheDeath()
                     else -> appRepository.getCacheConfirmed()
                 }
-                if (cache == null) {
-                    _loading.value = true
-                } else {
+                if (cache == null) _loading.postValue(true) else {
                     detailList = cache
                     _detailListLiveData.postValue(detailList)
                 }
             }
-            .doFinally { _loading.value = false }
+            .doFinally { _loading.postValue(false) }
             .subscribe({
                 detailList = it
                 _detailListLiveData.postValue(detailList)

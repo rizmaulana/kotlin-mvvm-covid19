@@ -12,18 +12,18 @@ import java.util.*
 /**
  * rizmaulana@live.com 2019-06-14.
  */
-class AppRepository constructor(
+open class AppRepository constructor(
     private val api: AppRemoteSource,
     private val pref: AppPrefSource
-) {
+) : Repository {
 
-    fun overview() = api.overview()
+    override fun overview(): Observable<CovidOverview> = api.overview()
         .flatMap {
             setCacheOverview(it)
             Observable.just(it)
         }
 
-    fun daily() = api.daily()
+    override fun daily(): Observable<MutableList<CovidDaily>> = api.daily()
         .flatMap {
             var latestRecovered = 0
             var latestConfirmed = 0
@@ -49,33 +49,33 @@ class AppRepository constructor(
             Observable.just(proceedData)
         }
 
-    fun confirmed() = api.confirmed()
+    override fun confirmed(): Observable<List<CovidDetail>> = api.confirmed()
         .flatMap {
             setCacheConfirmed(it)
             Observable.just(it)
         }
 
-    fun deaths() = api.deaths()
+    override fun deaths(): Observable<List<CovidDetail>> = api.deaths()
         .flatMap {
             setCacheDeath(it)
             Observable.just(it)
         }
 
-    fun recovered() = api.recovered()
+    override fun recovered(): Observable<List<CovidDetail>> = api.recovered()
         .flatMap {
             setCacheRecovered(it)
             Observable.just(it)
         }
 
-    fun getCacheOverview(): CovidOverview? = pref.getOverview()
+    override fun getCacheOverview(): CovidOverview? = pref.getOverview()
 
-    fun getCacheDaily(): List<CovidDaily>? = pref.getDaily()
+    override fun getCacheDaily(): List<CovidDaily>? = pref.getDaily()
 
-    fun getCacheConfirmed(): List<CovidDetail>? = pref.getConfirmed()
+    override fun getCacheConfirmed(): List<CovidDetail>? = pref.getConfirmed()
 
-    fun getCacheDeath(): List<CovidDetail>? = pref.getDeath()
+    override fun getCacheDeath(): List<CovidDetail>? = pref.getDeath()
 
-    fun getCacheRecovered(): List<CovidDetail>? = pref.getRecovered()
+    override fun getCacheRecovered(): List<CovidDetail>? = pref.getRecovered()
 
     private fun setCacheOverview(covidOverview: CovidOverview) = pref.setOverview(covidOverview)
 
