@@ -17,13 +17,13 @@ open class AppRepository constructor(
     private val pref: AppPrefSource
 ) : Repository {
 
-    override fun overview(): Observable<CovidOverview> = api.overview()
+    override fun overview() = api.overview()
         .flatMap {
             setCacheOverview(it)
             Observable.just(it)
         }
 
-    override fun daily(): Observable<MutableList<CovidDaily>> = api.daily()
+    override fun daily() = api.daily()
         .flatMap {
             var latestRecovered = 0
             var latestConfirmed = 0
@@ -49,19 +49,19 @@ open class AppRepository constructor(
             Observable.just(proceedData)
         }
 
-    override fun confirmed(): Observable<List<CovidDetail>> = api.confirmed()
+    override fun confirmed() = api.confirmed()
         .flatMap {
             setCacheConfirmed(it)
             Observable.just(it)
         }
 
-    override fun deaths(): Observable<List<CovidDetail>> = api.deaths()
+    override fun deaths() = api.deaths()
         .flatMap {
             setCacheDeath(it)
             Observable.just(it)
         }
 
-    override fun recovered(): Observable<List<CovidDetail>> = api.recovered()
+    override fun recovered() = api.recovered()
         .flatMap {
             setCacheRecovered(it)
             Observable.just(it)
