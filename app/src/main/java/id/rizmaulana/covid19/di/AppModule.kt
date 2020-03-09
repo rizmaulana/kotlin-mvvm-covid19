@@ -10,11 +10,13 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig
 /**
  * rizmaulana 2020-02-24.
  */
+const val DEFAULT_FONT = "fonts/GoogleSans-Regular.ttf"
+
 val appModule = module {
 
     single {
         CalligraphyConfig.Builder()
-            .setDefaultFontPath("fonts/GoogleSans-Regular.ttf")
+            .setDefaultFontPath(DEFAULT_FONT)
             .setFontAttrId(R.attr.fontPath)
             .build()
     }

@@ -1,25 +1,19 @@
-package id.rizmaulana.covid19.data.source.remote
+package id.rizmaulana.covid19.data.repository
 
 import id.rizmaulana.covid19.data.model.CovidDaily
 import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.data.model.CovidOverview
 import io.reactivex.Observable
-import retrofit2.http.GET
 
-@JvmSuppressWildcards
-interface Api {
-    @GET("api")
+interface Repository {
     fun overview(): Observable<CovidOverview>
-
-    @GET("api/daily")
-    fun daily(): Observable<List<CovidDaily>>
-
-    @GET("api/confirmed")
+    fun daily(): Observable<MutableList<CovidDaily>>
     fun confirmed(): Observable<List<CovidDetail>>
-
-    @GET("api/deaths")
     fun deaths(): Observable<List<CovidDetail>>
-
-    @GET("api/recovered")
     fun recovered(): Observable<List<CovidDetail>>
+    fun getCacheOverview(): CovidOverview?
+    fun getCacheDaily(): List<CovidDaily>?
+    fun getCacheConfirmed(): List<CovidDetail>?
+    fun getCacheDeath(): List<CovidDetail>?
+    fun getCacheRecovered(): List<CovidDetail>?
 }

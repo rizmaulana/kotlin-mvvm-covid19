@@ -14,9 +14,12 @@ import kotlinx.android.synthetic.main.item_location.view.*
 /**
  * rizmaulana 2020-02-06.
  */
-class DetailAdapter(val caseType: Int, val clicked: (data: CovidDetail)-> Unit) : RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
-    val items = mutableListOf<CovidDetail>()
+class DetailAdapter(
+    val caseType: Int,
+    val clicked: (data: CovidDetail) -> Unit
+) : RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
 
+    private val items = mutableListOf<CovidDetail>()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -41,7 +44,6 @@ class DetailAdapter(val caseType: Int, val clicked: (data: CovidDetail)-> Unit) 
             CaseType.RECOVERED -> R.color.color_recovered
             else -> R.color.color_confirmed
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(

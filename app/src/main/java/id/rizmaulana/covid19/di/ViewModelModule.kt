@@ -11,6 +11,5 @@ import org.koin.dsl.module
 
 val viewModelModule = module {
     viewModel { DashboardViewModel(get(), get()) }
-
     viewModel { DetailViewModel(get(), get()) }
 }

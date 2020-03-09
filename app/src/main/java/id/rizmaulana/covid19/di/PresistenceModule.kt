@@ -7,8 +7,7 @@ import org.koin.dsl.module
  * rizmaulana@live.com 2019-06-14.
  */
 
-val presistenceModule = module {
-
+val persistenceModule = module {
     single {
         AppPrefSource()
     }

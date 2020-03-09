@@ -12,14 +12,18 @@ import java.util.*
 /**
  * rizmaulana@live.com 2019-06-14.
  */
-class AppRepository constructor(private val api: AppRemoteSource, private val pref: AppPrefSource) {
-    fun overview() = api.overview()
+open class AppRepository constructor(
+    private val api: AppRemoteSource,
+    private val pref: AppPrefSource
+) : Repository {
+
+    override fun overview() = api.overview()
         .flatMap {
             setCacheOverview(it)
             Observable.just(it)
         }
 
-    fun daily() = api.daily()
+    override fun daily() = api.daily()
         .flatMap {
             var latestRecovered = 0
             var latestConfirmed = 0
@@ -40,48 +44,47 @@ class AppRepository constructor(private val api: AppRemoteSource, private val pr
                 latestConfirmed = covid.deltaConfirmed
                 covid
             }.toMutableList()
-            Collections.reverse(proceedData)
+            proceedData.reverse()
             setCacheDaily(proceedData)
             Observable.just(proceedData)
         }
 
-    fun confirmed() = api.confirmed()
+    override fun confirmed() = api.confirmed()
         .flatMap {
             setCacheConfirmed(it)
             Observable.just(it)
         }
 
-    fun deaths() = api.deaths()
+    override fun deaths() = api.deaths()
         .flatMap {
             setCacheDeath(it)
             Observable.just(it)
         }
 
-    fun recovered() = api.recovered()
+    override fun recovered() = api.recovered()
         .flatMap {
             setCacheRecovered(it)
             Observable.just(it)
         }
 
-    fun getCacheOverview(): CovidOverview? = pref.getOverview()
+    override fun getCacheOverview(): CovidOverview? = pref.getOverview()
 
-    fun setCacheOverview(covidOverview: CovidOverview) = pref.setOverview(covidOverview)
+    override fun getCacheDaily(): List<CovidDaily>? = pref.getDaily()
 
-    fun getCacheDaily(): List<CovidDaily>? = pref.getDaily()
+    override fun getCacheConfirmed(): List<CovidDetail>? = pref.getConfirmed()
 
-    fun setCacheDaily(covid: List<CovidDaily>) = pref.setDaily(covid)
+    override fun getCacheDeath(): List<CovidDetail>? = pref.getDeath()
 
-    fun getCacheConfirmed(): List<CovidDetail>? = pref.getConfirmed()
+    override fun getCacheRecovered(): List<CovidDetail>? = pref.getRecovered()
 
-    fun setCacheConfirmed(covid: List<CovidDetail>) = pref.setConfirmed(covid)
+    private fun setCacheOverview(covidOverview: CovidOverview) = pref.setOverview(covidOverview)
 
-    fun getCacheDeath(): List<CovidDetail>? = pref.getDeath()
+    private fun setCacheDaily(covid: List<CovidDaily>) = pref.setDaily(covid)
 
-    fun setCacheDeath(covid: List<CovidDetail>) = pref.setDeath(covid)
+    private fun setCacheConfirmed(covid: List<CovidDetail>) = pref.setConfirmed(covid)
 
-    fun getCacheRecovered(): List<CovidDetail>? = pref.getRecovered()
+    private fun setCacheDeath(covid: List<CovidDetail>) = pref.setDeath(covid)
 
-    fun setCacheRecovered(covid: List<CovidDetail>) = pref.setRecovered(covid)
-
+    private fun setCacheRecovered(covid: List<CovidDetail>) = pref.setRecovered(covid)
 
 }

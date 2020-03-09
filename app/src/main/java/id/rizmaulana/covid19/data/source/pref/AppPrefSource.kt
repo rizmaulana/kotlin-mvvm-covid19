@@ -11,7 +11,6 @@ import id.rizmaulana.covid19.util.CacheKey
  */
 
 class AppPrefSource {
-
     fun getOverview(): CovidOverview? = Hawk.get(CacheKey.OVERVIEW, null)
 
     fun setOverview(covidOverview: CovidOverview) = Hawk.put(CacheKey.OVERVIEW, covidOverview)

@@ -10,8 +10,7 @@ import io.reactivex.disposables.CompositeDisposable
 abstract class BaseViewModel : ViewModel(), LifecycleObserver {
 
     protected val TAG = javaClass.simpleName
-    protected val compositeDisposable: CompositeDisposable by lazy { CompositeDisposable() }
-
+    protected val compositeDisposable by lazy { CompositeDisposable() }
 
     override fun onCleared() {
         with(compositeDisposable) {
