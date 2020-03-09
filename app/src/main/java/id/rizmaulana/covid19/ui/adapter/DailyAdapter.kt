@@ -14,9 +14,9 @@ import kotlinx.android.synthetic.main.item_daily.view.*
 /**
  * rizmaulana 2020-02-06.
  */
-class DailyAdapter() : RecyclerView.Adapter<DailyAdapter.ViewHolder>() {
-    val items = mutableListOf<CovidDaily>()
+class DailyAdapter : RecyclerView.Adapter<DailyAdapter.ViewHolder>() {
 
+    private val items = mutableListOf<CovidDaily>()
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -40,7 +40,6 @@ class DailyAdapter() : RecyclerView.Adapter<DailyAdapter.ViewHolder>() {
             IncrementStatus.DECREASE -> R.drawable.ic_trending_down
             else -> R.drawable.ic_trending_flat
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
