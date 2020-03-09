@@ -23,9 +23,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
  * rizmaulana 2020-02-24.
  */
 abstract class BaseActivity : AppCompatActivity() {
-    var progressDialog: ProgressDialog? = null
-    var authFailedDialog: AlertDialog? = null
 
+    private var progressDialog: ProgressDialog? = null
 
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
@@ -40,7 +39,6 @@ abstract class BaseActivity : AppCompatActivity() {
     fun loading(loaded: Boolean) {
         if (loaded) showProgress() else hideProgress()
     }
-
 
     fun showProgress() {
         if (progressDialog == null) {
@@ -89,7 +87,6 @@ abstract class BaseActivity : AppCompatActivity() {
         showSnackbarError(getString(R.string.msg_unexpected_error))
     }
 
-
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return super.onSupportNavigateUp()
@@ -113,10 +110,8 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-
     open fun changeStatusBarWhite() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-         //   window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimary)
         }
     }
