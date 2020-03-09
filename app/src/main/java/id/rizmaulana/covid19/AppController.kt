@@ -31,8 +31,11 @@ class AppController : MultiDexApplication() {
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         CalligraphyConfig.initDefault(calConfig)
-        Hawk.init(applicationContext).setLogInterceptor { message -> if (BuildConfig.DEBUG) Log.d("Hawk", message) }
-            .build()
+        Hawk.init(applicationContext).setLogInterceptor { message ->
+            if (BuildConfig.DEBUG) {
+                Log.d("Hawk", message)
+            }
+        }.build()
     }
 
 }
