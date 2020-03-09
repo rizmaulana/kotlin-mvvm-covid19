@@ -1,5 +1,6 @@
 package id.rizmaulana.covid19.data.model
 import android.os.Parcelable
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
@@ -10,22 +11,14 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class CovidDetail(
-    @SerializedName("confirmed")
-    val confirmed: Int = 0,
-    @SerializedName("countryRegion")
-    val countryRegion: String? = null,
-    @SerializedName("deaths")
-    val deaths: Int = 0,
-    @SerializedName("lastUpdate")
-    val lastUpdate: Long = 0,
-    @SerializedName("lat")
-    val lat: Double = 0.0,
-    @SerializedName("long")
-    val long: Double = 0.0,
-    @SerializedName("provinceState")
-    val provinceState: String? = null,
-    @SerializedName("recovered")
-    val recovered: Int = 0
-) : Parcelable{
+    @Expose @SerializedName("confirmed") val confirmed: Int = 0,
+    @Expose @SerializedName("countryRegion") val countryRegion: String? = null,
+    @Expose @SerializedName("deaths") val deaths: Int = 0,
+    @Expose @SerializedName("lastUpdate") val lastUpdate: Long = 0,
+    @Expose @SerializedName("lat") val lat: Double = 0.0,
+    @Expose @SerializedName("long") val long: Double = 0.0,
+    @Expose @SerializedName("provinceState") val provinceState: String? = null,
+    @Expose @SerializedName("recovered") val recovered: Int = 0
+) : Parcelable {
     val locationName get() = countryRegion + if (!provinceState.isNullOrEmpty()) ", $provinceState" else ""
 }
