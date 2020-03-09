@@ -1,5 +1,6 @@
 package id.rizmaulana.covid19.ui.detail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.data.repository.AppRepository
@@ -17,15 +18,23 @@ class DetailViewModel(
     private val appRepository: AppRepository,
     private val schedulerProvider: SchedulerProvider
 ) : BaseViewModel() {
-    private var detailList: List<CovidDetail> = listOf()
-    private var filteredDetailList: List<CovidDetail> = listOf()
-    val detailListLiveData = MutableLiveData<List<CovidDetail>>()
-    val loading = MutableLiveData<Boolean>()
+
+    private var detailList = listOf<CovidDetail>()
+    private var filteredDetailList = listOf<CovidDetail>()
+
+    private val _detailListLiveData = MutableLiveData<List<CovidDetail>>()
+    val detailListLiveData: LiveData<List<CovidDetail>>
+        get() = _detailListLiveData
+
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean>
+        get() = _loading
+
     val errorMessage = SingleLiveEvent<String>()
 
     fun findLocation(keyword: String) {
         if (keyword.isEmpty()) {
-            detailListLiveData.postValue(detailList)
+            _detailListLiveData.postValue(detailList)
         } else {
             filteredDetailList = detailList.filter {
                 (it.provinceState?.contains(
@@ -33,7 +42,7 @@ class DetailViewModel(
                     true
                 ) ?: false || it.countryRegion?.contains(keyword, true) ?: false)
             }
-            detailListLiveData.postValue(filteredDetailList)
+            _detailListLiveData.postValue(filteredDetailList)
         }
     }
 
@@ -49,17 +58,17 @@ class DetailViewModel(
                     CaseType.DEATHS -> appRepository.getCacheDeath()
                     else -> appRepository.getCacheConfirmed()
                 }
-                if (cache == null) loading.postValue(true) else {
+                if (cache == null) {
+                    _loading.value = true
+                } else {
                     detailList = cache
-                    detailListLiveData.postValue(detailList)
+                    _detailListLiveData.postValue(detailList)
                 }
             }
-            .doFinally {
-                loading.postValue(false)
-            }
+            .doFinally { _loading.value = false }
             .subscribe({
                 detailList = it
-                detailListLiveData.postValue(detailList)
+                _detailListLiveData.postValue(detailList)
             }, {
                 it.printStackTrace()
                 errorMessage.postValue(Constant.ERROR_MESSAGE)

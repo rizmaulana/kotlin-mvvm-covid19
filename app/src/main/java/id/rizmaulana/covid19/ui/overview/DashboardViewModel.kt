@@ -1,5 +1,6 @@
 package id.rizmaulana.covid19.ui.overview
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import id.rizmaulana.covid19.data.model.CovidDaily
 import id.rizmaulana.covid19.data.model.CovidOverview
@@ -17,25 +18,39 @@ class DashboardViewModel(
     private val appRepository: AppRepository,
     private val schedulerProvider: SchedulerProvider
 ) : BaseViewModel() {
-    val loading = MutableLiveData<Boolean>()
-    val errorMessage = SingleLiveEvent<String>()
-    val dailyListData = MutableLiveData<List<CovidDaily>>()
-    val overviewData = MutableLiveData<CovidOverview>()
+
+    private val _loading = MutableLiveData<Boolean>()
+    val loading: LiveData<Boolean>
+        get() = _loading
+
+    private val _errorMessage = SingleLiveEvent<String>()
+    val errorMessage: LiveData<String>
+        get() = _errorMessage
+
+    private val _dailyListData = MutableLiveData<List<CovidDaily>>()
+    val dailyListData: LiveData<List<CovidDaily>>
+        get() = _dailyListData
+
+    private val _overviewData = MutableLiveData<CovidOverview>()
+    val overviewData: LiveData<CovidOverview>
+        get() = _overviewData
 
     fun getOverview() {
         appRepository.overview()
             .observeOn(schedulerProvider.ui())
             .doOnSubscribe {
                 val cache = appRepository.getCacheOverview()
-                if (cache == null) loading.postValue(true) else {
-                    overviewData.postValue(cache)
+                if (cache == null) {
+                    _loading.value = true
+                } else {
+                    _overviewData.postValue(cache)
                 }
             }
-            .doFinally { loading.postValue(false) }
+            .doFinally { _loading.value = false }
             .subscribe({
-                overviewData.postValue(it)
+                _overviewData.postValue(it)
             }, {
-                errorMessage.postValue(Constant.ERROR_MESSAGE)
+                _errorMessage.postValue(Constant.ERROR_MESSAGE)
             })
             .addTo(compositeDisposable)
     }
@@ -44,11 +59,11 @@ class DashboardViewModel(
         appRepository.daily().observeOn(schedulerProvider.ui())
             .doOnSubscribe {
                 appRepository.getCacheDaily()?.let { data ->
-                    dailyListData.postValue(data)
+                    _dailyListData.postValue(data)
                 }
             }
             .subscribe({
-                dailyListData.postValue(it)
+                _dailyListData.postValue(it)
             }, {
                 it.printStackTrace()
             })
