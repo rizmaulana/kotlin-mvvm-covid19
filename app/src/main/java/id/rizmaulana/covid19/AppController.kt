@@ -23,7 +23,7 @@ class AppController : MultiDexApplication() {
         startKoin {
             androidContext(this@AppController)
             modules(networkModule)
-            modules(presistenceModule)
+            modules(persistenceModule)
             modules(repositoryModule)
             modules(appModule)
             modules(viewModelModule)
