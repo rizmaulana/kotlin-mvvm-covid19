@@ -6,10 +6,8 @@ import id.rizmaulana.covid19.data.model.CovidOverview
 import io.reactivex.Observable
 import retrofit2.http.GET
 
-
 @JvmSuppressWildcards
 interface Api {
-
     @GET("api")
     fun overview(): Observable<CovidOverview>
 
