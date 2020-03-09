@@ -41,11 +41,6 @@ fun View.gone() {
     visibility = View.GONE
 }
 
-fun Context.color(resource: Int): String {
-    return "#" + Integer.toHexString(
-        ContextCompat.getColor(
-            this,
-            resource
-        ) and 0x00ffffff
-    )
+fun Context.color(resource: Int): Int {
+    return ContextCompat.getColor(this, resource)
 }

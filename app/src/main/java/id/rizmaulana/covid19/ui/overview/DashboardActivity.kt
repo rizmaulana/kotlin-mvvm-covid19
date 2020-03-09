@@ -79,9 +79,9 @@ class DashboardActivity : BaseActivity() {
         ).toString()
 
         val colors = arrayListOf(
-            Color.parseColor(color(R.color.color_confirmed)),
-            Color.parseColor(color(R.color.color_recovered)),
-            Color.parseColor(color(R.color.color_death))
+            color(R.color.color_confirmed),
+            color(R.color.color_recovered),
+            color(R.color.color_death)
         )
 
         pieDataSet.colors = colors
