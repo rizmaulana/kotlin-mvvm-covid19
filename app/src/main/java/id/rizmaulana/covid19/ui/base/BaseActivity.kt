@@ -1,5 +1,6 @@
 package id.rizmaulana.covid19.ui.base
 
+import android.Manifest
 import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Color
@@ -11,11 +12,16 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.annotation.ColorRes
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.MultiplePermissionsReport
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import id.rizmaulana.covid19.R
+import id.rizmaulana.covid19.util.Constant
 import id.rizmaulana.covid19.widget.TopSnackbar
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
 
@@ -24,7 +30,15 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper
  */
 abstract class BaseActivity : AppCompatActivity() {
 
-    private var progressDialog: ProgressDialog? = null
+    private val progressDialog by lazy {
+        ProgressDialog(this)
+    }
+
+    private val permissionsList = listOf(
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
 
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase))
@@ -41,18 +55,13 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     fun showProgress() {
-        if (progressDialog == null) {
-            progressDialog = ProgressDialog(this)
-            progressDialog?.show()
-            if (progressDialog?.window != null) {
-                progressDialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            }
-            progressDialog?.setContentView(R.layout.layout_progress_dialog)
-            progressDialog?.isIndeterminate = true
-            progressDialog?.setCancelable(false)
-            progressDialog?.setCanceledOnTouchOutside(false)
-        } else {
-            progressDialog?.show()
+        with(progressDialog) {
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            setContentView(R.layout.layout_progress_dialog)
+            isIndeterminate = true
+            setCancelable(false)
+            setCanceledOnTouchOutside(false)
+            show()
         }
     }
 
@@ -116,5 +125,37 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
+    protected open fun permission(invoke: () -> Unit) {
+        runtimePermission(permissionsList, invoke)
+    }
+
+    private fun runtimePermission(permissions: List<String>, action: () -> Unit) {
+        Dexter.withActivity(this).withPermissions(permissions)
+            .withListener(object : MultiplePermissionsListener {
+                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+                    report?.let {
+                        if (it.deniedPermissionResponses.size > 0) {
+                            runtimePermission(
+                                it.deniedPermissionResponses.map { p -> p.permissionName },
+                                action
+                            )
+                        } else {
+                            action.invoke()
+                        }
+                    }
+                }
+
+                override fun onPermissionRationaleShouldBeShown(
+                    permissions: MutableList<PermissionRequest>?,
+                    token: PermissionToken?
+                ) {
+                    token?.continuePermissionRequest()
+                }
+            })
+            .withErrorListener { showSnackbarError(Constant.ERROR_MESSAGE) }
+            .check()
+    }
+
     abstract fun observeChange()
+
 }
