@@ -15,7 +15,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig
  */
 class AppController : MultiDexApplication() {
 
-    val calConfig: CalligraphyConfig by inject()
+    private val calConfig: CalligraphyConfig by inject()
 
     override fun onCreate() {
         super.onCreate()
