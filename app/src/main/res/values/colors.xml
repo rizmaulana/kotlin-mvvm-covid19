@@ -13,56 +13,7 @@
     <color name="onyx">#101010</color>
     <color name="white_15">#26ffffff</color>
 
-    <!--<color name="black_90">#90000000</color>
-    <color name="black_50">#80000000</color>
-    <color name="black_10">#1A000000</color>
-    <color name="black_4">#0A000000</color>
-    <color name="timber_wolf">#d8d8d8</color>
-    <color name="onyx_1">#171717</color>
-    <color name="dark_jungle_green">#222222</color>
-    <color name="medium_electric_blue">#004998</color>
-    <color name="darker_electric_blue">#003e81</color>
-    <color name="office_green">#008000</color>
-    <color name="dark_green">#ff00a400</color>
-    <color name="prince_ton_orange_light">#ffba53</color>
-    <color name="light_gray">#cfd0d4</color>
-    <color name="ghost_white">#f7f8fa</color>
-    <color name="ghost_white_1">#f8f9fb</color>
-    <color name="light_gray_1">#d2d4d9</color>
-    <color name="manatee_1">#9a9a9a</color>
-    <color name="transparent">#00FFFFFF</color>
-    <color name="prince_ton_orange_alpha_50">#80f99500</color>
-    <color name="ghost_white_alpha_50">#80f7f8fa</color>
-    <color name="gainsboro">#dfdfdf</color>
-    <color name="manatee_2">#90949c</color>
-    <color name="applegreen">#7fba00</color>
-    <color name="gold">#ffd500</color>
-    <color name="coquelicot">#ff3000</color>
-    <color name="lust">#eb2026</color>
-    <color name="lust_light">#ed363b</color>
-    <color name="munsell">#f2f2f2</color>
-    <color name="transparent_gray">#10CCCCCC</color>
-    <color name="platinum">#E1E1E1</color>
-    <color name="silver">#ffc1c1c1</color>
-    <color name="snow">#fafafa</color>
-    <color name="cool_black">#082363</color>
-    <color name="trolley_grey">#ff7f7f7f</color>
-    <color name="dark_slide_blue">#ff562085</color>
-
-    <color name="saffron">#FFFBC02D</color>
-    <color name="saffron_light">#ffd05a</color>
-    <color name="urobilin">#ffeeb320</color>
-    <color name="cornsilk">#fffcfade</color>
-
-    <color name="light_grey">#ffffff</color>
-    <color name="pin_normal">#6B767E</color>
-    <color name="calendar_divider">#1A5BA2</color>
-    <color name="shadow">#66000000</color>
-    <color name="rating_unselected">#E5E5E5</color> -->
-
-
     <color name="color_death">#F76353</color>
     <color name="color_recovered">#00CC99</color>
     <color name="color_confirmed">#F2B900</color>
-
 </resources>
