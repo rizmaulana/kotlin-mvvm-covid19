@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import id.rizmaulana.covid19.data.model.CovidDaily
 import id.rizmaulana.covid19.data.model.CovidOverview
-import id.rizmaulana.covid19.data.repository.AppRepository
 import id.rizmaulana.covid19.data.repository.Repository
 import id.rizmaulana.covid19.ui.base.BaseViewModel
 import id.rizmaulana.covid19.util.Constant
@@ -38,6 +37,7 @@ class DashboardViewModel(
 
     fun getOverview() {
         appRepository.overview()
+            .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .doOnSubscribe {
                 val cache = appRepository.getCacheOverview()
@@ -55,7 +55,9 @@ class DashboardViewModel(
     }
 
     fun getDailyUpdate() {
-        appRepository.daily().observeOn(schedulerProvider.ui())
+        appRepository.daily()
+            .subscribeOn(schedulerProvider.io())
+            .observeOn(schedulerProvider.ui())
             .doOnSubscribe {
                 appRepository.getCacheDaily()?.let { data ->
                     _dailyListData.postValue(data)
@@ -64,7 +66,7 @@ class DashboardViewModel(
             .subscribe({
                 _dailyListData.postValue(it)
             }, {
-                it.printStackTrace()
+                _errorMessage.postValue(Constant.ERROR_MESSAGE)
             })
             .addTo(compositeDisposable)
     }
