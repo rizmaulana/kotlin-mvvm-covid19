@@ -8,11 +8,11 @@ This repository contains simple COVID19 data monitoring with android stack MVVM,
 2. Koin 
 3. Retrofit
 4. RxBinding
-5. Hawk : https://github.com/orhanobut/hawk
-6. MPAndroidChart : https://github.com/PhilJay/MPAndroidChart
-7. Dexter : https://github.com/Karumi/Dexter
-8. SlidingUp Panel : https://github.com/umano/AndroidSlidingUpPanel
-
+5. [Hawk](https://github.com/orhanobut/hawk)
+6. [MPAndroidChart](https://github.com/PhilJay/MPAndroidChart)
+7. [Dexter](https://github.com/Karumi/Dexter)
+8. [SlidingUp Panel](https://github.com/umano/AndroidSlidingUpPanel)
+9. Spek2 Framework
 
 ### License
 ```
