@@ -1,9 +1,12 @@
 package id.rizmaulana.covid19.util.ext
 
+import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+import androidx.core.content.ContextCompat
+
 
 /**
  * rizmaulana@live.com 2019-06-16.
@@ -36,4 +39,8 @@ fun View.visible() {
 /** makes gone a view. */
 fun View.gone() {
     visibility = View.GONE
+}
+
+fun Context.color(resource: Int): Int {
+    return ContextCompat.getColor(this, resource)
 }

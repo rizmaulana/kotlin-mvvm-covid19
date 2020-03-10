@@ -15,7 +15,7 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig
  */
 class AppController : MultiDexApplication() {
 
-    val calConfig: CalligraphyConfig by inject()
+    private val calConfig: CalligraphyConfig by inject()
 
     override fun onCreate() {
         super.onCreate()
@@ -31,8 +31,11 @@ class AppController : MultiDexApplication() {
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
         CalligraphyConfig.initDefault(calConfig)
-        Hawk.init(applicationContext).setLogInterceptor { message -> if (BuildConfig.DEBUG) Log.d("Hawk", message) }
-            .build()
+        Hawk.init(applicationContext).setLogInterceptor { message ->
+            if (BuildConfig.DEBUG) {
+                Log.d("Hawk", message)
+            }
+        }.build()
     }
 
 }

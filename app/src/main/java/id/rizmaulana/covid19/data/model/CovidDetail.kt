@@ -1,9 +1,9 @@
 package id.rizmaulana.covid19.data.model
+
 import android.os.Parcelable
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-
 
 /**
  * rizmaulana 04/03/20.

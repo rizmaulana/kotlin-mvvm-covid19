@@ -18,13 +18,13 @@ object CacheKey {
     const val RECOVERED = "cache_recovered"
 }
 
-object CaseType{
+object CaseType {
     const val CONFIRMED = 0
     const val DEATHS = 1
     const val RECOVERED = 2
 }
 
-object IncrementStatus{
+object IncrementStatus {
     const val FLAT = 0
     const val INCREASE = 1
     const val DECREASE = 2
