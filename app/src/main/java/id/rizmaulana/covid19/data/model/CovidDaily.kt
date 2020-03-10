@@ -12,7 +12,7 @@ data class CovidDaily(
     @Expose @SerializedName("deltaConfirmed") val deltaConfirmed: Int = 0,
     @Expose @SerializedName("deltaRecovered") val deltaRecovered: Int = 0,
     @Expose @SerializedName("mainlandChina") val mainlandChina: Int = 0,
-    @Expose @SerializedName("objectId") val objectId: Int = 0,
+    @Expose @SerializedName("objectid") val objectId: Int = 0,
     @Expose @SerializedName("otherLocations") val otherLocations: Int = 0,
     @Expose @SerializedName("reportDate") val reportDate: Long = 0,
     @Expose @SerializedName("reportDateString") val reportDateString: String = "",
