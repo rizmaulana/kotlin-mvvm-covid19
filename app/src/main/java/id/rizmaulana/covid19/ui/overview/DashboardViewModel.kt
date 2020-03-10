@@ -37,7 +37,6 @@ class DashboardViewModel(
 
     fun getOverview() {
         appRepository.overview()
-            .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .doOnSubscribe {
                 val cache = appRepository.getCacheOverview()
@@ -56,7 +55,6 @@ class DashboardViewModel(
 
     fun getDailyUpdate() {
         appRepository.daily()
-            .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .doOnSubscribe {
                 appRepository.getCacheDaily()?.let { data ->
