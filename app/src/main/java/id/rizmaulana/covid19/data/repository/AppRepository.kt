@@ -67,6 +67,11 @@ open class AppRepository constructor(
             Observable.just(it)
         }
 
+    /**
+     * Just found out every case api already provided all cases,
+     * this function is actually not necessary
+     * leave this as documentation
+     */
     override fun fullStats(): Observable<List<CovidDetail>> {
         return Observable.zip(
             api.confirmed(),
