@@ -42,15 +42,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="<GOOGLE_MAPS_API_KEY>" />
 
-        <service
-            android:name=".util.PushNotifListener"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
-
     </application>
 
 </manifest>
