@@ -3,7 +3,6 @@ package id.rizmaulana.covid19.ui.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import id.rizmaulana.covid19.data.model.CovidDetail
-import id.rizmaulana.covid19.data.repository.AppRepository
 import id.rizmaulana.covid19.data.repository.Repository
 import id.rizmaulana.covid19.ui.base.BaseViewModel
 import id.rizmaulana.covid19.util.CaseType
@@ -63,6 +62,23 @@ class DetailViewModel(
                     detailList = cache
                     _detailListLiveData.postValue(detailList)
                 }
+            }
+            .doFinally { _loading.postValue(false) }
+            .subscribe({
+                detailList = it
+                _detailListLiveData.postValue(detailList)
+            }, {
+                it.printStackTrace()
+                errorMessage.postValue(Constant.ERROR_MESSAGE)
+            })
+            .addTo(compositeDisposable)
+    }
+
+    fun getFullDetail() {
+        appRepository.fullStats()
+            .subscribeOn(schedulerProvider.ui())
+            .doOnSubscribe {
+                _loading.postValue(true)
             }
             .doFinally { _loading.postValue(false) }
             .subscribe({
