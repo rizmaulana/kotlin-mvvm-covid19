@@ -50,13 +50,15 @@ class DetailViewModel(
         when (caseType) {
             CaseType.RECOVERED -> appRepository.recovered()
             CaseType.DEATHS -> appRepository.deaths()
-            else -> appRepository.confirmed()
+            CaseType.CONFIRMED -> appRepository.confirmed()
+            else -> appRepository.fullStats()
         }.subscribeOn(schedulerProvider.ui())
             .doOnSubscribe {
                 val cache = when (caseType) {
                     CaseType.RECOVERED -> appRepository.getCacheRecovered()
                     CaseType.DEATHS -> appRepository.getCacheDeath()
-                    else -> appRepository.getCacheConfirmed()
+                    CaseType.CONFIRMED -> appRepository.getCacheConfirmed()
+                    else -> appRepository.getCacheFull()
                 }
                 if (cache == null) _loading.postValue(true) else {
                     detailList = cache
