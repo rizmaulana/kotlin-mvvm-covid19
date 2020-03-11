@@ -44,6 +44,7 @@ class DashboardActivity : BaseActivity() {
         layout_confirmed.setOnClickListener { permission(CaseType.CONFIRMED) }
         layout_recovered.setOnClickListener { permission(CaseType.RECOVERED) }
         layout_death.setOnClickListener { permission(CaseType.DEATHS) }
+        fab.setOnClickListener { permission(CaseType.FULL) }
     }
 
     private fun permission(state: Int) {

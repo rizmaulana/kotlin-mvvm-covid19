@@ -8,14 +8,14 @@
     android:orientation="vertical"
     tools:context=".ui.overview.DashboardActivity">
 
-    <include layout="@layout/layout_toolbar"/>
+    <include layout="@layout/layout_toolbar" />
 
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/layout_content"
-        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:focusableInTouchMode="true">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -79,11 +79,11 @@
                     </RelativeLayout>
 
                     <LinearLayout
-                        android:paddingLeft="@dimen/space_x2"
                         android:id="@+id/layout_statistic"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
+                        android:paddingLeft="@dimen/space_x2"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintHorizontal_weight="2"
                         app:layout_constraintLeft_toRightOf="@id/layout_chart"
@@ -217,13 +217,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="false"
-                    tools:listitem="@layout/item_daily"
                     android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:listitem="@layout/item_daily" />
 
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="24dp"
+            android:layout_marginBottom="24dp"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_public_black_24dp" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
