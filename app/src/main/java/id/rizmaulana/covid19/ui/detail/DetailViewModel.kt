@@ -49,7 +49,7 @@ class DetailViewModel(
     fun getDetail(caseType: Int) {
         when (caseType) {
             CaseType.RECOVERED -> appRepository.recovered()
-            CaseType.DEATHS -> appRepository.confirmed()
+            CaseType.DEATHS -> appRepository.deaths()
             else -> appRepository.confirmed()
         }.subscribeOn(schedulerProvider.ui())
             .doOnSubscribe {
