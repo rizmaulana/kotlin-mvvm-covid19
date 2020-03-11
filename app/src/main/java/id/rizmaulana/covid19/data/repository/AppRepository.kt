@@ -92,6 +92,10 @@ open class AppRepository constructor(
                 }
                 result
             })
+            .flatMap {
+                setCacheFull(it)
+                Observable.just(it)
+            }
     }
 
     override fun getCacheOverview(): CovidOverview? = pref.getOverview()
@@ -104,6 +108,8 @@ open class AppRepository constructor(
 
     override fun getCacheRecovered(): List<CovidDetail>? = pref.getRecovered()
 
+    override fun getCacheFull(): List<CovidDetail>? = pref.getFullStats()
+
     private fun setCacheOverview(covidOverview: CovidOverview) = pref.setOverview(covidOverview)
 
     private fun setCacheDaily(covid: List<CovidDaily>) = pref.setDaily(covid)
@@ -113,5 +119,7 @@ open class AppRepository constructor(
     private fun setCacheDeath(covid: List<CovidDetail>) = pref.setDeath(covid)
 
     private fun setCacheRecovered(covid: List<CovidDetail>) = pref.setRecovered(covid)
+
+    private fun setCacheFull(covid: List<CovidDetail>) = pref.setFullStats(covid)
 
 }

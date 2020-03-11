@@ -17,4 +17,5 @@ interface Repository {
     fun getCacheConfirmed(): List<CovidDetail>?
     fun getCacheDeath(): List<CovidDetail>?
     fun getCacheRecovered(): List<CovidDetail>?
+    fun getCacheFull(): List<CovidDetail>?
 }
