@@ -33,7 +33,7 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
     }
 
     private val caseType by lazy {
-        arguments?.getInt(TYPE) ?: CaseType.CONFIRMED
+        arguments?.getInt(TYPE) ?: CaseType.FULL
     }
 
     override fun onCreateView(
