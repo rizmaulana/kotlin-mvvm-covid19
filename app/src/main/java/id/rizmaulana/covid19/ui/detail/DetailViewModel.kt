@@ -76,21 +76,4 @@ class DetailViewModel(
             .addTo(compositeDisposable)
     }
 
-    fun getFullDetail() {
-        appRepository.fullStats()
-            .subscribeOn(schedulerProvider.ui())
-            .doOnSubscribe {
-                _loading.postValue(true)
-            }
-            .doFinally { _loading.postValue(false) }
-            .subscribe({
-                detailList = it
-                _detailListLiveData.postValue(detailList)
-            }, {
-                it.printStackTrace()
-                errorMessage.postValue(Constant.ERROR_MESSAGE)
-            })
-            .addTo(compositeDisposable)
-    }
-
 }
