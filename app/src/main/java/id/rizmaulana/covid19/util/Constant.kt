@@ -16,12 +16,14 @@ object CacheKey {
     const val CONFIRMED = "cache_confirmed"
     const val DEATH = "cache_death"
     const val RECOVERED = "cache_recovered"
+    const val FULL_STATS = "cache_full_details"
 }
 
 object CaseType {
     const val CONFIRMED = 0
     const val DEATHS = 1
     const val RECOVERED = 2
+    const val FULL = 3
 }
 
 object IncrementStatus {

@@ -22,7 +22,7 @@ class DetailActivity : BaseActivity() {
     private var mapsFragment: VisualMapsFragment? = null
 
     private val caseType by lazy {
-        intent.getIntExtra(CASE_TYPE, CaseType.CONFIRMED)
+        intent.getIntExtra(CASE_TYPE, CaseType.FULL)
     }
 
     private val detailAdapter by lazy {

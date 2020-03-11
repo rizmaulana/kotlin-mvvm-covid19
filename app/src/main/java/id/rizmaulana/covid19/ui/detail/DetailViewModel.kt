@@ -3,7 +3,6 @@ package id.rizmaulana.covid19.ui.detail
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import id.rizmaulana.covid19.data.model.CovidDetail
-import id.rizmaulana.covid19.data.repository.AppRepository
 import id.rizmaulana.covid19.data.repository.Repository
 import id.rizmaulana.covid19.ui.base.BaseViewModel
 import id.rizmaulana.covid19.util.CaseType
@@ -50,14 +49,16 @@ class DetailViewModel(
     fun getDetail(caseType: Int) {
         when (caseType) {
             CaseType.RECOVERED -> appRepository.recovered()
-            CaseType.DEATHS -> appRepository.confirmed()
-            else -> appRepository.confirmed()
+            CaseType.DEATHS -> appRepository.deaths()
+            CaseType.CONFIRMED -> appRepository.confirmed()
+            else -> appRepository.fullStats()
         }.subscribeOn(schedulerProvider.ui())
             .doOnSubscribe {
                 val cache = when (caseType) {
                     CaseType.RECOVERED -> appRepository.getCacheRecovered()
                     CaseType.DEATHS -> appRepository.getCacheDeath()
-                    else -> appRepository.getCacheConfirmed()
+                    CaseType.CONFIRMED -> appRepository.getCacheConfirmed()
+                    else -> appRepository.getCacheFull()
                 }
                 if (cache == null) _loading.postValue(true) else {
                     detailList = cache
