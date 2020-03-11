@@ -7,7 +7,7 @@ import id.rizmaulana.covid19.data.source.pref.AppPrefSource
 import id.rizmaulana.covid19.data.source.remote.AppRemoteSource
 import id.rizmaulana.covid19.util.IncrementStatus
 import io.reactivex.Observable
-import java.util.*
+import io.reactivex.functions.Function3
 
 /**
  * rizmaulana@live.com 2019-06-14.
@@ -66,6 +66,33 @@ open class AppRepository constructor(
             setCacheRecovered(it)
             Observable.just(it)
         }
+
+    override fun fullStats(): Observable<List<CovidDetail>> {
+        return Observable.zip(
+            api.confirmed(),
+            api.recovered(),
+            api.deaths(),
+            Function3<List<CovidDetail>, List<CovidDetail>, List<CovidDetail>, List<CovidDetail>> { t1, t2, t3 ->
+                val result: MutableList<CovidDetail> = mutableListOf()
+                t1.forEach { it1 ->
+                    val t2Match = if (it1.provinceState == null)
+                        t2.firstOrNull { it.countryRegion == it1.countryRegion }
+                    else t2.firstOrNull { it.provinceState == it1.provinceState }
+                    val t3Match = if (it1.provinceState == null)
+                        t3.firstOrNull { it.countryRegion == it1.countryRegion }
+                    else t3.firstOrNull { it.provinceState == it1.provinceState }
+
+                    result.add(
+                        it1.copy(
+                            recovered = t2Match?.recovered ?: -1,
+                            deaths = t3Match?.deaths ?: -1
+                        )
+                    )
+
+                }
+                result
+            })
+    }
 
     override fun getCacheOverview(): CovidOverview? = pref.getOverview()
 
