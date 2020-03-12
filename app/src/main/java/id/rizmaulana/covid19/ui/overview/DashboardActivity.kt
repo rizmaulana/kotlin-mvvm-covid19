@@ -11,6 +11,7 @@ import com.github.mikephil.charting.data.PieEntry
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.data.model.CovidDaily
 import id.rizmaulana.covid19.data.model.CovidOverview
+import id.rizmaulana.covid19.databinding.ActivityDashboardBinding
 import id.rizmaulana.covid19.ui.adapter.DailyAdapter
 import id.rizmaulana.covid19.ui.base.BaseActivity
 import id.rizmaulana.covid19.ui.detail.DetailActivity
@@ -18,17 +19,18 @@ import id.rizmaulana.covid19.util.CaseType
 import id.rizmaulana.covid19.util.NumberUtils
 import id.rizmaulana.covid19.util.ext.color
 import id.rizmaulana.covid19.util.ext.observe
-import kotlinx.android.synthetic.main.activity_dashboard.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DashboardActivity : BaseActivity() {
 
     private val viewModel by viewModel<DashboardViewModel>()
     private val dailyAdapter by lazy { DailyAdapter() }
+    private lateinit var binding: ActivityDashboardBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dashboard)
+        binding = ActivityDashboardBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initView()
 
         viewModel.getOverview()
@@ -36,15 +38,17 @@ class DashboardActivity : BaseActivity() {
     }
 
     private fun initView() {
-        with(recycler_view) {
+        with(binding.recyclerView) {
             adapter = dailyAdapter
             isNestedScrollingEnabled = false
         }
 
-        layout_confirmed.setOnClickListener { permission(CaseType.CONFIRMED) }
-        layout_recovered.setOnClickListener { permission(CaseType.RECOVERED) }
-        layout_death.setOnClickListener { permission(CaseType.DEATHS) }
-        fab.setOnClickListener { permission(CaseType.FULL) }
+        with(binding) {
+            layoutConfirmed.setOnClickListener { permission(CaseType.CONFIRMED) }
+            layoutRecovered.setOnClickListener { permission(CaseType.RECOVERED) }
+            layoutDeath.setOnClickListener { permission(CaseType.DEATHS) }
+            fab.setOnClickListener { permission(CaseType.FULL) }
+        }
     }
 
     private fun permission(state: Int) {
@@ -61,9 +65,11 @@ class DashboardActivity : BaseActivity() {
     }
 
     private fun overviewLoaded(overview: CovidOverview) {
-        startNumberChangeAnimator(overview.confirmed?.value, txt_confirmed)
-        startNumberChangeAnimator(overview.deaths?.value, txt_deaths)
-        startNumberChangeAnimator(overview.recovered?.value, txt_recovered)
+        with(binding){
+            startNumberChangeAnimator(overview.confirmed?.value, txtConfirmed)
+            startNumberChangeAnimator(overview.deaths?.value, txtDeaths)
+            startNumberChangeAnimator(overview.recovered?.value, txtRecovered)
+        }
 
         val pieDataSet = PieDataSet(
             listOf(
@@ -73,7 +79,7 @@ class DashboardActivity : BaseActivity() {
             ), "COVID19"
         )
 
-        txt_cases.text = NumberUtils.numberFormat(
+        binding.txtCases.text = NumberUtils.numberFormat(
             (overview.confirmed?.value?.plus(
                 overview.recovered?.value ?: 0
             )?.plus(overview.deaths?.value ?: 0) ?: 0)
@@ -90,7 +96,7 @@ class DashboardActivity : BaseActivity() {
         val pieData = PieData(pieDataSet)
         pieData.setDrawValues(false)
 
-        with(pie_chart){
+        with(binding.pieChart){
             data = pieData
             legend.isEnabled = false
             description = null
@@ -122,5 +128,4 @@ class DashboardActivity : BaseActivity() {
         private const val PIE_ANIMATION_DURATION = 1500
         private const val PIE_RADIUS = 75f
     }
-
 }

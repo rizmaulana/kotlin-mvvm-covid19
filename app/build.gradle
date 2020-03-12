@@ -83,6 +83,10 @@ android {
             testLogging.events = ["passed", "skipped", "failed"]
         }
     }
+    
+    viewBinding {
+        enabled = true
+    }
 }
 
 dependencies {
