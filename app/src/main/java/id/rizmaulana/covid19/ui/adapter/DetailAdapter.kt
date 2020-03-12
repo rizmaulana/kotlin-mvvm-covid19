@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.data.model.CovidDetail
+import id.rizmaulana.covid19.databinding.ItemLocationBinding
 import id.rizmaulana.covid19.util.CaseType
 import id.rizmaulana.covid19.util.NumberUtils
 import id.rizmaulana.covid19.util.ext.visible
-import kotlinx.android.synthetic.main.item_location.view.*
 
 
 /**
@@ -24,27 +24,31 @@ class DetailAdapter(
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(item: CovidDetail) {
-            with(itemView) {
-                txt_information.text = "Last update ${NumberUtils.formatTime(item.lastUpdate)}"
-                txt_location.text = item.locationName
+        private var binding: ItemLocationBinding = ItemLocationBinding.bind(itemView)
 
-                txt_data.text = "Confirmed ${NumberUtils.numberFormat(item.confirmed)}"
-                txt_rcv.text = "Recovered ${NumberUtils.numberFormat(item.recovered)}"
-                txt_death.text = "Deaths ${NumberUtils.numberFormat(item.deaths)}"
+        fun bind(item: CovidDetail) {
+            with(binding) {
+                root.context?.let {
+                    txtInformation.text = it.getString(R.string.information_last_update, NumberUtils.formatTime(item.lastUpdate))
+                    txtLocation.text = item.locationName
+
+                    txtData.text = it.getString(R.string.confirmed_case_count, NumberUtils.numberFormat(item.confirmed))
+                    txtRcv.text = it.getString(R.string.recovered_case_count, NumberUtils.numberFormat(item.recovered))
+                    txtDeath.text = it.getString(R.string.death_case_count, NumberUtils.numberFormat(item.deaths))
+                }
 
                 when (caseType) {
-                    CaseType.CONFIRMED -> txt_data.visible()
-                    CaseType.RECOVERED -> txt_rcv.visible()
-                    CaseType.DEATHS -> txt_death.visible()
+                    CaseType.CONFIRMED -> txtData.visible()
+                    CaseType.RECOVERED -> txtRcv.visible()
+                    CaseType.DEATHS -> txtDeath.visible()
                     else -> {
-                        txt_data.visible()
-                        txt_rcv.visible()
-                        txt_death.visible()
+                        txtData.visible()
+                        txtRcv.visible()
+                        txtDeath.visible()
                     }
                 }
 
-                setOnClickListener { clicked.invoke(item) }
+                root.setOnClickListener { clicked.invoke(item) }
             }
         }
 
