@@ -13,6 +13,7 @@ This repository contains simple COVID19 data monitoring with android stack MVVM,
 7. [Dexter](https://github.com/Karumi/Dexter)
 8. [SlidingUp Panel](https://github.com/umano/AndroidSlidingUpPanel)
 9. Spek2 Framework
+10. Android ViewBinding
 
 ### License
 ```
