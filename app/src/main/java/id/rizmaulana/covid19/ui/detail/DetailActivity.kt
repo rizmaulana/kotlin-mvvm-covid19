@@ -7,12 +7,12 @@ import com.jakewharton.rxbinding.widget.RxTextView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.data.model.CovidDetail
+import id.rizmaulana.covid19.databinding.ActivityDetailBinding
 import id.rizmaulana.covid19.ui.adapter.DetailAdapter
 import id.rizmaulana.covid19.ui.base.BaseActivity
 import id.rizmaulana.covid19.ui.maps.VisualMapsFragment
 import id.rizmaulana.covid19.util.CaseType
 import id.rizmaulana.covid19.util.ext.observe
-import kotlinx.android.synthetic.main.activity_detail.*
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.util.concurrent.TimeUnit
 
@@ -20,6 +20,7 @@ class DetailActivity : BaseActivity() {
 
     private val viewModel by viewModel<DetailViewModel>()
     private var mapsFragment: VisualMapsFragment? = null
+    private lateinit var binding: ActivityDetailBinding
 
     private val caseType by lazy {
         intent.getIntExtra(CASE_TYPE, CaseType.FULL)
@@ -27,7 +28,7 @@ class DetailActivity : BaseActivity() {
 
     private val detailAdapter by lazy {
         DetailAdapter(caseType) {
-            layout_content.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+            binding.layoutContent.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
             hideSoftKeyboard()
             mapsFragment?.selectItem(it)
         }
@@ -35,15 +36,18 @@ class DetailActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
+        binding = ActivityDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initView()
         viewModel.getDetail(caseType)
     }
 
     private fun initView() {
-        recycler_view.adapter = detailAdapter
-        fab_back.setOnClickListener { onBackPressed() }
-        RxTextView.textChanges(txt_search)
+        with(binding){
+            recyclerView.adapter = detailAdapter
+            fabBack.setOnClickListener { onBackPressed() }
+        }
+        RxTextView.textChanges(binding.txtSearch)
             .debounce(500, TimeUnit.MILLISECONDS)
             .subscribe {
                 viewModel.findLocation(it.toString())
@@ -58,7 +62,7 @@ class DetailActivity : BaseActivity() {
 
     private fun onListChanged(data: List<CovidDetail>) {
         detailAdapter.addAll(data)
-        if (txt_search.text.toString().isEmpty()) {
+        if (binding.txtSearch.text.toString().isEmpty()) {
             attachMaps(data)
         }
     }
