@@ -3,12 +3,13 @@ package id.rizmaulana.covid19.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.data.model.CovidDaily
+import id.rizmaulana.covid19.databinding.ItemDailyBinding
 import id.rizmaulana.covid19.util.IncrementStatus
 import id.rizmaulana.covid19.util.NumberUtils
-import kotlinx.android.synthetic.main.item_daily.view.*
 
 
 /**
@@ -20,18 +21,24 @@ class DailyAdapter : RecyclerView.Adapter<DailyAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bind(item: CovidDaily) {
-            with(itemView) {
-                txt_date.text = NumberUtils.formatTime(item.reportDate)
-                txt_confirmed.text = "Confirmed : ${NumberUtils.numberFormat(item.deltaConfirmed)}"
-                txt_recovered.text = "Recovered : ${NumberUtils.numberFormat(item.deltaRecovered)}"
-                txt_information.text =
-                    "Total ${NumberUtils.numberFormat(item.mainlandChina)} cases on China and ${NumberUtils.numberFormat(
-                        item.otherLocations
-                    )} on the other location"
-                img_recovered.setImageDrawable(resources.getDrawable(getFluctuationIcon(item.incrementRecovered)))
-                img_confirmed.setImageDrawable(resources.getDrawable(getFluctuationIcon(item.incrementConfirmed)))
+        private val binding: ItemDailyBinding = ItemDailyBinding.bind(itemView)
 
+        fun bind(item: CovidDaily) {
+            with(binding) {
+                txtDate.text = NumberUtils.formatTime(item.reportDate)
+
+                root.context?.let {
+                    txtInformation.text = it.getString(
+                        R.string.information_location_total_case,
+                        NumberUtils.numberFormat(item.mainlandChina),
+                        NumberUtils.numberFormat(item.otherLocations))
+
+                    txtConfirmed.text = it.getString(R.string.confirmed_case_count, NumberUtils.numberFormat(item.deltaConfirmed))
+                    txtRecovered.text = it.getString(R.string.recovered_case_count, NumberUtils.numberFormat(item.deltaRecovered))
+
+                    imgRecovered.setImageDrawable(ContextCompat.getDrawable(it,getFluctuationIcon(item.incrementRecovered)))
+                    imgConfirmed.setImageDrawable(ContextCompat.getDrawable(it, getFluctuationIcon(item.incrementConfirmed)))
+                }
             }
         }
 
@@ -57,5 +64,4 @@ class DailyAdapter : RecyclerView.Adapter<DailyAdapter.ViewHolder>() {
         items.addAll(data)
         notifyDataSetChanged()
     }
-
 }
