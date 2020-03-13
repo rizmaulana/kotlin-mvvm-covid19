@@ -39,12 +39,10 @@ class DashboardViewModel(
 
     fun loadOverviewAndDaily() {
         val overviewObservable = appRepository.overview()
-            .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.io()) //all stream below will be manage on io thread
             .map { mapOverviewResponse(it) }
 
         val dailyObservable = appRepository.daily()
-            .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.io()) //all stream below will be manage on io thread
             .map { mapDailyResponse(it) }
 
