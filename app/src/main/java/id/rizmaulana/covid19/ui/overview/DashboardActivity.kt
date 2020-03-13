@@ -1,30 +1,41 @@
 package id.rizmaulana.covid19.ui.overview
 
-import android.animation.ValueAnimator
-import android.graphics.Color
 import android.os.Bundle
-import android.widget.TextView
-import com.github.mikephil.charting.animation.Easing
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
+import android.util.Log
+import android.view.View
 import id.rizmaulana.covid19.R
-import id.rizmaulana.covid19.data.model.CovidDaily
-import id.rizmaulana.covid19.data.model.CovidOverview
 import id.rizmaulana.covid19.databinding.ActivityDashboardBinding
 import id.rizmaulana.covid19.ui.adapter.DailyAdapter
+import id.rizmaulana.covid19.ui.adapter.DailyAdapterItemClickListener
+import id.rizmaulana.covid19.ui.adapter.viewholders.DailyItem
+import id.rizmaulana.covid19.ui.adapter.viewholders.OverviewItem
 import id.rizmaulana.covid19.ui.base.BaseActivity
+import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.ui.detail.DetailActivity
 import id.rizmaulana.covid19.util.CaseType
-import id.rizmaulana.covid19.util.NumberUtils
-import id.rizmaulana.covid19.util.ext.color
 import id.rizmaulana.covid19.util.ext.observe
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DashboardActivity : BaseActivity() {
 
     private val viewModel by viewModel<DashboardViewModel>()
-    private val dailyAdapter by lazy { DailyAdapter() }
+    private val dailyAdapter by lazy { DailyAdapter(object: DailyAdapterItemClickListener {
+            override fun invoke(viewItem: BaseViewItem, view: View) {
+               when(viewItem) {
+                   is OverviewItem -> {
+                       when(view.id) {
+                           R.id.layout_confirmed -> permission(CaseType.CONFIRMED)
+                           R.id.layout_recovered -> permission(CaseType.RECOVERED)
+                           R.id.layout_death -> permission(CaseType.DEATHS)
+                       }
+                   }
+                   is DailyItem -> {
+                      Log.e("DailyItem", "DailyItem Click: ${viewItem.deltaConfirmed}")
+                   }
+               }
+            }
+        })
+    }
     private lateinit var binding: ActivityDashboardBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,22 +44,16 @@ class DashboardActivity : BaseActivity() {
         setContentView(binding.root)
         initView()
 
-        viewModel.getOverview()
-        viewModel.getDailyUpdate()
+        viewModel.loadOverviewAndDaily()
     }
 
     private fun initView() {
         with(binding.recyclerView) {
             adapter = dailyAdapter
-            isNestedScrollingEnabled = false
+            setHasFixedSize(true)
         }
 
-        with(binding) {
-            layoutConfirmed.setOnClickListener { permission(CaseType.CONFIRMED) }
-            layoutRecovered.setOnClickListener { permission(CaseType.RECOVERED) }
-            layoutDeath.setOnClickListener { permission(CaseType.DEATHS) }
-            fab.setOnClickListener { permission(CaseType.FULL) }
-        }
+        binding.fab.setOnClickListener { permission(CaseType.FULL) }
     }
 
     private fun permission(state: Int) {
@@ -59,73 +64,11 @@ class DashboardActivity : BaseActivity() {
 
     override fun observeChange() {
         observe(viewModel.loading, ::loading)
-        observe(viewModel.overviewData, ::overviewLoaded)
-        observe(viewModel.dailyListData, ::onDailyLoaded)
+        observe(viewModel.items, ::onDataLoaded)
         observe(viewModel.errorMessage, ::showSnackbarMessage)
     }
 
-    private fun overviewLoaded(overview: CovidOverview) {
-        with(binding){
-            startNumberChangeAnimator(overview.confirmed?.value, txtConfirmed)
-            startNumberChangeAnimator(overview.deaths?.value, txtDeaths)
-            startNumberChangeAnimator(overview.recovered?.value, txtRecovered)
-        }
-
-        val pieDataSet = PieDataSet(
-            listOf(
-                PieEntry(overview.confirmed?.value?.toFloat() ?: 0f, "Confirmed"),
-                PieEntry(overview.recovered?.value?.toFloat() ?: 0f, "Recovered"),
-                PieEntry(overview.deaths?.value?.toFloat() ?: 0f, "Deaths")
-            ), "COVID19"
-        )
-
-        binding.txtCases.text = NumberUtils.numberFormat(
-            (overview.confirmed?.value?.plus(
-                overview.recovered?.value ?: 0
-            )?.plus(overview.deaths?.value ?: 0) ?: 0)
-        ).toString()
-
-        val colors = arrayListOf(
-            color(R.color.color_confirmed),
-            color(R.color.color_recovered),
-            color(R.color.color_death)
-        )
-
-        pieDataSet.colors = colors
-
-        val pieData = PieData(pieDataSet)
-        pieData.setDrawValues(false)
-
-        with(binding.pieChart){
-            data = pieData
-            legend.isEnabled = false
-            description = null
-            holeRadius = PIE_RADIUS
-            setHoleColor(Color.parseColor("#171B1E"))
-            setDrawEntryLabels(false)
-            animateY(PIE_ANIMATION_DURATION, Easing.EaseInOutQuart)
-            invalidate()
-        }
-
-    }
-
-    private fun startNumberChangeAnimator(finalValue: Int?, view: TextView) {
-        val initialValue = NumberUtils.extractDigit(view.text.toString())
-        val valueAnimator = ValueAnimator.ofInt(initialValue, finalValue ?: 0)
-        valueAnimator.duration = TEXT_ANIMATION_DURATION
-        valueAnimator.addUpdateListener { value ->
-            view.text = NumberUtils.numberFormat(value.animatedValue.toString().toInt())
-        }
-        valueAnimator.start()
-    }
-
-    private fun onDailyLoaded(daily: List<CovidDaily>) {
-        dailyAdapter.addAll(daily)
-    }
-
-    companion object {
-        private const val TEXT_ANIMATION_DURATION = 1000L
-        private const val PIE_ANIMATION_DURATION = 1500
-        private const val PIE_RADIUS = 75f
+    private fun onDataLoaded(items: List<BaseViewItem>) {
+        dailyAdapter.submitList(items)
     }
 }
