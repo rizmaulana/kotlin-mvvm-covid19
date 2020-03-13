@@ -6,6 +6,7 @@ import id.rizmaulana.covid19.data.model.CovidOverview
 import id.rizmaulana.covid19.data.source.pref.AppPrefSource
 import id.rizmaulana.covid19.data.source.remote.AppRemoteSource
 import id.rizmaulana.covid19.util.IncrementStatus
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.functions.Function3
 
@@ -108,6 +109,15 @@ open class AppRepository constructor(
                 Observable.just(it)
             }
     }
+
+    override fun putPrefCountry(data: CovidDetail): Completable {
+        return Completable.create {
+            if (pref.setPrefCountry(data)) it.onComplete()
+            else it.onError(Throwable("Not able to save"))
+        }
+    }
+
+    override fun getPrefCountry(): CovidDetail? = pref.getPrefCountry()
 
     override fun getCacheOverview(): CovidOverview? = pref.getOverview()
 

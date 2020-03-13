@@ -18,6 +18,7 @@ object CacheKey {
     const val RECOVERED = "cache_recovered"
     const val COUNTRY = "cache_country"
     const val FULL_STATS = "cache_full_details"
+    const val PREF_COUNTRY = "cache_pref_country"
 }
 
 object CaseType {
