@@ -1,5 +1,6 @@
 package id.rizmaulana.covid19.ui.detail
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -32,7 +33,7 @@ class DetailActivity : BaseActivity() {
             hideSoftKeyboard()
             mapsFragment?.selectItem(it)
         }, {
-            viewModel.putPrefCountry(it)
+            showItemListDialog(it)
         })
     }
 
@@ -45,7 +46,7 @@ class DetailActivity : BaseActivity() {
     }
 
     private fun initView() {
-        with(binding){
+        with(binding) {
             recyclerView.adapter = detailAdapter
             fabBack.setOnClickListener { onBackPressed() }
         }
@@ -75,6 +76,14 @@ class DetailActivity : BaseActivity() {
             supportFragmentManager.beginTransaction().replace(R.id.layout_visual, it)
                 .commitAllowingStateLoss()
         }
+    }
+
+    private fun showItemListDialog(dataContext: CovidDetail) {
+        AlertDialog.Builder(this)
+            .setItems(arrayOf("Pin to Dashboard")) { dialog, which ->
+                viewModel.putPrefCountry(dataContext)
+            }
+            .show()
     }
 
     companion object {
