@@ -17,37 +17,55 @@ open class AppRepository constructor(
     private val pref: AppPrefSource
 ) : Repository {
 
-    override fun overview() = api.overview()
-        .flatMap {
-            setCacheOverview(it)
-            Observable.just(it)
-        }
 
-    override fun daily() = api.daily()
-        .flatMap {
-            var latestRecovered = 0
-            var latestConfirmed = 0
-            val proceedData = it.map { covid ->
-                covid.incrementConfirmed =
-                    when {
-                        covid.deltaConfirmed > latestConfirmed -> IncrementStatus.INCREASE
-                        covid.deltaConfirmed < latestConfirmed -> IncrementStatus.DECREASE
-                        else -> IncrementStatus.FLAT
-                    }
-                covid.incrementRecovered =
-                    when {
-                        covid.deltaRecovered > latestRecovered -> IncrementStatus.INCREASE
-                        covid.deltaRecovered < latestRecovered -> IncrementStatus.DECREASE
-                        else -> IncrementStatus.FLAT
-                    }
-                latestRecovered = covid.deltaRecovered
-                latestConfirmed = covid.deltaConfirmed
-                covid
-            }.toMutableList()
-            proceedData.reverse()
-            setCacheDaily(proceedData)
-            Observable.just(proceedData)
-        }
+    override fun overview(): Observable<CovidOverview> {
+        val cacheOverview = getCacheOverview()
+        val localObservable = if(cacheOverview != null) Observable.just(cacheOverview)
+        else Observable.empty()
+
+        val removeObservable = api.overview()
+            .flatMap {
+                setCacheOverview(it)
+                Observable.just(it)
+            }
+
+        return Observable.concatArrayEager(localObservable, removeObservable)
+    }
+
+    override fun daily(): Observable<List<CovidDaily>> {
+        val cacheDaily = getCacheDaily()
+
+        val localObservable = if(cacheDaily?.isNotEmpty() == true)  Observable.just(cacheDaily)
+        else Observable.empty()
+
+        val remoteObservable: Observable<List<CovidDaily>> = api.daily()
+            .flatMap {
+                var latestRecovered = 0
+                var latestConfirmed = 0
+                val proceedData = it.map { covid ->
+                    covid.incrementConfirmed =
+                        when {
+                            covid.deltaConfirmed > latestConfirmed -> IncrementStatus.INCREASE
+                            covid.deltaConfirmed < latestConfirmed -> IncrementStatus.DECREASE
+                            else -> IncrementStatus.FLAT
+                        }
+                    covid.incrementRecovered =
+                        when {
+                            covid.deltaRecovered > latestRecovered -> IncrementStatus.INCREASE
+                            covid.deltaRecovered < latestRecovered -> IncrementStatus.DECREASE
+                            else -> IncrementStatus.FLAT
+                        }
+                    latestRecovered = covid.deltaRecovered
+                    latestConfirmed = covid.deltaConfirmed
+                    covid
+                }.toMutableList()
+                proceedData.reverse()
+                setCacheDaily(proceedData)
+                Observable.just(proceedData)
+            }
+
+        return Observable.concatArrayEager(localObservable, remoteObservable)
+    }
 
     override fun confirmed() = api.confirmed()
         .flatMap {
