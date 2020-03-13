@@ -3,6 +3,7 @@ package id.rizmaulana.covid19.ui.overview
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import id.rizmaulana.covid19.data.model.CovidDaily
+import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.data.model.CovidOverview
 import id.rizmaulana.covid19.data.repository.Repository
 import id.rizmaulana.covid19.ui.base.BaseViewModel
@@ -39,6 +40,10 @@ class DashboardViewModel(
     val countryData: LiveData<CovidOverview>
         get() = _countryData
 
+    private val _pinData = MutableLiveData<CovidDetail?>()
+    val pinData: LiveData<CovidDetail?>
+        get() = _pinData
+
     fun getOverview() {
         appRepository.overview()
             .observeOn(schedulerProvider.ui())
@@ -71,6 +76,24 @@ class DashboardViewModel(
                 _errorMessage.postValue(Constant.ERROR_MESSAGE)
             })
             .addTo(compositeDisposable)
+    }
+
+    fun getPinUpdate() {
+        val prefData = appRepository.getPrefCountry()
+        if (prefData == null) {
+            _pinData.postValue(null)
+        } else {
+            //todo : caching
+            appRepository
+                .confirmed()
+                .map { stream -> stream.firstOrNull() { if (it.provinceState != null) it.provinceState == prefData.provinceState else it.countryRegion == prefData.countryRegion } }
+                .subscribe({
+                    _pinData.postValue(it)
+                }, {
+                    _errorMessage.postValue(Constant.ERROR_MESSAGE)
+                })
+                .addTo(compositeDisposable)
+        }
     }
 
     fun getCountry(id: String) {

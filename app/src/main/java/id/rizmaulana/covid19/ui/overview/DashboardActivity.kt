@@ -10,6 +10,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.data.model.CovidDaily
+import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.data.model.CovidOverview
 import id.rizmaulana.covid19.databinding.ActivityDashboardBinding
 import id.rizmaulana.covid19.ui.adapter.DailyAdapter
@@ -18,9 +19,8 @@ import id.rizmaulana.covid19.ui.detail.DetailActivity
 import id.rizmaulana.covid19.util.CaseType
 import id.rizmaulana.covid19.util.NumberUtils
 import id.rizmaulana.covid19.util.ext.color
+import id.rizmaulana.covid19.util.ext.gone
 import id.rizmaulana.covid19.util.ext.observe
-import kotlinx.android.synthetic.main.activity_dashboard.view.*
-import kotlinx.android.synthetic.main.partial_country_info.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DashboardActivity : BaseActivity() {
@@ -37,7 +37,7 @@ class DashboardActivity : BaseActivity() {
 
         viewModel.getOverview()
         viewModel.getDailyUpdate()
-        viewModel.getCountry("id")
+        viewModel.getPinUpdate()
     }
 
     private fun initView() {
@@ -65,7 +65,7 @@ class DashboardActivity : BaseActivity() {
         observe(viewModel.overviewData, ::overviewLoaded)
         observe(viewModel.dailyListData, ::onDailyLoaded)
         observe(viewModel.errorMessage, ::showSnackbarMessage)
-        observe(viewModel.countryData, ::showPrefCountryInfo)
+        observe(viewModel.pinData, ::handlePinnedUpdate)
     }
 
     private fun overviewLoaded(overview: CovidOverview) {
@@ -113,11 +113,14 @@ class DashboardActivity : BaseActivity() {
 
     }
 
-    private fun showPrefCountryInfo(data: CovidOverview) {
+    private fun handlePinnedUpdate(data: CovidDetail?) {
         with(binding.countryInfo) {
-            txtData.text = "${data.confirmed?.value ?: '-'}"
-            txtRcv.text = "${data.recovered?.value ?: '-'}"
-            txtDeath.text = "${data.deaths?.value ?: '-'}"
+            data?.let {
+                txtLocation.text = "${it.provinceState}, ${it.countryRegion} (${it.lastUpdate})"
+                txtData.text = "${it.confirmed ?: '-'}"
+                txtRcv.text = "${it.recovered ?: '-'}"
+                txtDeath.text = "${it.deaths ?: '-'}"
+            } ?: root.gone()
         }
     }
 
