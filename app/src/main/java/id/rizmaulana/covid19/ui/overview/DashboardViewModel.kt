@@ -2,10 +2,9 @@ package id.rizmaulana.covid19.ui.overview
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import id.rizmaulana.covid19.data.model.CovidDaily
-import id.rizmaulana.covid19.data.model.CovidOverview
+import id.rizmaulana.covid19.data.mapper.CovidDailyDataMapper
+import id.rizmaulana.covid19.data.mapper.CovidOverviewDataMapper
 import id.rizmaulana.covid19.data.repository.Repository
-import id.rizmaulana.covid19.ui.adapter.viewholders.DailyItem
 import id.rizmaulana.covid19.ui.adapter.viewholders.OverviewItem
 import id.rizmaulana.covid19.ui.adapter.viewholders.TextItem
 import id.rizmaulana.covid19.ui.base.BaseViewItem
@@ -40,11 +39,11 @@ class DashboardViewModel(
     fun loadOverviewAndDaily() {
         val overviewObservable = appRepository.overview()
             .observeOn(schedulerProvider.io()) //all stream below will be manage on io thread
-            .map { mapOverviewResponse(it) }
+            .map { CovidOverviewDataMapper.transform(it) }
 
         val dailyObservable = appRepository.daily()
             .observeOn(schedulerProvider.io()) //all stream below will be manage on io thread
-            .map { mapDailyResponse(it) }
+            .map { CovidDailyDataMapper.transform(it) }
 
         Observable.combineLatest(overviewObservable, dailyObservable, BiFunction<OverviewItem?, List<BaseViewItem>?, List<BaseViewItem>> { overview, daily ->
             val items: MutableList<BaseViewItem> = mutableListOf()
@@ -62,31 +61,5 @@ class DashboardViewModel(
         }, {
             _errorMessage.postValue(Constant.ERROR_MESSAGE)
         }).addTo(compositeDisposable)
-    }
-
-    private fun mapOverviewResponse(response: CovidOverview?) = OverviewItem(
-        response?.confirmed?.value ?: 0,
-        response?.recovered?.value ?: 0,
-        response?.deaths?.value ?: 0)
-
-    private fun mapDailyResponse(responses: List<CovidDaily>): List<BaseViewItem> {
-        val items: MutableList<BaseViewItem> = mutableListOf()
-
-        for(response in responses) {
-            items.add(
-                DailyItem(
-                    response.objectid,
-                    response.deltaConfirmed,
-                    response.deltaRecovered,
-                    response.mainlandChina,
-                    response.otherLocations,
-                    response.reportDate,
-                    response.incrementRecovered,
-                    response.incrementConfirmed
-                )
-            )
-        }
-
-        return items.toList()
     }
 }
