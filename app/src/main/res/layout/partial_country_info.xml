@@ -7,6 +7,7 @@
     android:layout_marginBottom="1dp"
     android:background="@color/davy_grey"
     android:foreground="?selectableItemBackground"
+    android:minHeight="150dp"
     android:padding="@dimen/space_x2"
     app:layout_goneMarginBottom="@dimen/space_half">
 
@@ -17,92 +18,133 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textSize="@dimen/text_14"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="20 Januari 2019" />
+        tools:text="Indonesia" />
 
     <TextView
         android:id="@+id/txt_data"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
         android:textColor="@color/color_confirmed"
-        android:textSize="@dimen/text_14"
+        android:textSize="24sp"
         android:visibility="visible"
-        app:layout_constraintStart_toStartOf="@+id/txt_location"
-        app:layout_constraintTop_toBottomOf="@+id/txt_location"
-        tools:text="Confirmed : 220 "
+        app:layout_constraintBottom_toTopOf="@+id/txt_data2"
+        app:layout_constraintEnd_toEndOf="@+id/txt_data2"
+        app:layout_constraintStart_toStartOf="@+id/txt_data2"
+        tools:text="200"
+        tools:visibility="visible">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/txt_data2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:text="Confirmed"
+        android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
+        android:textColor="@color/color_confirmed"
+        android:textSize="12sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_death2"
+        app:layout_constraintEnd_toStartOf="@+id/txt_death2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/txt_death2"
         tools:visibility="visible">
 
     </TextView>
 
     <TextView
         android:id="@+id/txt_rcv"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
         android:textColor="@color/color_recovered"
-        android:textSize="@dimen/text_14"
+        android:textSize="24sp"
         android:visibility="visible"
-        app:layout_constraintStart_toEndOf="@+id/img_icon"
-        app:layout_constraintTop_toBottomOf="@+id/txt_data"
-        tools:text="Recovered : 220 "
+        app:layout_constraintBottom_toTopOf="@+id/txt_rcv2"
+        app:layout_constraintEnd_toEndOf="@+id/txt_rcv2"
+        app:layout_constraintStart_toStartOf="@+id/txt_rcv2"
+        tools:text="120 "
+        tools:visibility="visible">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/txt_rcv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:text="Recovered "
+        android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
+        android:textColor="@color/color_recovered"
+        android:textSize="12sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/txt_death2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.85"
         tools:visibility="visible">
 
     </TextView>
 
     <TextView
         android:id="@+id/txt_death"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginBottom="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
         android:textColor="@color/color_death"
-        android:textSize="@dimen/text_14"
+        android:textSize="24sp"
         android:visibility="visible"
-        app:layout_constraintStart_toEndOf="@+id/txt_rcv"
-        app:layout_constraintTop_toBottomOf="@+id/txt_data"
-        tools:text="Death : 220 "
+        app:layout_constraintBottom_toTopOf="@+id/txt_death2"
+        app:layout_constraintEnd_toEndOf="@+id/txt_death2"
+        app:layout_constraintStart_toStartOf="@+id/txt_death2"
+        tools:text="20 "
         tools:visibility="visible">
 
     </TextView>
 
     <TextView
-        android:id="@+id/txt_information"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="12dp"
-        android:textColor="@color/cool_grey"
-        android:textSize="@dimen/text_14"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/barrier3"
-        tools:text="Tap onData source : https://covid19.mathdro.id/api/" />
-
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier3"
+        android:id="@+id/txt_death2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:barrierDirection="bottom"
-        app:constraint_referenced_ids="txt_death,txt_rcv"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="142dp" />
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:text="Deaths"
+        android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
+        android:textColor="@color/color_death"
+        android:textSize="12sp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/txt_rcv2"
+        app:layout_constraintEnd_toStartOf="@+id/txt_rcv2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/txt_data2"
+        app:layout_constraintTop_toTopOf="@+id/txt_rcv2"
+        tools:visibility="visible">
+
+    </TextView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

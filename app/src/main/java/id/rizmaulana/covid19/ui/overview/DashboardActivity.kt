@@ -115,9 +115,9 @@ class DashboardActivity : BaseActivity() {
 
     private fun showPrefCountryInfo(data: CovidOverview) {
         with(binding.countryInfo) {
-            txtData.text = "Confirmed : ${data.confirmed?.value ?: '-'}"
-            txtRcv.text = "Recovered : ${data.recovered?.value ?: '-'}"
-            txtDeath.text = "Deaths : ${data.deaths?.value ?: '-'}"
+            txtData.text = "${data.confirmed?.value ?: '-'}"
+            txtRcv.text = "${data.recovered?.value ?: '-'}"
+            txtDeath.text = "${data.deaths?.value ?: '-'}"
         }
     }
 
