@@ -19,6 +19,8 @@ import id.rizmaulana.covid19.util.CaseType
 import id.rizmaulana.covid19.util.NumberUtils
 import id.rizmaulana.covid19.util.ext.color
 import id.rizmaulana.covid19.util.ext.observe
+import kotlinx.android.synthetic.main.activity_dashboard.view.*
+import kotlinx.android.synthetic.main.partial_country_info.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class DashboardActivity : BaseActivity() {
@@ -35,6 +37,7 @@ class DashboardActivity : BaseActivity() {
 
         viewModel.getOverview()
         viewModel.getDailyUpdate()
+        viewModel.getCountry("id")
     }
 
     private fun initView() {
@@ -62,6 +65,7 @@ class DashboardActivity : BaseActivity() {
         observe(viewModel.overviewData, ::overviewLoaded)
         observe(viewModel.dailyListData, ::onDailyLoaded)
         observe(viewModel.errorMessage, ::showSnackbarMessage)
+        observe(viewModel.countryData, ::showPrefCountryInfo)
     }
 
     private fun overviewLoaded(overview: CovidOverview) {
@@ -107,6 +111,14 @@ class DashboardActivity : BaseActivity() {
             invalidate()
         }
 
+    }
+
+    private fun showPrefCountryInfo(data: CovidOverview) {
+        with(binding.countryInfo) {
+            txtData.text = "Confirmed : ${data.confirmed?.value ?: '-'}"
+            txtRcv.text = "Recovered : ${data.recovered?.value ?: '-'}"
+            txtDeath.text = "Deaths : ${data.deaths?.value ?: '-'}"
+        }
     }
 
     private fun startNumberChangeAnimator(finalValue: Int?, view: TextView) {
