@@ -10,220 +10,19 @@
 
     <include layout="@layout/layout_toolbar" />
 
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/layout_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:focusableInTouchMode="true">
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/space_x2"
-                    android:layout_marginTop="@dimen/space_x2"
-                    android:background="@drawable/bg_rounded_grey"
-                    android:padding="@dimen/space_x1_half">
-
-                    <RelativeLayout
-                        android:id="@+id/layout_chart"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        app:layout_constraintBottom_toTopOf="@id/txt_info"
-                        app:layout_constraintHorizontal_weight="3"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toLeftOf="@id/layout_statistic"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <com.github.mikephil.charting.charts.PieChart
-                            android:id="@+id/pie_chart"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:gravity="center"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/txt_cases"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="80.289"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_20"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Cases reported"
-                                android:textColor="@color/cool_grey"
-                                android:textSize="@dimen/text_14"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                        </LinearLayout>
-
-                    </RelativeLayout>
-
-                    <LinearLayout
-                        android:id="@+id/layout_statistic"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingLeft="@dimen/space_x2"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintHorizontal_weight="2"
-                        app:layout_constraintLeft_toRightOf="@id/layout_chart"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/layout_confirmed"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/space_x3"
-                            android:clickable="true"
-                            android:foreground="?selectableItemBackground"
-                            android:paddingLeft="@dimen/space_x2">
-
-                            <TextView
-                                android:id="@+id/txt_confirmed"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_20"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Confirmed"
-                                android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
-                                android:textColor="@color/color_confirmed"
-                                android:textSize="@dimen/text_14"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/txt_confirmed" />
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/layout_recovered"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/space_x2"
-                            android:clickable="true"
-                            android:foreground="?selectableItemBackground"
-                            android:paddingLeft="@dimen/space_x2">
-
-                            <TextView
-                                android:id="@+id/txt_recovered"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_20"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Recovered"
-                                android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
-                                android:textColor="@color/color_recovered"
-                                android:textSize="@dimen/text_14"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/txt_recovered" />
-
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/layout_death"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/space_x2"
-                            android:layout_marginBottom="@dimen/space_x3"
-                            android:clickable="true"
-                            android:foreground="?selectableItemBackground"
-                            android:paddingLeft="@dimen/space_x2">
-
-                            <TextView
-                                android:id="@+id/txt_deaths"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_20"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Deaths"
-                                android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
-                                android:textColor="@color/color_death"
-                                android:textSize="@dimen/text_14"
-                                app:layout_constraintLeft_toLeftOf="parent"
-                                app:layout_constraintTop_toBottomOf="@id/txt_deaths" />
-
-
-                        </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/txt_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/space_x2"
-                        android:text="Tap on statistic on the right side for more information\nData source : https://covid19.mathdro.id/api/"
-                        android:textColor="@color/cool_grey"
-                        android:textSize="@dimen/text_14"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/layout_statistic" />
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/space_x2"
-                    android:text="Daily Updates"
-                    android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/text_14" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
-                    android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/item_daily" />
-
-            </LinearLayout>
-
-        </androidx.core.widget.NestedScrollView>
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/item_daily" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
@@ -237,6 +36,4 @@
             app:srcCompat="@drawable/ic_public_black_24dp" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
 </LinearLayout>
