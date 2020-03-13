@@ -67,6 +67,12 @@ open class AppRepository constructor(
             Observable.just(it)
         }
 
+    override fun country(id: String): Observable<CovidOverview> = api.country(id)
+        .flatMap {
+            setCacheCountry(it)
+            Observable.just(it)
+        }
+
     /**
      * Just found out every case api already provided all cases,
      * this function is actually not necessary
@@ -115,6 +121,8 @@ open class AppRepository constructor(
 
     override fun getCacheFull(): List<CovidDetail>? = pref.getFullStats()
 
+    override fun getCacheCountry(id: String): CovidOverview? = pref.getCountry()
+
     private fun setCacheOverview(covidOverview: CovidOverview) = pref.setOverview(covidOverview)
 
     private fun setCacheDaily(covid: List<CovidDaily>) = pref.setDaily(covid)
@@ -124,6 +132,8 @@ open class AppRepository constructor(
     private fun setCacheDeath(covid: List<CovidDetail>) = pref.setDeath(covid)
 
     private fun setCacheRecovered(covid: List<CovidDetail>) = pref.setRecovered(covid)
+
+    private fun setCacheCountry(covid: CovidOverview) = pref.setCountry(covid)
 
     private fun setCacheFull(covid: List<CovidDetail>) = pref.setFullStats(covid)
 

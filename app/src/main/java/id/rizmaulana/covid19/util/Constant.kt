@@ -16,6 +16,7 @@ object CacheKey {
     const val CONFIRMED = "cache_confirmed"
     const val DEATH = "cache_death"
     const val RECOVERED = "cache_recovered"
+    const val COUNTRY = "cache_country"
     const val FULL_STATS = "cache_full_details"
 }
 

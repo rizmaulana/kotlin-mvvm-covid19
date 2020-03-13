@@ -13,4 +13,6 @@ class AppRemoteSource(private val api: Api) {
     fun deaths() = api.deaths()
 
     fun recovered() = api.recovered()
+
+    fun country(id: String) = api.country(id)
 }

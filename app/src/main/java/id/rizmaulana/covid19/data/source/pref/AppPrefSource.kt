@@ -31,6 +31,10 @@ class AppPrefSource {
 
     fun setRecovered(covid: List<CovidDetail>) = Hawk.put(CacheKey.RECOVERED, covid)
 
+    fun getCountry(): CovidOverview? = Hawk.get(CacheKey.COUNTRY, null)
+
+    fun setCountry(covidOverview: CovidOverview) = Hawk.put(CacheKey.COUNTRY, covidOverview)
+
     fun getFullStats(): List<CovidDetail>? = Hawk.get(CacheKey.FULL_STATS, null)
 
     fun setFullStats(covid: List<CovidDetail>) = Hawk.put(CacheKey.FULL_STATS, covid)
