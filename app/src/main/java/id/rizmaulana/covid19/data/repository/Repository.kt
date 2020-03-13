@@ -7,7 +7,7 @@ import io.reactivex.Observable
 
 interface Repository {
     fun overview(): Observable<CovidOverview>
-    fun daily(): Observable<MutableList<CovidDaily>>
+    fun daily(): Observable<List<CovidDaily>>
     fun confirmed(): Observable<List<CovidDetail>>
     fun deaths(): Observable<List<CovidDetail>>
     fun recovered(): Observable<List<CovidDetail>>
