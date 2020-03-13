@@ -1,67 +1,68 @@
 package id.rizmaulana.covid19.ui.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import id.rizmaulana.covid19.R
-import id.rizmaulana.covid19.data.model.CovidDaily
-import id.rizmaulana.covid19.databinding.ItemDailyBinding
-import id.rizmaulana.covid19.util.IncrementStatus
-import id.rizmaulana.covid19.util.NumberUtils
+import id.rizmaulana.covid19.ui.adapter.viewholders.*
+import id.rizmaulana.covid19.ui.base.BaseViewItem
 
 
 /**
  * rizmaulana 2020-02-06.
  */
-class DailyAdapter : RecyclerView.Adapter<DailyAdapter.ViewHolder>() {
 
-    private val items = mutableListOf<CovidDaily>()
+typealias DailyAdapterItemClickListener = ((BaseViewItem, View) -> Unit)
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class DiffUtilItemCallback : DiffUtil.ItemCallback<BaseViewItem>() {
+    override fun areItemsTheSame(oldItem: BaseViewItem, newItem: BaseViewItem): Boolean {
+        return oldItem == newItem
+    }
 
-        private val binding: ItemDailyBinding = ItemDailyBinding.bind(itemView)
+    @SuppressLint("DiffUtilEquals")
+    override fun areContentsTheSame(oldItem: BaseViewItem, newItem: BaseViewItem): Boolean {
+        return oldItem == newItem
+    }
+}
 
-        fun bind(item: CovidDaily) {
-            with(binding) {
-                txtDate.text = NumberUtils.formatTime(item.reportDate)
+class DailyAdapter(
+    private val listener: DailyAdapterItemClickListener? = null
+): ListAdapter<BaseViewItem, RecyclerView.ViewHolder>(DiffUtilItemCallback()) {
 
-                root.context?.let {
-                    txtInformation.text = it.getString(
-                        R.string.information_location_total_case,
-                        NumberUtils.numberFormat(item.mainlandChina),
-                        NumberUtils.numberFormat(item.otherLocations))
+    private val DAILY_ITEM = "DAILY_ITEM".hashCode()
+    private val TEXT_ITEM = "TEXT_ITEM".hashCode()
+    private val OVERVIEW_ITEM = "OVERVIEW_ITEM".hashCode()
 
-                    txtConfirmed.text = it.getString(R.string.confirmed_case_count, NumberUtils.numberFormat(item.deltaConfirmed))
-                    txtRecovered.text = it.getString(R.string.recovered_case_count, NumberUtils.numberFormat(item.deltaRecovered))
-
-                    imgRecovered.setImageDrawable(ContextCompat.getDrawable(it,getFluctuationIcon(item.incrementRecovered)))
-                    imgConfirmed.setImageDrawable(ContextCompat.getDrawable(it, getFluctuationIcon(item.incrementConfirmed)))
-                }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        return when(viewType){
+            DAILY_ITEM -> DailyItemViewHolder(layoutInflater.inflate(R.layout.item_daily, parent, false)).apply {
+                setOnClickListener { listener?.invoke(currentList.get(adapterPosition), it) }
             }
-        }
-
-        private fun getFluctuationIcon(status: Int) = when (status) {
-            IncrementStatus.INCREASE -> R.drawable.ic_trending_up
-            IncrementStatus.DECREASE -> R.drawable.ic_trending_down
-            else -> R.drawable.ic_trending_flat
+            OVERVIEW_ITEM -> OverviewItemViewHolder(layoutInflater.inflate(R.layout.item_overview, parent, false)).apply {
+                setOnClickListener { listener?.invoke(currentList.get(adapterPosition), it) }
+            }
+            else -> TextItemViewHolder(layoutInflater.inflate(R.layout.item_text, parent, false))
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.item_daily, parent, false)
-    )
-
-    override fun getItemCount() = items.size
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[holder.adapterPosition])
+    override fun getItemViewType(position: Int): Int {
+        return when(currentList.get(position)){
+            is DailyItem -> DAILY_ITEM
+            is OverviewItem -> OVERVIEW_ITEM
+            else -> TEXT_ITEM
+        }
     }
 
-    fun addAll(data: List<CovidDaily>) {
-        items.clear()
-        items.addAll(data)
-        notifyDataSetChanged()
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when(getItemViewType(position)){
+            DAILY_ITEM -> (holder as? DailyItemViewHolder)?.bind(currentList[holder.adapterPosition] as DailyItem)
+            OVERVIEW_ITEM -> (holder as? OverviewItemViewHolder)?.bind(currentList[holder.adapterPosition] as OverviewItem)
+            else -> (holder as? TextItemViewHolder)?.bind(currentList[holder.adapterPosition] as TextItem)
+        }
     }
 }
