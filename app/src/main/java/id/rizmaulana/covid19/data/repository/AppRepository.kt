@@ -23,20 +23,21 @@ open class AppRepository constructor(
         val localObservable = if(cacheOverview != null) Observable.just(cacheOverview)
         else Observable.empty()
 
-        val removeObservable = api.overview()
+        val remoteObservable = api.overview()
             .flatMap {
                 setCacheOverview(it)
                 Observable.just(it)
             }
-
-        return Observable.concatArrayEager(localObservable, removeObservable)
+            .onErrorResumeNext { t: Throwable ->
+                return@onErrorResumeNext if(cacheOverview != null) Observable.just(cacheOverview)
+                else Observable.error(t)
+            }
+        return Observable.concatArrayEager(localObservable, remoteObservable)
     }
 
     override fun daily(): Observable<List<CovidDaily>> {
         val cacheDaily = getCacheDaily()
-
-        val localObservable = if(cacheDaily?.isNotEmpty() == true)  Observable.just(cacheDaily)
-        else Observable.empty()
+        val localObservable= Observable.just(cacheDaily)
 
         val remoteObservable: Observable<List<CovidDaily>> = api.daily()
             .flatMap {
@@ -61,7 +62,11 @@ open class AppRepository constructor(
                 }.toMutableList()
                 proceedData.reverse()
                 setCacheDaily(proceedData)
-                Observable.just(proceedData)
+                Observable.just(proceedData.toList())
+            }
+            .onErrorResumeNext { t: Throwable ->
+                return@onErrorResumeNext if(cacheDaily != null) Observable.just(cacheDaily)
+                else Observable.error(t)
             }
 
         return Observable.concatArrayEager(localObservable, remoteObservable)
