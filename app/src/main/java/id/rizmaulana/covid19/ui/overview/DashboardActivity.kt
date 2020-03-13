@@ -6,7 +6,6 @@ import android.view.View
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ActivityDashboardBinding
 import id.rizmaulana.covid19.ui.adapter.DailyAdapter
-import id.rizmaulana.covid19.ui.adapter.DailyAdapterItemClickListener
 import id.rizmaulana.covid19.ui.adapter.viewholders.DailyItem
 import id.rizmaulana.covid19.ui.adapter.viewholders.OverviewItem
 import id.rizmaulana.covid19.ui.base.BaseActivity
@@ -19,23 +18,8 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class DashboardActivity : BaseActivity() {
 
     private val viewModel by viewModel<DashboardViewModel>()
-    private val dailyAdapter by lazy { DailyAdapter(object: DailyAdapterItemClickListener {
-            override fun invoke(viewItem: BaseViewItem, view: View) {
-               when(viewItem) {
-                   is OverviewItem -> {
-                       when(view.id) {
-                           R.id.layout_confirmed -> permission(CaseType.CONFIRMED)
-                           R.id.layout_recovered -> permission(CaseType.RECOVERED)
-                           R.id.layout_death -> permission(CaseType.DEATHS)
-                       }
-                   }
-                   is DailyItem -> {
-                      Log.e("DailyItem", "DailyItem Click: ${viewItem.deltaConfirmed}")
-                   }
-               }
-            }
-        })
-    }
+    private val dailyAdapter by lazy { DailyAdapter(::onItemClicked) }
+
     private lateinit var binding: ActivityDashboardBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,5 +54,20 @@ class DashboardActivity : BaseActivity() {
 
     private fun onDataLoaded(items: List<BaseViewItem>) {
         dailyAdapter.submitList(items)
+    }
+
+    private fun onItemClicked(viewItem: BaseViewItem, view: View) {
+        when(viewItem) {
+            is OverviewItem -> {
+                when(view.id) {
+                    R.id.layout_confirmed -> permission(CaseType.CONFIRMED)
+                    R.id.layout_recovered -> permission(CaseType.RECOVERED)
+                    R.id.layout_death -> permission(CaseType.DEATHS)
+                }
+            }
+            is DailyItem -> {
+                Log.e("DailyItem", "DailyItem Click: ${viewItem.deltaConfirmed}")
+            }
+        }
     }
 }
