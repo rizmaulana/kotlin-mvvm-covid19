@@ -27,11 +27,13 @@ class DetailActivity : BaseActivity() {
     }
 
     private val detailAdapter by lazy {
-        DetailAdapter(caseType) {
+        DetailAdapter(caseType, {
             binding.layoutContent.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
             hideSoftKeyboard()
             mapsFragment?.selectItem(it)
-        }
+        }, {
+            viewModel.putPrefCountry(it)
+        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
