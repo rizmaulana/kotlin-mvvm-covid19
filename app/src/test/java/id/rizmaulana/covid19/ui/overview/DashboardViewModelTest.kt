@@ -54,7 +54,7 @@ class DashboardViewModelTest: Spek({
             }
 
             Then("it should error message") {
-                val errorMessage = dashboardViewModel.errorMessage.value
+                val errorMessage = dashboardViewModel.toastMessage.value
                 assertEquals(true, errorMessage?.isNotEmpty()?: false)
                 assertEquals(true, dashboardViewModel.loading.value != null)
                 assert(errorMessage == ERROR_MESSAGE)
@@ -93,7 +93,7 @@ class DashboardViewModelTest: Spek({
             }
 
             Then("it should error message") {
-                val errorMessage = dashboardViewModel.errorMessage.value
+                val errorMessage = dashboardViewModel.toastMessage.value
                 assertEquals(true, errorMessage?.isNotEmpty()?: false)
                 assertEquals(true, dashboardViewModel.loading.value != null)
                 assert(errorMessage == ERROR_MESSAGE)

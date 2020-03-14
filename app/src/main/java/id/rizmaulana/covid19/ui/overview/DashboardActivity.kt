@@ -68,7 +68,7 @@ class DashboardActivity : BaseActivity() {
         observe(viewModel.loading, ::loading)
         observe(viewModel.overviewData, ::overviewLoaded)
         observe(viewModel.dailyListData, ::onDailyLoaded)
-        observe(viewModel.errorMessage, ::showSnackbarMessage)
+        observe(viewModel.toastMessage, ::showSnackbarMessage)
         observe(viewModel.pinData, ::handlePinnedUpdate)
     }
 

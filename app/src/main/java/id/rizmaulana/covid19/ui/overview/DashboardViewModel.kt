@@ -24,9 +24,9 @@ class DashboardViewModel(
     val loading: LiveData<Boolean>
         get() = _loading
 
-    private val _errorMessage = SingleLiveEvent<String>()
-    val errorMessage: LiveData<String>
-        get() = _errorMessage
+    private val _toastMessage = SingleLiveEvent<String>()
+    val toastMessage: LiveData<String>
+        get() = _toastMessage
 
     private val _dailyListData = MutableLiveData<List<CovidDaily>>()
     val dailyListData: LiveData<List<CovidDaily>>
@@ -57,7 +57,7 @@ class DashboardViewModel(
             .subscribe({
                 _overviewData.postValue(it)
             }, {
-                _errorMessage.postValue(Constant.ERROR_MESSAGE)
+                _toastMessage.postValue(Constant.ERROR_MESSAGE)
             })
             .addTo(compositeDisposable)
     }
@@ -73,7 +73,7 @@ class DashboardViewModel(
             .subscribe({
                 _dailyListData.postValue(it)
             }, {
-                _errorMessage.postValue(Constant.ERROR_MESSAGE)
+                _toastMessage.postValue(Constant.ERROR_MESSAGE)
             })
             .addTo(compositeDisposable)
     }
@@ -96,7 +96,7 @@ class DashboardViewModel(
                 .subscribe({
                     _pinData.postValue(it)
                 }, {
-                    _errorMessage.postValue(Constant.UPDATE_ERROR_MESSAGE)
+                    _toastMessage.postValue(Constant.UPDATE_ERROR_MESSAGE)
                 })
                 .addTo(compositeDisposable)
         }
@@ -113,7 +113,7 @@ class DashboardViewModel(
             .subscribe({
                 _countryData.postValue(it)
             }, {
-                _errorMessage.postValue(Constant.ERROR_MESSAGE)
+                _toastMessage.postValue(Constant.ERROR_MESSAGE)
             })
             .addTo(compositeDisposable)
     }
