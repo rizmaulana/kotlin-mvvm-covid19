@@ -119,11 +119,9 @@ class DashboardActivity : BaseActivity() {
 
     private fun handlePinnedUpdate(data: CovidDetail?) {
         with(binding.countryInfo) {
-            data?.let {detail ->
-                val header = StringBuilder().apply {
-                    append(detail.locationName)
-                    append(", Updated: ${NumberUtils.formatTime(detail.lastUpdate)}")
-                }
+            data?.let { detail ->
+                val lastUpdate = NumberUtils.formatTime(detail.lastUpdate)
+                val header = detail.locationName + ", " + getString(R.string.information_last_update, lastUpdate)
                 txtLocation.text = header
                 txtData.text = "${detail.confirmed ?: '-'}"
                 txtRcv.text = "${detail.recovered ?: '-'}"
