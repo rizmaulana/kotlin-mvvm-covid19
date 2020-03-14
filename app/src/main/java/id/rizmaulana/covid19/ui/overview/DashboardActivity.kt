@@ -5,8 +5,10 @@ import android.util.Log
 import android.view.View
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ActivityDashboardBinding
+import id.rizmaulana.covid19.ui.adapter.ItemTypeFactoryImpl
 import id.rizmaulana.covid19.ui.adapter.VisitableRecyclerAdapter
-import id.rizmaulana.covid19.ui.adapter.viewholders.*
+import id.rizmaulana.covid19.ui.adapter.viewholders.DailyItem
+import id.rizmaulana.covid19.ui.adapter.viewholders.OverviewItem
 import id.rizmaulana.covid19.ui.base.BaseActivity
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.ui.detail.DetailActivity
@@ -17,11 +19,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class DashboardActivity : BaseActivity() {
 
     private val viewModel by viewModel<DashboardViewModel>()
-    private val dailyAdapter by lazy { VisitableRecyclerAdapter(listOf(
-        DailyItemViewHolderFactory(),
-        OverviewItemViewHolderFactory(),
-        TextItemViewHolderFactory()
-    ), ::onItemClicked) }
+    private val dailyAdapter by lazy { VisitableRecyclerAdapter(ItemTypeFactoryImpl(), ::onItemClicked) }
 
     private lateinit var binding: ActivityDashboardBinding
 
