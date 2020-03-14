@@ -85,14 +85,19 @@ class DashboardViewModel(
         } else {
             appRepository
                 .confirmed()
-                .map { stream -> stream.firstOrNull() { if (it.provinceState != null) it.provinceState == prefData.provinceState else it.countryRegion == prefData.countryRegion } }
+                .map { stream ->
+                    stream.first {
+                        if (it.provinceState != null) it.provinceState == prefData.provinceState
+                        else it.countryRegion == prefData.countryRegion
+                    }
+                }
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .doOnSubscribe { _pinData.postValue(prefData) }
                 .subscribe({
                     _pinData.postValue(it)
                 }, {
-                    _errorMessage.postValue(Constant.ERROR_MESSAGE)
+                    _errorMessage.postValue(Constant.UPDATE_ERROR_MESSAGE)
                 })
                 .addTo(compositeDisposable)
         }

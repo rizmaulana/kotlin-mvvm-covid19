@@ -8,6 +8,7 @@ object Constant {
     const val DB_VERSION = 1
     const val NETWORK_TIMEOUT = 60L
     const val ERROR_MESSAGE = "Cannot proceed your request, please try again later"
+    const val UPDATE_ERROR_MESSAGE = "Cannot get latest update"
 }
 
 object CacheKey {
