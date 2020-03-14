@@ -1,10 +1,8 @@
 package id.rizmaulana.covid19.ui.adapter
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import id.rizmaulana.covid19.R
@@ -18,17 +16,7 @@ import id.rizmaulana.covid19.ui.base.BaseViewItem
 
 typealias DailyAdapterItemClickListener = ((BaseViewItem, View) -> Unit)
 
-class DiffUtilItemCallback : DiffUtil.ItemCallback<BaseViewItem>() {
-    override fun areItemsTheSame(oldItem: BaseViewItem, newItem: BaseViewItem): Boolean {
-        return oldItem == newItem
-    }
-
-    @SuppressLint("DiffUtilEquals")
-    override fun areContentsTheSame(oldItem: BaseViewItem, newItem: BaseViewItem): Boolean {
-        return oldItem == newItem
-    }
-}
-
+@Deprecated("Use VisitableRecyclerAdapter")
 class DailyAdapter(
     private val listener: DailyAdapterItemClickListener? = null
 ): ListAdapter<BaseViewItem, RecyclerView.ViewHolder>(DiffUtilItemCallback()) {
