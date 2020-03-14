@@ -28,13 +28,7 @@ class DetailActivity : BaseActivity() {
     }
 
     private val detailAdapter by lazy {
-        DetailAdapter(caseType, {
-            binding.layoutContent.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
-            hideSoftKeyboard()
-            mapsFragment?.selectItem(it)
-        }, {
-            showItemListDialog(it)
-        })
+        DetailAdapter(caseType, ::onAdapterItemClicked, ::showItemListDialog)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,6 +78,12 @@ class DetailActivity : BaseActivity() {
                 viewModel.putPrefCountry(dataContext)
             }
             .show()
+    }
+
+    private fun onAdapterItemClicked(detail: CovidDetail) {
+        binding.layoutContent.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+        hideSoftKeyboard()
+        mapsFragment?.selectItem(detail)
     }
 
     companion object {
