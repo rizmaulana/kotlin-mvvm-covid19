@@ -155,6 +155,10 @@ class DashboardViewModelTest: Spek({
             Then("pin data should not be updated") {
                 assertEquals(region, dashboardViewModel.pinData.value?.countryRegion)
             }
+
+            Then("error message is notified") {
+                assertEquals(ERROR_MESSAGE, dashboardViewModel.toastMessage.value)
+            }
         }
     }
 })
