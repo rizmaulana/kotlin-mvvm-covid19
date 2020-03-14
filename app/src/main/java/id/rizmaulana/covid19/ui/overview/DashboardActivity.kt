@@ -121,8 +121,8 @@ class DashboardActivity : BaseActivity() {
         with(binding.countryInfo) {
             data?.let { detail ->
                 val lastUpdate = NumberUtils.formatTime(detail.lastUpdate)
-                val header = detail.locationName + ", " + getString(R.string.information_last_update, lastUpdate)
-                txtLocation.text = header
+                txtLocation.text = detail.locationName
+                txtUpdate.text = getString(R.string.information_last_update, lastUpdate)
                 txtData.text = "${detail.confirmed ?: '-'}"
                 txtRcv.text = "${detail.recovered ?: '-'}"
                 txtDeath.text = "${detail.deaths ?: '-'}"
