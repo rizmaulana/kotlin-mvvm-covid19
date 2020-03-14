@@ -4,13 +4,14 @@ import android.animation.ValueAnimator
 import android.graphics.Color
 import android.view.View
 import android.widget.TextView
-import androidx.recyclerview.widget.RecyclerView
 import com.github.mikephil.charting.animation.Easing
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ItemOverviewBinding
+import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
+import id.rizmaulana.covid19.ui.adapter.ViewHolderFactory
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.NumberUtils
 import id.rizmaulana.covid19.util.ext.color
@@ -19,9 +20,11 @@ data class OverviewItem(
     val confirmed: Int = 0,
     val recovered: Int = 0,
     val deaths: Int = 0
-): BaseViewItem
+): BaseViewItem {
+    override fun layoutResId(): Int = R.layout.item_overview
+}
 
-class OverviewItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class OverviewItemViewHolder(itemView: View) : BaseViewHolder<OverviewItem>(itemView) {
     private val binding: ItemOverviewBinding = ItemOverviewBinding.bind(itemView)
     private var confirmed: Int = 0
     private var recovered: Int = 0
@@ -43,7 +46,7 @@ class OverviewItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
         valueAnimator.start()
     }
 
-    fun setOnClickListener(listener: (View) -> Unit) {
+    override fun setOnClickListener(listener: (View) -> Unit) {
         with(binding) {
             layoutConfirmed.setOnClickListener { listener.invoke(it) }
             layoutRecovered.setOnClickListener { listener.invoke(it) }
@@ -51,31 +54,31 @@ class OverviewItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
         }
     }
 
-    fun bind(overview: OverviewItem) {
-        if(overview.confirmed == confirmed && overview.recovered == recovered && overview.deaths == deaths) return
+    override fun bind(item: OverviewItem) {
+        if(item.confirmed == confirmed && item.recovered == recovered && item.deaths == deaths) return
 
         with(binding){
-            startNumberChangeAnimator(overview.confirmed, txtConfirmed)
-            startNumberChangeAnimator(overview.deaths, txtDeaths)
-            startNumberChangeAnimator(overview.recovered, txtRecovered)
+            startNumberChangeAnimator(item.confirmed, txtConfirmed)
+            startNumberChangeAnimator(item.deaths, txtDeaths)
+            startNumberChangeAnimator(item.recovered, txtRecovered)
         }
 
-        confirmed = overview.confirmed
-        recovered = overview.recovered
-        deaths = overview.deaths
+        confirmed = item.confirmed
+        recovered = item.recovered
+        deaths = item.deaths
 
         val pieDataSet = PieDataSet(
             listOf(
-                PieEntry(overview.confirmed.toFloat(), "Confirmed"),
-                PieEntry(overview.recovered.toFloat(), "Recovered"),
-                PieEntry(overview.deaths.toFloat(), "Deaths")
+                PieEntry(item.confirmed.toFloat(), "Confirmed"),
+                PieEntry(item.recovered.toFloat(), "Recovered"),
+                PieEntry(item.deaths.toFloat(), "Deaths")
             ), "COVID19"
         )
 
         binding.txtCases.text = NumberUtils.numberFormat(
-            (overview.confirmed
-                .plus(overview.recovered)
-                .plus(overview.deaths))
+            (item.confirmed
+                .plus(item.recovered)
+                .plus(item.deaths))
         ).toString()
 
         with(binding.root.context) {
@@ -102,5 +105,13 @@ class OverviewItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
             animateY(PIE_ANIMATION_DURATION, Easing.EaseInOutQuart)
             invalidate()
         }
+    }
+}
+
+class OverviewItemViewHolderFactory: ViewHolderFactory {
+    override fun layoutResId(): Int = R.layout.item_overview
+
+    override fun onCreateViewHolder(containerView: View): BaseViewHolder<OverviewItem> {
+        return OverviewItemViewHolder(containerView)
     }
 }

@@ -2,9 +2,10 @@ package id.rizmaulana.covid19.ui.adapter.viewholders
 
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ItemDailyBinding
+import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
+import id.rizmaulana.covid19.ui.adapter.ViewHolderFactory
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.IncrementStatus
 import id.rizmaulana.covid19.util.NumberUtils
@@ -18,16 +19,18 @@ data class DailyItem(
     val reportDate: Long = 0,
     var incrementRecovered: Int = IncrementStatus.FLAT,
     var incrementConfirmed: Int = IncrementStatus.FLAT
-): BaseViewItem
+): BaseViewItem {
+    override fun layoutResId(): Int = R.layout.item_daily
+}
 
-class DailyItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class DailyItemViewHolder(itemView: View) : BaseViewHolder<DailyItem>(itemView) {
     private val binding: ItemDailyBinding = ItemDailyBinding.bind(itemView)
 
-    fun setOnClickListener(listener: (View) -> Unit) {
+    override fun setOnClickListener(listener: (View) -> Unit) {
         binding.root.setOnClickListener { listener.invoke(it) }
     }
 
-    fun bind(item: DailyItem) {
+    override fun bind(item: DailyItem) {
         with(binding) {
             txtDate.text = NumberUtils.formatTime(item.reportDate)
 
@@ -50,5 +53,13 @@ class DailyItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         IncrementStatus.INCREASE -> R.drawable.ic_trending_up
         IncrementStatus.DECREASE -> R.drawable.ic_trending_down
         else -> R.drawable.ic_trending_flat
+    }
+}
+
+class DailyItemViewHolderFactory: ViewHolderFactory {
+    override fun layoutResId(): Int = R.layout.item_daily
+
+    override fun onCreateViewHolder(containerView: View): BaseViewHolder<DailyItem> {
+        return DailyItemViewHolder(containerView)
     }
 }
