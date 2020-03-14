@@ -86,7 +86,6 @@ class DashboardViewModel(
             appRepository
                 .confirmed()
                 .map { stream -> stream.firstOrNull() { if (it.provinceState != null) it.provinceState == prefData.provinceState else it.countryRegion == prefData.countryRegion } }
-                .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
                 .doOnSubscribe { _pinData.postValue(prefData) }
                 .subscribe({
@@ -100,7 +99,6 @@ class DashboardViewModel(
 
     fun getCountry(id: String) {
         appRepository.country(id)
-            .subscribeOn(schedulerProvider.io())
             .observeOn(schedulerProvider.ui())
             .doOnSubscribe {
                 appRepository.getCacheCountry(id)?.let { data ->
