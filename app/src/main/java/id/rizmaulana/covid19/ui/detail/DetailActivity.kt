@@ -80,7 +80,7 @@ class DetailActivity : BaseActivity() {
 
     private fun showItemListDialog(dataContext: CovidDetail) {
         AlertDialog.Builder(this)
-            .setItems(arrayOf("Pin to Dashboard")) { dialog, which ->
+            .setItems(resources.getStringArray(R.array.detail_item_menu)) { dialog, which ->
                 viewModel.putPrefCountry(dataContext)
             }
             .show()
