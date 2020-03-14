@@ -4,7 +4,6 @@ import android.view.View
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ItemTextBinding
 import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
-import id.rizmaulana.covid19.ui.adapter.ViewHolderFactory
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 
 
@@ -29,12 +28,8 @@ class TextItemViewHolder(itemView: View) : BaseViewHolder<TextItem>(itemView) {
             }
         }
     }
-}
 
-class TextItemViewHolderFactory: ViewHolderFactory {
-    override fun layoutResId(): Int = R.layout.item_text
-
-    override fun onCreateViewHolder(containerView: View): BaseViewHolder<TextItem> {
-        return TextItemViewHolder(containerView)
+    companion object {
+        const val LAYOUT = R.layout.item_text
     }
 }

@@ -5,7 +5,6 @@ import androidx.core.content.ContextCompat
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ItemDailyBinding
 import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
-import id.rizmaulana.covid19.ui.adapter.ViewHolderFactory
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.IncrementStatus
 import id.rizmaulana.covid19.util.NumberUtils
@@ -54,12 +53,8 @@ class DailyItemViewHolder(itemView: View) : BaseViewHolder<DailyItem>(itemView) 
         IncrementStatus.DECREASE -> R.drawable.ic_trending_down
         else -> R.drawable.ic_trending_flat
     }
-}
 
-class DailyItemViewHolderFactory: ViewHolderFactory {
-    override fun layoutResId(): Int = R.layout.item_daily
-
-    override fun onCreateViewHolder(containerView: View): BaseViewHolder<DailyItem> {
-        return DailyItemViewHolder(containerView)
+    companion object {
+        const val LAYOUT = R.layout.item_daily
     }
 }

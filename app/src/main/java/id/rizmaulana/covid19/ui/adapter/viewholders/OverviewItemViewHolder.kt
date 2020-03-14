@@ -11,7 +11,6 @@ import com.github.mikephil.charting.data.PieEntry
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ItemOverviewBinding
 import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
-import id.rizmaulana.covid19.ui.adapter.ViewHolderFactory
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.NumberUtils
 import id.rizmaulana.covid19.util.ext.color
@@ -29,12 +28,6 @@ class OverviewItemViewHolder(itemView: View) : BaseViewHolder<OverviewItem>(item
     private var confirmed: Int = 0
     private var recovered: Int = 0
     private var deaths: Int = 0
-
-    companion object {
-        private const val TEXT_ANIMATION_DURATION = 1000L
-        private const val PIE_ANIMATION_DURATION = 1500
-        private const val PIE_RADIUS = 75f
-    }
 
     private fun startNumberChangeAnimator(finalValue: Int?, view: TextView) {
         val initialValue = NumberUtils.extractDigit(view.text.toString())
@@ -106,12 +99,12 @@ class OverviewItemViewHolder(itemView: View) : BaseViewHolder<OverviewItem>(item
             invalidate()
         }
     }
-}
 
-class OverviewItemViewHolderFactory: ViewHolderFactory {
-    override fun layoutResId(): Int = R.layout.item_overview
+    companion object {
+        const val LAYOUT = R.layout.item_overview
 
-    override fun onCreateViewHolder(containerView: View): BaseViewHolder<OverviewItem> {
-        return OverviewItemViewHolder(containerView)
+        private const val TEXT_ANIMATION_DURATION = 1000L
+        private const val PIE_ANIMATION_DURATION = 1500
+        private const val PIE_RADIUS = 75f
     }
 }
