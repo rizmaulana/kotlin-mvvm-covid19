@@ -1,7 +1,6 @@
 package id.rizmaulana.covid19.ui.adapter.viewholders
 
 import android.animation.ValueAnimator
-import android.graphics.Color
 import android.view.View
 import android.widget.TextView
 import com.github.mikephil.charting.animation.Easing
@@ -60,12 +59,13 @@ class OverviewItemViewHolder(itemView: View) : BaseViewHolder<OverviewItem>(item
         recovered = item.recovered
         deaths = item.deaths
 
+        val context = itemView.context
         val pieDataSet = PieDataSet(
             listOf(
-                PieEntry(item.confirmed.toFloat(), "Confirmed"),
-                PieEntry(item.recovered.toFloat(), "Recovered"),
-                PieEntry(item.deaths.toFloat(), "Deaths")
-            ), "COVID19"
+                PieEntry(item.confirmed.toFloat(), context.getString(R.string.confirmed)),
+                PieEntry(item.recovered.toFloat(), context.getString(R.string.recovered)),
+                PieEntry(item.deaths.toFloat(), context.getString(R.string.deaths))
+            ), context.getString(R.string.covid19)
         )
 
         binding.txtCases.text = NumberUtils.numberFormat(
@@ -93,7 +93,7 @@ class OverviewItemViewHolder(itemView: View) : BaseViewHolder<OverviewItem>(item
             legend.isEnabled = false
             description = null
             holeRadius = PIE_RADIUS
-            setHoleColor(Color.parseColor("#171B1E"))
+            setHoleColor(context.color(R.color.cinder_grey))
             setDrawEntryLabels(false)
             animateY(PIE_ANIMATION_DURATION, Easing.EaseInOutQuart)
             invalidate()
