@@ -121,10 +121,7 @@ class DashboardActivity : BaseActivity() {
         with(binding.countryInfo) {
             data?.let {detail ->
                 val header = StringBuilder().apply {
-                    detail.provinceState?.let {
-                        append("$it, ")
-                    }
-                    append(detail.countryRegion)
+                    append(detail.locationName)
                     append(", Updated: ${NumberUtils.formatTime(detail.lastUpdate)}")
                 }
                 txtLocation.text = header
