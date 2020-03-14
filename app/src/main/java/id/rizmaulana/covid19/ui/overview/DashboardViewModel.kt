@@ -36,10 +36,6 @@ class DashboardViewModel(
     val overviewData: LiveData<CovidOverview>
         get() = _overviewData
 
-    private val _countryData = MutableLiveData<CovidOverview>()
-    val countryData: LiveData<CovidOverview>
-        get() = _countryData
-
     private val _pinData = MutableLiveData<CovidDetail?>()
     val pinData: LiveData<CovidDetail?>
         get() = _pinData
@@ -101,22 +97,6 @@ class DashboardViewModel(
                 })
                 .addTo(compositeDisposable)
         }
-    }
-
-    fun getCountry(id: String) {
-        appRepository.country(id)
-            .observeOn(schedulerProvider.ui())
-            .doOnSubscribe {
-                appRepository.getCacheCountry(id)?.let { data ->
-                    _countryData.postValue(data)
-                }
-            }
-            .subscribe({
-                _countryData.postValue(it)
-            }, {
-                _toastMessage.postValue(Constant.ERROR_MESSAGE)
-            })
-            .addTo(compositeDisposable)
     }
 
 }
