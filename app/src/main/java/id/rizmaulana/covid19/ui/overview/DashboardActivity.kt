@@ -37,6 +37,10 @@ class DashboardActivity : BaseActivity() {
 
         viewModel.getOverview()
         viewModel.getDailyUpdate()
+    }
+
+    override fun onResume() {
+        super.onResume()
         viewModel.getPinUpdate()
     }
 
@@ -69,7 +73,7 @@ class DashboardActivity : BaseActivity() {
     }
 
     private fun overviewLoaded(overview: CovidOverview) {
-        with(binding){
+        with(binding) {
             startNumberChangeAnimator(overview.confirmed?.value, txtConfirmed)
             startNumberChangeAnimator(overview.deaths?.value, txtDeaths)
             startNumberChangeAnimator(overview.recovered?.value, txtRecovered)
@@ -100,7 +104,7 @@ class DashboardActivity : BaseActivity() {
         val pieData = PieData(pieDataSet)
         pieData.setDrawValues(false)
 
-        with(binding.pieChart){
+        with(binding.pieChart) {
             data = pieData
             legend.isEnabled = false
             description = null
@@ -115,11 +119,18 @@ class DashboardActivity : BaseActivity() {
 
     private fun handlePinnedUpdate(data: CovidDetail?) {
         with(binding.countryInfo) {
-            data?.let {
-                txtLocation.text = "${it.provinceState}, ${it.countryRegion} (${it.lastUpdate})"
-                txtData.text = "${it.confirmed ?: '-'}"
-                txtRcv.text = "${it.recovered ?: '-'}"
-                txtDeath.text = "${it.deaths ?: '-'}"
+            data?.let {detail ->
+                val header = StringBuilder().apply {
+                    detail.provinceState?.let {
+                        append("$it, ")
+                    }
+                    append(detail.countryRegion)
+                    append(", Updated: ${NumberUtils.formatTime(detail.lastUpdate)}")
+                }
+                txtLocation.text = header
+                txtData.text = "${detail.confirmed ?: '-'}"
+                txtRcv.text = "${detail.recovered ?: '-'}"
+                txtDeath.text = "${detail.deaths ?: '-'}"
             } ?: root.gone()
         }
     }
