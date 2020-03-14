@@ -92,9 +92,4 @@ class DetailAdapter(
         notifyDataSetChanged()
     }
 
-    interface ActionListener {
-        fun onItemClick(data: CovidDetail)
-        fun onLongItemClick(data: CovidDetail)
-    }
-
 }
