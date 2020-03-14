@@ -85,6 +85,7 @@ class DashboardViewModel(
         } else {
             appRepository
                 .confirmed()
+                .observeOn(schedulerProvider.io())
                 .map { stream ->
                     stream.first {
                         if (it.provinceState != null) it.provinceState == prefData.provinceState
