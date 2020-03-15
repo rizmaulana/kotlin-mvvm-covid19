@@ -15,6 +15,7 @@ interface Repository {
     fun country(id: String): Observable<CovidOverview>
     fun fullStats(): Observable<List<CovidDetail>>
     fun putPrefCountry(data: CovidDetail): Completable
+    fun getPinnedCountry(): Observable<CovidDetail>
     fun getPrefCountry(): CovidDetail?
     fun getCacheOverview(): CovidOverview?
     fun getCacheDaily(): List<CovidDaily>?

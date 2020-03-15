@@ -140,6 +140,20 @@ open class AppRepository constructor(
         }
     }
 
+    override fun getPinnedCountry(): Observable<CovidDetail> {
+        val prefData = getPrefCountry()
+        return if(prefData != null) {
+            confirmed()
+                .map { stream ->
+                    stream.first {
+                        if (it.provinceState != null) it.provinceState == prefData.provinceState
+                        else it.countryRegion == prefData.countryRegion
+                    }
+                }
+                .onErrorResumeNext(Observable.just(prefData))
+        } else Observable.empty()
+    }
+
     override fun getPrefCountry(): CovidDetail? = pref.getPrefCountry()
 
     override fun getCacheOverview(): CovidOverview? = pref.getOverview()
