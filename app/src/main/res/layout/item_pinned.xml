@@ -4,13 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="1dp"
-    android:background="@color/davy_grey"
+    android:background="@drawable/bg_rounded_grey"
     android:foreground="?selectableItemBackground"
     android:minHeight="150dp"
+    android:layout_margin="@dimen/space_x2"
     android:padding="@dimen/space_x2"
     app:layout_goneMarginBottom="@dimen/space_half">
-
 
     <TextView
         android:id="@+id/txt_location"
@@ -135,7 +134,7 @@
         android:layout_marginLeft="24dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:text="@string/death"
+        android:text="@string/deaths"
         android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
         android:textColor="@color/color_death"
         android:textSize="12sp"

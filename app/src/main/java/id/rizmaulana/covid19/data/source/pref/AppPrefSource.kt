@@ -15,7 +15,7 @@ class AppPrefSource {
 
     fun setOverview(covidOverview: CovidOverview) = Hawk.put(CacheKey.OVERVIEW, covidOverview)
 
-    fun getDaily(): List<CovidDaily>? = Hawk.get(CacheKey.DAYS, null)
+    fun getDaily(): List<CovidDaily> = Hawk.get(CacheKey.DAYS, emptyList())
 
     fun setDaily(covid: List<CovidDaily>) = Hawk.put(CacheKey.DAYS, covid)
 
