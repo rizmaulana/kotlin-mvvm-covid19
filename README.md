@@ -5,6 +5,8 @@ This repository contains simple COVID19 data monitoring with android stack MVVM,
 
 ### Available on Playstore 🎉
 <a href="https://play.google.com/store/apps/details?id=id.rizmaulana.covid19"><img src="https://locations.massageenvy.com/images/google-play-badge.png" width="200"/></a>
+#### Update
+Since Google restrict app distribution about covid-19 on Google Play Store, we will upload lates feature apk [here](https://drive.google.com/open?id=1gLceG2C_TvwsVpYNqJ_PiQFBsofib2iK)
 
 ### Library References
 1. RxJava2 
