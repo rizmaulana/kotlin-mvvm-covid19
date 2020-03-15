@@ -3,6 +3,7 @@ package id.rizmaulana.covid19.ui.overview
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import id.rizmaulana.covid19.data.model.CovidDaily
+import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.data.model.CovidOverview
 import id.rizmaulana.covid19.data.repository.Repository
 import id.rizmaulana.covid19.ui.base.BaseViewModel
@@ -23,9 +24,9 @@ class DashboardViewModel(
     val loading: LiveData<Boolean>
         get() = _loading
 
-    private val _errorMessage = SingleLiveEvent<String>()
-    val errorMessage: LiveData<String>
-        get() = _errorMessage
+    private val _toastMessage = SingleLiveEvent<String>()
+    val toastMessage: LiveData<String>
+        get() = _toastMessage
 
     private val _dailyListData = MutableLiveData<List<CovidDaily>>()
     val dailyListData: LiveData<List<CovidDaily>>
@@ -34,6 +35,10 @@ class DashboardViewModel(
     private val _overviewData = MutableLiveData<CovidOverview>()
     val overviewData: LiveData<CovidOverview>
         get() = _overviewData
+
+    private val _pinData = MutableLiveData<CovidDetail?>()
+    val pinData: LiveData<CovidDetail?>
+        get() = _pinData
 
     fun getOverview() {
         appRepository.overview()
@@ -48,7 +53,7 @@ class DashboardViewModel(
             .subscribe({
                 _overviewData.postValue(it)
             }, {
-                _errorMessage.postValue(Constant.ERROR_MESSAGE)
+                _toastMessage.postValue(Constant.ERROR_MESSAGE)
             })
             .addTo(compositeDisposable)
     }
@@ -64,10 +69,34 @@ class DashboardViewModel(
             .subscribe({
                 _dailyListData.postValue(it)
             }, {
-                _errorMessage.postValue(Constant.ERROR_MESSAGE)
+                _toastMessage.postValue(Constant.ERROR_MESSAGE)
             })
             .addTo(compositeDisposable)
     }
 
+    fun getPinUpdate() {
+        val prefData = appRepository.getPrefCountry()
+        if (prefData == null) {
+            _pinData.value = null
+        } else {
+            appRepository
+                .confirmed()
+                .observeOn(schedulerProvider.io())
+                .map { stream ->
+                    stream.first {
+                        if (it.provinceState != null) it.provinceState == prefData.provinceState
+                        else it.countryRegion == prefData.countryRegion
+                    }
+                }
+                .observeOn(schedulerProvider.ui())
+                .doOnSubscribe { _pinData.postValue(prefData) }
+                .subscribe({
+                    _pinData.postValue(it)
+                }, {
+                    _toastMessage.postValue(Constant.UPDATE_ERROR_MESSAGE)
+                })
+                .addTo(compositeDisposable)
+        }
+    }
 
 }

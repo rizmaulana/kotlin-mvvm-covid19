@@ -10,6 +10,7 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.data.model.CovidDaily
+import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.data.model.CovidOverview
 import id.rizmaulana.covid19.databinding.ActivityDashboardBinding
 import id.rizmaulana.covid19.ui.adapter.DailyAdapter
@@ -18,6 +19,7 @@ import id.rizmaulana.covid19.ui.detail.DetailActivity
 import id.rizmaulana.covid19.util.CaseType
 import id.rizmaulana.covid19.util.NumberUtils
 import id.rizmaulana.covid19.util.ext.color
+import id.rizmaulana.covid19.util.ext.gone
 import id.rizmaulana.covid19.util.ext.observe
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -35,6 +37,11 @@ class DashboardActivity : BaseActivity() {
 
         viewModel.getOverview()
         viewModel.getDailyUpdate()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getPinUpdate()
     }
 
     private fun initView() {
@@ -61,11 +68,12 @@ class DashboardActivity : BaseActivity() {
         observe(viewModel.loading, ::loading)
         observe(viewModel.overviewData, ::overviewLoaded)
         observe(viewModel.dailyListData, ::onDailyLoaded)
-        observe(viewModel.errorMessage, ::showSnackbarMessage)
+        observe(viewModel.toastMessage, ::showSnackbarMessage)
+        observe(viewModel.pinData, ::handlePinnedUpdate)
     }
 
     private fun overviewLoaded(overview: CovidOverview) {
-        with(binding){
+        with(binding) {
             startNumberChangeAnimator(overview.confirmed?.value, txtConfirmed)
             startNumberChangeAnimator(overview.deaths?.value, txtDeaths)
             startNumberChangeAnimator(overview.recovered?.value, txtRecovered)
@@ -96,7 +104,7 @@ class DashboardActivity : BaseActivity() {
         val pieData = PieData(pieDataSet)
         pieData.setDrawValues(false)
 
-        with(binding.pieChart){
+        with(binding.pieChart) {
             data = pieData
             legend.isEnabled = false
             description = null
@@ -107,6 +115,19 @@ class DashboardActivity : BaseActivity() {
             invalidate()
         }
 
+    }
+
+    private fun handlePinnedUpdate(data: CovidDetail?) {
+        with(binding.countryInfo) {
+            data?.let { detail ->
+                val lastUpdate = NumberUtils.formatTime(detail.lastUpdate)
+                txtLocation.text = detail.locationName
+                txtUpdate.text = getString(R.string.information_last_update, lastUpdate)
+                txtData.text = "${detail.confirmed ?: '-'}"
+                txtRcv.text = "${detail.recovered ?: '-'}"
+                txtDeath.text = "${detail.deaths ?: '-'}"
+            } ?: root.gone()
+        }
     }
 
     private fun startNumberChangeAnimator(finalValue: Int?, view: TextView) {

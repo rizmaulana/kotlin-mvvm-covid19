@@ -17,7 +17,8 @@ import id.rizmaulana.covid19.util.ext.visible
  */
 class DetailAdapter(
     val caseType: Int,
-    val clicked: (data: CovidDetail) -> Unit
+    val clicked: (data: CovidDetail) -> Unit,
+    val longClicked: (data: CovidDetail) -> Unit
 ) : RecyclerView.Adapter<DetailAdapter.ViewHolder>() {
 
     private val items = mutableListOf<CovidDetail>()
@@ -29,12 +30,24 @@ class DetailAdapter(
         fun bind(item: CovidDetail) {
             with(binding) {
                 root.context?.let {
-                    txtInformation.text = it.getString(R.string.information_last_update, NumberUtils.formatTime(item.lastUpdate))
+                    txtInformation.text = it.getString(
+                        R.string.information_last_update,
+                        NumberUtils.formatTime(item.lastUpdate)
+                    )
                     txtLocation.text = item.locationName
 
-                    txtData.text = it.getString(R.string.confirmed_case_count, NumberUtils.numberFormat(item.confirmed))
-                    txtRcv.text = it.getString(R.string.recovered_case_count, NumberUtils.numberFormat(item.recovered))
-                    txtDeath.text = it.getString(R.string.death_case_count, NumberUtils.numberFormat(item.deaths))
+                    txtData.text = it.getString(
+                        R.string.confirmed_case_count,
+                        NumberUtils.numberFormat(item.confirmed)
+                    )
+                    txtRcv.text = it.getString(
+                        R.string.recovered_case_count,
+                        NumberUtils.numberFormat(item.recovered)
+                    )
+                    txtDeath.text = it.getString(
+                        R.string.death_case_count,
+                        NumberUtils.numberFormat(item.deaths)
+                    )
                 }
 
                 when (caseType) {
@@ -49,6 +62,10 @@ class DetailAdapter(
                 }
 
                 root.setOnClickListener { clicked.invoke(item) }
+                root.setOnLongClickListener {
+                    longClicked.invoke(item)
+                    true
+                }
             }
         }
 

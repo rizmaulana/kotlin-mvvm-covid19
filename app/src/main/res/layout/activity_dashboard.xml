@@ -203,6 +203,10 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
+                <include
+                    android:id="@+id/country_info"
+                    layout="@layout/partial_country_info" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
