@@ -28,8 +28,11 @@ class DashboardActivity : BaseActivity() {
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initView()
+    }
 
-        viewModel.loadOverviewAndDaily()
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadDashboard()
     }
 
     private fun initView() {
@@ -50,7 +53,7 @@ class DashboardActivity : BaseActivity() {
     override fun observeChange() {
         observe(viewModel.loading, ::loading)
         observe(viewModel.items, ::onDataLoaded)
-        observe(viewModel.errorMessage, ::showSnackbarMessage)
+        observe(viewModel.toastMessage, ::showSnackbarMessage)
     }
 
     private fun onDataLoaded(items: List<BaseViewItem>) {
