@@ -8,6 +8,7 @@ object Constant {
     const val DB_VERSION = 1
     const val NETWORK_TIMEOUT = 60L
     const val ERROR_MESSAGE = "Cannot proceed your request, please try again later"
+    const val UPDATE_ERROR_MESSAGE = "Cannot get latest update"
 }
 
 object CacheKey {
@@ -16,7 +17,9 @@ object CacheKey {
     const val CONFIRMED = "cache_confirmed"
     const val DEATH = "cache_death"
     const val RECOVERED = "cache_recovered"
+    const val COUNTRY = "cache_country"
     const val FULL_STATS = "cache_full_details"
+    const val PREF_COUNTRY = "cache_pref_country"
 }
 
 object CaseType {

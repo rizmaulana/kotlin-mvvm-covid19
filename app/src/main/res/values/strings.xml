@@ -23,6 +23,8 @@
     <string name="recovered">Recovered</string>
     <string name="deaths">Deaths</string>
     <string name="covid19">COVID19</string>
-
+    <string-array name="detail_item_menu">
+        <item>Pin to Dashboard</item>
+    </string-array>
 </resources>
 

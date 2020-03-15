@@ -28,9 +28,9 @@ class DashboardViewModel(
     val loading: LiveData<Boolean>
         get() = _loading
 
-    private val _errorMessage = SingleLiveEvent<String>()
-    val errorMessage: LiveData<String>
-        get() = _errorMessage
+    private val _toastMessage = SingleLiveEvent<String>()
+    val toastMessage: LiveData<String>
+        get() = _toastMessage
 
     private val _liveItems = MutableLiveData<List<BaseViewItem>>()
     val items: LiveData<List<BaseViewItem>>
@@ -59,7 +59,7 @@ class DashboardViewModel(
         .subscribe({
             _liveItems.postValue(it)
         }, {
-            _errorMessage.postValue(Constant.ERROR_MESSAGE)
+            _toastMessage.postValue(Constant.ERROR_MESSAGE)
         }).addTo(compositeDisposable)
     }
 }

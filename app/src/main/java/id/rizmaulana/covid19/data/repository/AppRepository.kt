@@ -6,6 +6,7 @@ import id.rizmaulana.covid19.data.model.CovidOverview
 import id.rizmaulana.covid19.data.source.pref.AppPrefSource
 import id.rizmaulana.covid19.data.source.remote.AppRemoteSource
 import id.rizmaulana.covid19.util.IncrementStatus
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.functions.Function3
 
@@ -90,6 +91,12 @@ open class AppRepository constructor(
             Observable.just(it)
         }
 
+    override fun country(id: String): Observable<CovidOverview> = api.country(id)
+        .flatMap {
+            setCacheCountry(it)
+            Observable.just(it)
+        }
+
     /**
      * Just found out every case api already provided all cases,
      * this function is actually not necessary
@@ -126,6 +133,15 @@ open class AppRepository constructor(
             }
     }
 
+    override fun putPrefCountry(data: CovidDetail): Completable {
+        return Completable.create {
+            if (pref.setPrefCountry(data)) it.onComplete()
+            else it.onError(Throwable("Not able to save"))
+        }
+    }
+
+    override fun getPrefCountry(): CovidDetail? = pref.getPrefCountry()
+
     override fun getCacheOverview(): CovidOverview? = pref.getOverview()
 
     override fun getCacheDaily(): List<CovidDaily>? = pref.getDaily()
@@ -138,6 +154,8 @@ open class AppRepository constructor(
 
     override fun getCacheFull(): List<CovidDetail>? = pref.getFullStats()
 
+    override fun getCacheCountry(id: String): CovidOverview? = pref.getCountry()
+
     private fun setCacheOverview(covidOverview: CovidOverview) = pref.setOverview(covidOverview)
 
     private fun setCacheDaily(covid: List<CovidDaily>) = pref.setDaily(covid)
@@ -147,6 +165,8 @@ open class AppRepository constructor(
     private fun setCacheDeath(covid: List<CovidDetail>) = pref.setDeath(covid)
 
     private fun setCacheRecovered(covid: List<CovidDetail>) = pref.setRecovered(covid)
+
+    private fun setCacheCountry(covid: CovidOverview) = pref.setCountry(covid)
 
     private fun setCacheFull(covid: List<CovidDetail>) = pref.setFullStats(covid)
 
