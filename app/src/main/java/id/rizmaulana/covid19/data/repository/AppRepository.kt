@@ -91,8 +91,7 @@ open class AppRepository constructor(
                 Observable.just(proceedData.toList().asResult())
             }
             .onErrorResumeNext { t: Throwable ->
-                return@onErrorResumeNext if(cacheDaily.isNotEmpty()) Observable.just(Result(cacheDaily, t))
-                else Observable.error(t)
+                return@onErrorResumeNext Observable.just(Result(cacheDaily, t))
             }
 
         return Observable.concatArrayEager(localObservable, remoteObservable)
