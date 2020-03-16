@@ -5,9 +5,8 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".AppController"
@@ -19,6 +18,7 @@
         android:theme="@style/AppTheme.Base"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".ui.dailygraph.DailyGraphActivity"></activity>
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -41,7 +41,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBQ8lY1t6WA0VsPZ5TMyKCU_UzmWjneark" />
-
     </application>
 
 </manifest>
