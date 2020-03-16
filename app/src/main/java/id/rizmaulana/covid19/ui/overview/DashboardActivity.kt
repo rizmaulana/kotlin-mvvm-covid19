@@ -7,6 +7,7 @@ import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ActivityDashboardBinding
 import id.rizmaulana.covid19.ui.adapter.ItemTypeFactoryImpl
 import id.rizmaulana.covid19.ui.adapter.VisitableRecyclerAdapter
+import id.rizmaulana.covid19.ui.adapter.viewholders.ConnectionErrorStateItem
 import id.rizmaulana.covid19.ui.adapter.viewholders.DailyItem
 import id.rizmaulana.covid19.ui.adapter.viewholders.OverviewItem
 import id.rizmaulana.covid19.ui.base.BaseActivity
@@ -36,24 +37,27 @@ class DashboardActivity : BaseActivity() {
     }
 
     private fun initView() {
-        with(binding.recyclerView) {
-            adapter = dailyAdapter
-            setHasFixedSize(true)
-        }
+        with(binding) {
+            recyclerView.adapter = dailyAdapter
+            recyclerView.setHasFixedSize(true)
 
-        binding.fab.setOnClickListener { permission(CaseType.FULL) }
+            swipeRefresh.setOnRefreshListener { viewModel.loadDashboard() }
+            fab.setOnClickListener { permission(CaseType.FULL) }
+        }
     }
 
     private fun permission(state: Int) {
-        permission {
-            DetailActivity.startActivity(this, state)
-        }
+        permission { DetailActivity.startActivity(this, state) }
     }
 
     override fun observeChange() {
-        observe(viewModel.loading, ::loading)
+        observe(viewModel.loading, ::handleLoading)
         observe(viewModel.items, ::onDataLoaded)
         observe(viewModel.toastMessage, ::showSnackbarMessage)
+    }
+
+    private fun handleLoading(status: Boolean) {
+        binding.swipeRefresh.isRefreshing = status
     }
 
     private fun onDataLoaded(items: List<BaseViewItem>) {
@@ -71,6 +75,9 @@ class DashboardActivity : BaseActivity() {
             }
             is DailyItem -> {
                 Log.e("DailyItem", "DailyItem Click: ${viewItem.deltaConfirmed}")
+            }
+            is ConnectionErrorStateItem -> {
+                viewModel.loadDashboard()
             }
         }
     }
