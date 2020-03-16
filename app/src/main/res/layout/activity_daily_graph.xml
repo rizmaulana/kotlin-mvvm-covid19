@@ -10,12 +10,24 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="310dp">
+        android:layout_marginBottom="200dp">
 
-        <com.github.mikephil.charting.charts.LineChart
-            android:id="@+id/line_chart"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <HorizontalScrollView
+            android:scrollbars="none"
+            android:layout_marginBottom="@dimen/space_x2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <com.github.mikephil.charting.charts.LineChart
+                    android:id="@+id/line_chart"
+                    android:layout_width="1000dp"
+                    android:layout_height="match_parent" />
+            </FrameLayout>
+        </HorizontalScrollView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_back"
@@ -26,6 +38,10 @@
             app:fabSize="mini"
             app:srcCompat="@drawable/ic_arrow_back_white" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <LinearLayout
@@ -35,7 +51,7 @@
         android:background="@drawable/bg_rounded_top_grey"
         android:orientation="vertical"
         app:behavior_hideable="false"
-        app:behavior_peekHeight="340dp"
+        app:behavior_peekHeight="200dp"
         app:layout_behavior="@string/bottom_sheet_behavior">
 
         <ImageView

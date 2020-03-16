@@ -19,6 +19,7 @@
     <string name="visitable_recycler_adapter_unregistered_message">
         Resource %1$s.xml not registered on VisitableRecyclerAdapter!
     </string>
+    <string name="total_case">Total Case</string>
     <string name="confirmed">Confirmed</string>
     <string name="recovered">Recovered</string>
     <string name="deaths">Deaths</string>
