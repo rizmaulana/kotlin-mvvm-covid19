@@ -1,7 +1,11 @@
 package id.rizmaulana.covid19.ui.overview
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ActivityDashboardBinding
@@ -20,7 +24,12 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class DashboardActivity : BaseActivity() {
 
     private val viewModel by viewModel<DashboardViewModel>()
-    private val dailyAdapter by lazy { VisitableRecyclerAdapter(ItemTypeFactoryImpl(), ::onItemClicked) }
+    private val dailyAdapter by lazy {
+        VisitableRecyclerAdapter(
+            ItemTypeFactoryImpl(),
+            ::onItemClicked
+        )
+    }
 
     private lateinit var binding: ActivityDashboardBinding
 
@@ -65,9 +74,9 @@ class DashboardActivity : BaseActivity() {
     }
 
     private fun onItemClicked(viewItem: BaseViewItem, view: View) {
-        when(viewItem) {
+        when (viewItem) {
             is OverviewItem -> {
-                when(view.id) {
+                when (view.id) {
                     R.id.layout_confirmed -> permission(CaseType.CONFIRMED)
                     R.id.layout_recovered -> permission(CaseType.RECOVERED)
                     R.id.layout_death -> permission(CaseType.DEATHS)
@@ -80,5 +89,16 @@ class DashboardActivity : BaseActivity() {
                 viewModel.loadDashboard()
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_dashboard, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.feedback_url)))
+        startActivity(intent)
+        return super.onOptionsItemSelected(item)
     }
 }
