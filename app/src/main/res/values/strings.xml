@@ -16,5 +16,7 @@
     <string name="death_case_count">Deaths : %1$s</string>
     <string name="information_last_update">Last update %1$s</string>
     <string name="information_location_total_case"> "Total %1$s cases on China and %2$s on the other location"</string>
+
+    <string name="map_key">AIzaSyAFlv2ete_15yKIHilZ3MR0G-MV-cTc4RI</string>
 </resources>
 
