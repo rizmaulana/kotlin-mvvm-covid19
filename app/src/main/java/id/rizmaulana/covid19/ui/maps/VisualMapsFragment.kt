@@ -22,7 +22,6 @@ import id.rizmaulana.covid19.ui.detail.DetailViewModel
 import id.rizmaulana.covid19.util.CaseType
 import id.rizmaulana.covid19.util.ext.observe
 import org.koin.android.viewmodel.ext.android.sharedViewModel
-import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.pow
 
 
@@ -167,20 +166,12 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
 
         private const val LAT_DEFAULT = 30.360227
         private const val LON_DEFAULT = 114.8260094
-        private const val DATA = "data"
         private const val TYPE = "type"
 
         @JvmStatic
-        fun newInstance(data: ArrayList<CovidDetail>, caseType: Int) =
-            VisualMapsFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelableArrayList(DATA, data)
-                    putInt(TYPE, caseType)
-                }
-            }
-
-        @JvmStatic
-        fun newInstance() = VisualMapsFragment()
+        fun newInstance() = VisualMapsFragment().apply {
+            arguments = Bundle().apply { putInt(TYPE, caseType) }
+        }
     }
 
 }
