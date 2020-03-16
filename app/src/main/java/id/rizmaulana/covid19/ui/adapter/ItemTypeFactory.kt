@@ -1,10 +1,7 @@
 package id.rizmaulana.covid19.ui.adapter
 
 import android.view.View
-import id.rizmaulana.covid19.ui.adapter.viewholders.DailyItemViewHolder
-import id.rizmaulana.covid19.ui.adapter.viewholders.OverviewItemViewHolder
-import id.rizmaulana.covid19.ui.adapter.viewholders.PinnedItemViewHolder
-import id.rizmaulana.covid19.ui.adapter.viewholders.TextItemViewHolder
+import id.rizmaulana.covid19.ui.adapter.viewholders.*
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 
 abstract class ItemTypeFactory {
@@ -21,6 +18,8 @@ class ItemTypeFactoryImpl: ItemTypeFactory() {
             OverviewItemViewHolder.LAYOUT -> OverviewItemViewHolder(containerView)
             TextItemViewHolder.LAYOUT -> TextItemViewHolder(containerView)
             PinnedItemViewHolder.LAYOUT -> PinnedItemViewHolder(containerView)
+            LoadingStateItemViewHolder.LAYOUT -> LoadingStateItemViewHolder(containerView)
+            ConnectionErrorStateItemViewHolder.LAYOUT -> ConnectionErrorStateItemViewHolder(containerView)
             else -> onCreateViewHolder(containerView, viewType)
         }
     }
