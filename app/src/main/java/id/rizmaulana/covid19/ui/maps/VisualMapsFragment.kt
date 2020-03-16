@@ -34,10 +34,6 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
 
     private val viewModel by sharedViewModel<DetailViewModel>()
 
-    private val detailData by lazy {
-        arguments?.getParcelableArrayList<CovidDetail>(DATA).orEmpty()
-    }
-
     private val caseType by lazy {
         arguments?.getInt(TYPE) ?: CaseType.FULL
     }
