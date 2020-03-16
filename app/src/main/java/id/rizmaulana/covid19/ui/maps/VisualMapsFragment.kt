@@ -169,7 +169,7 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
         private const val TYPE = "type"
 
         @JvmStatic
-        fun newInstance() = VisualMapsFragment().apply {
+        fun newInstance(caseType: Int) = VisualMapsFragment().apply {
             arguments = Bundle().apply { putInt(TYPE, caseType) }
         }
     }

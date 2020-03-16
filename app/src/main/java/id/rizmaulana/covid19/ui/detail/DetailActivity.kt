@@ -96,7 +96,7 @@ class DetailActivity : BaseActivity() {
     }
 
     private fun attachMaps() {
-        mapsFragment = VisualMapsFragment.newInstance()
+        mapsFragment = VisualMapsFragment.newInstance(caseType)
         mapsFragment?.let {
             supportFragmentManager.beginTransaction().replace(R.id.layout_visual, it)
                 .commitAllowingStateLoss()
