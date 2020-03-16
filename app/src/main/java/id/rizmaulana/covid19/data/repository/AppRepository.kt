@@ -45,7 +45,8 @@ open class AppRepository constructor(
 ) : Repository {
     override fun overview(): Observable<Result<CovidOverview>> {
         val cacheOverview = getCacheOverview()
-        val localObservable = Observable.just(Result(cacheOverview, null))
+        val localObservable = if(cacheOverview != null) Observable.just(Result(cacheOverview, null))
+        else Observable.empty()
 
         val remoteObservable = api.overview()
             .flatMap {
