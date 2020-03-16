@@ -7,16 +7,20 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="200dp">
 
         <HorizontalScrollView
+            app:layout_constraintBottom_toTopOf="@id/txt_info"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             android:scrollbars="none"
             android:layout_marginBottom="@dimen/space_x2"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:layout_height="0dp">
 
             <FrameLayout
                 android:layout_width="wrap_content"
@@ -29,7 +33,22 @@
             </FrameLayout>
         </HorizontalScrollView>
 
+
+        <TextView
+            android:layout_margin="@dimen/space_x2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/txt_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_x2"
+            android:text="Pinch to zoom in or zoom out data"
+            android:textColor="@color/cool_grey"
+            android:textSize="@dimen/text_14" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             android:id="@+id/fab_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,11 +57,8 @@
             app:fabSize="mini"
             app:srcCompat="@drawable/ic_arrow_back_white" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/layout_bottom_sheet"

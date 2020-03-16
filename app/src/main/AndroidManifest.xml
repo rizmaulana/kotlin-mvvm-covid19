@@ -18,7 +18,10 @@
         android:theme="@style/AppTheme.Base"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ui.dailygraph.DailyGraphActivity"></activity>
+        <activity
+            android:name=".ui.dailygraph.DailyGraphActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -40,7 +43,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBQ8lY1t6WA0VsPZ5TMyKCU_UzmWjneark" />
+            android:value="<GOOGLE_MAPS_API_KEY>" />
     </application>
 
 </manifest>
