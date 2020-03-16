@@ -19,7 +19,7 @@ class ItemTypeFactoryImpl: ItemTypeFactory() {
             TextItemViewHolder.LAYOUT -> TextItemViewHolder(containerView)
             PinnedItemViewHolder.LAYOUT -> PinnedItemViewHolder(containerView)
             LoadingStateItemViewHolder.LAYOUT -> LoadingStateItemViewHolder(containerView)
-            ConnectionErrorStateItemViewHolder.LAYOUT -> ConnectionErrorStateItemViewHolder(containerView)
+            ErrorStateItemViewHolder.LAYOUT -> ErrorStateItemViewHolder(containerView)
             else -> onCreateViewHolder(containerView, viewType)
         }
     }

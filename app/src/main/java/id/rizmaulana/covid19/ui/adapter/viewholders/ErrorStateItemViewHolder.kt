@@ -14,7 +14,7 @@ class ErrorStateItem(
     override fun layoutResId(): Int = R.layout.item_error_state
 }
 
-class ConnectionErrorStateItemViewHolder(itemView: View) : BaseViewHolder<ErrorStateItem>(itemView) {
+class ErrorStateItemViewHolder(itemView: View) : BaseViewHolder<ErrorStateItem>(itemView) {
 
     private val binding: ItemErrorStateBinding = ItemErrorStateBinding.bind(itemView)
 
