@@ -6,6 +6,7 @@ import id.rizmaulana.covid19.data.model.CovidOverview
 import id.rizmaulana.covid19.data.source.pref.AppPrefSource
 import id.rizmaulana.covid19.data.source.remote.AppRemoteSource
 import id.rizmaulana.covid19.util.IncrementStatus
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.functions.Function3
 
@@ -17,37 +18,60 @@ open class AppRepository constructor(
     private val pref: AppPrefSource
 ) : Repository {
 
-    override fun overview() = api.overview()
-        .flatMap {
-            setCacheOverview(it)
-            Observable.just(it)
-        }
 
-    override fun daily() = api.daily()
-        .flatMap {
-            var latestRecovered = 0
-            var latestConfirmed = 0
-            val proceedData = it.map { covid ->
-                covid.incrementConfirmed =
-                    when {
-                        covid.deltaConfirmed > latestConfirmed -> IncrementStatus.INCREASE
-                        covid.deltaConfirmed < latestConfirmed -> IncrementStatus.DECREASE
-                        else -> IncrementStatus.FLAT
-                    }
-                covid.incrementRecovered =
-                    when {
-                        covid.deltaRecovered > latestRecovered -> IncrementStatus.INCREASE
-                        covid.deltaRecovered < latestRecovered -> IncrementStatus.DECREASE
-                        else -> IncrementStatus.FLAT
-                    }
-                latestRecovered = covid.deltaRecovered
-                latestConfirmed = covid.deltaConfirmed
-                covid
-            }.toMutableList()
-            proceedData.reverse()
-            setCacheDaily(proceedData)
-            Observable.just(proceedData)
-        }
+    override fun overview(): Observable<CovidOverview> {
+        val cacheOverview = getCacheOverview()
+        val localObservable = if(cacheOverview != null) Observable.just(cacheOverview)
+        else Observable.empty()
+
+        val remoteObservable = api.overview()
+            .flatMap {
+                setCacheOverview(it)
+                Observable.just(it)
+            }
+            .onErrorResumeNext { t: Throwable ->
+                return@onErrorResumeNext if(cacheOverview != null) Observable.just(cacheOverview)
+                else Observable.error(t)
+            }
+        return Observable.concatArrayEager(localObservable, remoteObservable)
+    }
+
+    override fun daily(): Observable<List<CovidDaily>> {
+        val cacheDaily = getCacheDaily()
+        val localObservable= Observable.just(cacheDaily)
+
+        val remoteObservable: Observable<List<CovidDaily>> = api.daily()
+            .flatMap {
+                var latestRecovered = 0
+                var latestConfirmed = 0
+                val proceedData = it.map { covid ->
+                    covid.incrementConfirmed =
+                        when {
+                            covid.deltaConfirmed > latestConfirmed -> IncrementStatus.INCREASE
+                            covid.deltaConfirmed < latestConfirmed -> IncrementStatus.DECREASE
+                            else -> IncrementStatus.FLAT
+                        }
+                    covid.incrementRecovered =
+                        when {
+                            covid.deltaRecovered > latestRecovered -> IncrementStatus.INCREASE
+                            covid.deltaRecovered < latestRecovered -> IncrementStatus.DECREASE
+                            else -> IncrementStatus.FLAT
+                        }
+                    latestRecovered = covid.deltaRecovered
+                    latestConfirmed = covid.deltaConfirmed
+                    covid
+                }.toMutableList()
+                proceedData.reverse()
+                setCacheDaily(proceedData)
+                Observable.just(proceedData.toList())
+            }
+            .onErrorResumeNext { t: Throwable ->
+                return@onErrorResumeNext if(cacheDaily != null) Observable.just(cacheDaily)
+                else Observable.error(t)
+            }
+
+        return Observable.concatArrayEager(localObservable, remoteObservable)
+    }
 
     override fun confirmed() = api.confirmed()
         .flatMap {
@@ -64,6 +88,12 @@ open class AppRepository constructor(
     override fun recovered() = api.recovered()
         .flatMap {
             setCacheRecovered(it)
+            Observable.just(it)
+        }
+
+    override fun country(id: String): Observable<CovidOverview> = api.country(id)
+        .flatMap {
+            setCacheCountry(it)
             Observable.just(it)
         }
 
@@ -103,6 +133,29 @@ open class AppRepository constructor(
             }
     }
 
+    override fun putPrefCountry(data: CovidDetail): Completable {
+        return Completable.create {
+            if (pref.setPrefCountry(data)) it.onComplete()
+            else it.onError(Throwable("Not able to save"))
+        }
+    }
+
+    override fun getPinnedCountry(): Observable<CovidDetail> {
+        val prefData = getPrefCountry()
+        return if(prefData != null) {
+            confirmed()
+                .map { stream ->
+                    stream.first {
+                        if (it.provinceState != null) it.provinceState == prefData.provinceState
+                        else it.countryRegion == prefData.countryRegion
+                    }
+                }
+                .onErrorResumeNext(Observable.just(prefData))
+        } else Observable.empty()
+    }
+
+    override fun getPrefCountry(): CovidDetail? = pref.getPrefCountry()
+
     override fun getCacheOverview(): CovidOverview? = pref.getOverview()
 
     override fun getCacheDaily(): List<CovidDaily>? = pref.getDaily()
@@ -115,6 +168,8 @@ open class AppRepository constructor(
 
     override fun getCacheFull(): List<CovidDetail>? = pref.getFullStats()
 
+    override fun getCacheCountry(id: String): CovidOverview? = pref.getCountry()
+
     private fun setCacheOverview(covidOverview: CovidOverview) = pref.setOverview(covidOverview)
 
     private fun setCacheDaily(covid: List<CovidDaily>) = pref.setDaily(covid)
@@ -124,6 +179,8 @@ open class AppRepository constructor(
     private fun setCacheDeath(covid: List<CovidDetail>) = pref.setDeath(covid)
 
     private fun setCacheRecovered(covid: List<CovidDetail>) = pref.setRecovered(covid)
+
+    private fun setCacheCountry(covid: CovidOverview) = pref.setCountry(covid)
 
     private fun setCacheFull(covid: List<CovidDetail>) = pref.setFullStats(covid)
 

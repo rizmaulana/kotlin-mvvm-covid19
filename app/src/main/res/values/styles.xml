@@ -21,6 +21,12 @@
 
     </style>
 
+    <style name="AlertDialogBlack" parent="@android:style/Theme.Dialog">
+        <item name="backgroundColor">@color/colorPrimary</item>
+        <item name="android:textColor">#00FF00</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+
 
     <style name="TextAppearance.App.TextView" parent="@android:style/TextAppearance">
         <item name="android:textSize">@dimen/text_12</item>

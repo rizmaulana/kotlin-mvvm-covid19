@@ -5,6 +5,7 @@ import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.data.model.CovidOverview
 import io.reactivex.Observable
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 @JvmSuppressWildcards
 interface Api {
@@ -22,4 +23,8 @@ interface Api {
 
     @GET("api/recovered")
     fun recovered(): Observable<List<CovidDetail>>
+
+    @GET("api/countries/{country}")
+    fun country(@Path("country") country: String): Observable<CovidOverview>
+
 }

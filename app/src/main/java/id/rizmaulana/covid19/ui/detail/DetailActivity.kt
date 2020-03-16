@@ -1,5 +1,6 @@
 package id.rizmaulana.covid19.ui.detail
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -31,13 +32,13 @@ class DetailActivity : BaseActivity() {
         intent.getIntExtra(CASE_TYPE, CaseType.FULL)
     }
 
-    private val bottomSheetBehaviorCallback = object: BottomSheetBehavior.BottomSheetCallback() {
+    private val bottomSheetBehaviorCallback = object : BottomSheetBehavior.BottomSheetCallback() {
         override fun onSlide(bottomSheet: View, slideOffset: Float) {
             //nothing
         }
 
         override fun onStateChanged(bottomSheet: View, newState: Int) {
-            if(newState == BottomSheetBehavior.STATE_COLLAPSED) {
+            if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
                 hideSoftKeyboard()
                 binding.txtSearch.clearFocus()
             }
@@ -45,11 +46,7 @@ class DetailActivity : BaseActivity() {
     }
 
     private val detailAdapter by lazy {
-        DetailAdapter(caseType) {
-            hideSoftKeyboard()
-            collapseBottomSheet()
-            mapsFragment?.selectItem(it)
-        }
+        DetailAdapter(caseType, ::onAdapterItemClicked, ::showItemListDialog)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,20 +63,20 @@ class DetailActivity : BaseActivity() {
     }
 
     private fun initView() {
-        with(binding){
+        with(binding) {
             recyclerView.adapter = detailAdapter
             bottomSheetBehaviour = BottomSheetBehavior.from(layoutBottomSheet)
             bottomSheetBehaviour.setBottomSheetCallback(bottomSheetBehaviorCallback)
 
             fabBack.setOnClickListener { onBackPressed() }
-            txtSearch.setOnFocusChangeListener { _, hasFocus -> if(hasFocus) expandBottomSheet() }
+            txtSearch.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) expandBottomSheet() }
             imgClear.setOnClickListener { txtSearch.setText("") }
         }
         RxTextView.textChanges(binding.txtSearch)
             .debounce(300, TimeUnit.MILLISECONDS)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                binding.imgClear.visibility = if(it.isNotEmpty())  View.VISIBLE else View.GONE
+                binding.imgClear.visibility = if (it.isNotEmpty()) View.VISIBLE else View.GONE
                 viewModel.findLocation(it.toString())
             }
     }
@@ -105,11 +102,25 @@ class DetailActivity : BaseActivity() {
         }
     }
 
-    private fun collapseBottomSheet(){
+    private fun showItemListDialog(dataContext: CovidDetail) {
+        AlertDialog.Builder(this)
+            .setItems(resources.getStringArray(R.array.detail_item_menu)) { dialog, which ->
+                viewModel.putPrefCountry(dataContext)
+            }
+            .show()
+    }
+
+    private fun onAdapterItemClicked(detail: CovidDetail) {
+        hideSoftKeyboard()
+        collapseBottomSheet()
+        mapsFragment?.selectItem(detail)
+    }
+
+    private fun collapseBottomSheet() {
         bottomSheetBehaviour.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 
-    private fun expandBottomSheet(){
+    private fun expandBottomSheet() {
         bottomSheetBehaviour.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
