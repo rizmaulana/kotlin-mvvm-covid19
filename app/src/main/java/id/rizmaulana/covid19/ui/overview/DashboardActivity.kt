@@ -7,8 +7,8 @@ import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ActivityDashboardBinding
 import id.rizmaulana.covid19.ui.adapter.ItemTypeFactoryImpl
 import id.rizmaulana.covid19.ui.adapter.VisitableRecyclerAdapter
-import id.rizmaulana.covid19.ui.adapter.viewholders.ConnectionErrorStateItem
 import id.rizmaulana.covid19.ui.adapter.viewholders.DailyItem
+import id.rizmaulana.covid19.ui.adapter.viewholders.ErrorStateItem
 import id.rizmaulana.covid19.ui.adapter.viewholders.OverviewItem
 import id.rizmaulana.covid19.ui.base.BaseActivity
 import id.rizmaulana.covid19.ui.base.BaseViewItem
@@ -76,7 +76,7 @@ class DashboardActivity : BaseActivity() {
             is DailyItem -> {
                 Log.e("DailyItem", "DailyItem Click: ${viewItem.deltaConfirmed}")
             }
-            is ConnectionErrorStateItem -> {
+            is ErrorStateItem -> {
                 viewModel.loadDashboard()
             }
         }
