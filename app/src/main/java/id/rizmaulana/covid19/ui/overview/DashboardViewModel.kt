@@ -2,6 +2,7 @@ package id.rizmaulana.covid19.ui.overview
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.data.mapper.CovidDailyDataMapper
 import id.rizmaulana.covid19.data.mapper.CovidOverviewDataMapper
 import id.rizmaulana.covid19.data.mapper.CovidPinnedDataMapper
@@ -97,8 +98,8 @@ class DashboardViewModel(
                     with(daily){
                         val dailies = CovidDailyDataMapper.transform(data)
                         if(dailies.isNotEmpty()) {
-                            items.add(TextItem("Daily Updates"))
-                            items.addAll(dailies)
+                                items.add(TextItem(R.string.daily_updates, R.string.show_graph))
+                                items.addAll(dailies)
                         }
                         error?.let { currentThrowable = it }
                     }

@@ -14,6 +14,7 @@ import id.rizmaulana.covid19.ui.adapter.VisitableRecyclerAdapter
 import id.rizmaulana.covid19.ui.adapter.viewholders.DailyItem
 import id.rizmaulana.covid19.ui.adapter.viewholders.ErrorStateItem
 import id.rizmaulana.covid19.ui.adapter.viewholders.OverviewItem
+import id.rizmaulana.covid19.ui.adapter.viewholders.TextItem
 import id.rizmaulana.covid19.ui.base.BaseActivity
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.ui.detail.DetailActivity
@@ -88,6 +89,9 @@ class DashboardActivity : BaseActivity() {
             }
             is DailyItem -> {
                 Log.e("DailyItem", "DailyItem Click: ${viewItem.deltaConfirmed}")
+            }
+            is TextItem -> {
+
             }
             is ErrorStateItem -> {
                 viewModel.loadDashboard()
