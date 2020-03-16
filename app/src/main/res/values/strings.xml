@@ -23,6 +23,9 @@
     <string name="recovered">Recovered</string>
     <string name="deaths">Deaths</string>
     <string name="covid19">COVID19</string>
+    <string name="connection_error_title">Couldn\'t connect to Internet</string>
+    <string name="connection_error_description">There may be a problem with your connection</string>
+    <string name="try_again">Try Again</string>
     <string-array name="detail_item_menu">
         <item>Pin to Dashboard</item>
     </string-array>
