@@ -90,9 +90,6 @@ class DetailActivity : BaseActivity() {
 
     private fun onListChanged(data: List<CovidDetail>) {
         detailAdapter.addAll(data)
-//        if (binding.txtSearch.text.toString().isEmpty()) {
-//            attachMaps(data)
-//        }
     }
 
     private fun attachMaps() {
