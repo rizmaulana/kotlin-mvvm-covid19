@@ -104,6 +104,7 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
         data.forEach {
             val marker = googleMap?.addMarker(
                 MarkerOptions().position(LatLng(it.lat, it.long))
+                    .anchor(0.5f, 0.5f)
                     .title(it.locationName)
                     .icon(
                         BitmapDescriptorFactory.fromResource(

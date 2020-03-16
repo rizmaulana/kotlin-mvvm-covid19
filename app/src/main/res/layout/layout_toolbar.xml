@@ -2,14 +2,4 @@
 <androidx.appcompat.widget.Toolbar android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?actionBarSize"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:adjustViewBounds="true"
-        android:paddingTop="@dimen/space_x1_half"
-        android:paddingBottom="@dimen/space"
-        android:src="@drawable/img_covid_logo" />
-
-</androidx.appcompat.widget.Toolbar>
+    xmlns:android="http://schemas.android.com/apk/res/android"/>
