@@ -102,7 +102,7 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
     fun selectItem(data: CovidDetail) {
         googleMap?.let {
             moveCamera(LatLng(data.lat, data.long))
-            startPulsAnimation(LatLng(data.lat, data.long))
+            startPulseAnimation(LatLng(data.lat, data.long))
         }
     }
 
@@ -121,7 +121,7 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
         return 2.0.pow(16 - zoomLevel.toDouble()).toFloat() * 160
     }
 
-    private fun startPulsAnimation(latLng: LatLng) {
+    private fun startPulseAnimation(latLng: LatLng) {
         valueAnimator?.apply {
             removeAllUpdateListeners()
             removeAllListeners()
