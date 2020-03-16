@@ -18,7 +18,11 @@ import com.google.android.gms.maps.model.*
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.ui.base.BaseFragment
+import id.rizmaulana.covid19.ui.detail.DetailViewModel
 import id.rizmaulana.covid19.util.CaseType
+import id.rizmaulana.covid19.util.ext.observe
+import org.koin.android.viewmodel.ext.android.sharedViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
 import kotlin.math.pow
 
 
@@ -27,6 +31,8 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
     private val markers = mutableListOf<Marker>()
     private var googleMap: GoogleMap? = null
     private var pulseCircle: Circle? = null
+
+    private val viewModel by sharedViewModel<DetailViewModel>()
 
     private val detailData by lazy {
         arguments?.getParcelableArrayList<CovidDetail>(DATA).orEmpty()
@@ -69,17 +75,16 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
         }
 
         moveCamera(LatLng(LAT_DEFAULT, LON_DEFAULT))
-        initMarker()
     }
 
     private fun moveCamera(latLng: LatLng) {
         googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 4f))
     }
 
-    private fun initMarker() {
+    private fun updateMarkers(data: List<CovidDetail>) {
         googleMap?.clear()
         markers.clear()
-        detailData.forEach {
+        data.forEach {
             val marker = googleMap?.addMarker(
                 MarkerOptions().position(LatLng(it.lat, it.long))
                     .title(it.locationName)
@@ -155,7 +160,9 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
         valueAnimator.start()
     }
 
-    override fun observeChange() { /* no-op */ }
+    override fun observeChange() {
+        observe(viewModel.detailListLiveData, ::updateMarkers)
+    }
 
     companion object {
         private val RECOVERED_COLOR = Color.argb(70, 0, 204, 153)
@@ -175,6 +182,9 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
                     putInt(TYPE, caseType)
                 }
             }
+
+        @JvmStatic
+        fun newInstance() = VisualMapsFragment()
     }
 
 }
