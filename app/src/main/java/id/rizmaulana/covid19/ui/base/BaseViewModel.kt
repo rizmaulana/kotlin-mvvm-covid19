@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.ui.adapter.viewholders.ErrorStateItem
 import io.reactivex.disposables.CompositeDisposable
+import java.io.IOException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -29,7 +30,8 @@ abstract class BaseViewModel : ViewModel(), LifecycleObserver {
         return when(throwable) {
             is ConnectException,
             is SocketTimeoutException,
-            is UnknownHostException -> {
+            is UnknownHostException,
+            is IOException -> {
                 ErrorStateItem(R.string.connection_error_title, R.string.connection_error_description)
             }
             else -> ErrorStateItem(R.string.general_error_title, R.string.general_error_description)

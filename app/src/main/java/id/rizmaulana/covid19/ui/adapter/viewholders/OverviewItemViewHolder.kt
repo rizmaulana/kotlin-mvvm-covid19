@@ -88,7 +88,6 @@ class OverviewItemViewHolder(itemView: View) : BaseViewHolder<OverviewItem>(item
         pieData.setDrawValues(false)
         with(binding.pieChart) {
             if (data == pieData) return
-
             data = pieData
             legend.isEnabled = false
             description = null
@@ -97,6 +96,7 @@ class OverviewItemViewHolder(itemView: View) : BaseViewHolder<OverviewItem>(item
             setDrawEntryLabels(false)
             animateY(PIE_ANIMATION_DURATION, Easing.EaseInOutQuart)
             invalidate()
+            binding.layoutCases.visibility = View.VISIBLE
         }
     }
 
