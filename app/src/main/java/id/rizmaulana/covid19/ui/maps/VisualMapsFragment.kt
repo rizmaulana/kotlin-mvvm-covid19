@@ -18,7 +18,10 @@ import com.google.android.gms.maps.model.*
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.ui.base.BaseFragment
+import id.rizmaulana.covid19.ui.detail.DetailViewModel
 import id.rizmaulana.covid19.util.CaseType
+import id.rizmaulana.covid19.util.ext.observe
+import org.koin.android.viewmodel.ext.android.sharedViewModel
 import kotlin.math.pow
 
 
@@ -28,9 +31,7 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
     private var googleMap: GoogleMap? = null
     private var pulseCircle: Circle? = null
 
-    private val detailData by lazy {
-        arguments?.getParcelableArrayList<CovidDetail>(DATA).orEmpty()
-    }
+    private val viewModel by sharedViewModel<DetailViewModel>()
 
     private val caseType by lazy {
         arguments?.getInt(TYPE) ?: CaseType.FULL
@@ -55,6 +56,10 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
     }
 
+    override fun observeChange() {
+        observe(viewModel.detailListLiveData, ::updateMarkers)
+    }
+
     override fun onMapReady(map: GoogleMap?) {
         this.googleMap = map
 
@@ -69,17 +74,34 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
         }
 
         moveCamera(LatLng(LAT_DEFAULT, LON_DEFAULT))
-        initMarker()
+    }
+
+    fun selectItem(data: CovidDetail) {
+        googleMap?.let {
+            moveCamera(LatLng(data.lat, data.long))
+            startPulseAnimation(LatLng(data.lat, data.long))
+        }
+    }
+
+    private val valueAnimator by lazy {
+        ValueAnimator.ofFloat(
+            0f,
+            calculatePulseRadius(googleMap?.cameraPosition?.zoom ?: 4f).apply { }
+        ).apply {
+            startDelay = 100
+            duration = 800
+            interpolator = AccelerateDecelerateInterpolator()
+        }
     }
 
     private fun moveCamera(latLng: LatLng) {
         googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 4f))
     }
 
-    private fun initMarker() {
+    private fun updateMarkers(data: List<CovidDetail>) {
         googleMap?.clear()
         markers.clear()
-        detailData.forEach {
+        data.forEach {
             val marker = googleMap?.addMarker(
                 MarkerOptions().position(LatLng(it.lat, it.long))
                     .title(it.locationName)
@@ -99,29 +121,11 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
         }
     }
 
-    fun selectItem(data: CovidDetail) {
-        googleMap?.let {
-            moveCamera(LatLng(data.lat, data.long))
-            startPulsAnimation(LatLng(data.lat, data.long))
-        }
-    }
-
-    private val valueAnimator by lazy {
-        ValueAnimator.ofFloat(
-            0f,
-            calculatePulseRadius(googleMap?.cameraPosition?.zoom ?: 4f).apply { }
-        ).apply {
-            startDelay = 100
-            duration = 800
-            interpolator = AccelerateDecelerateInterpolator()
-        }
-    }
-
     private fun calculatePulseRadius(zoomLevel: Float): Float {
         return 2.0.pow(16 - zoomLevel.toDouble()).toFloat() * 160
     }
 
-    private fun startPulsAnimation(latLng: LatLng) {
+    private fun startPulseAnimation(latLng: LatLng) {
         valueAnimator?.apply {
             removeAllUpdateListeners()
             removeAllListeners()
@@ -155,8 +159,6 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
         valueAnimator.start()
     }
 
-    override fun observeChange() { /* no-op */ }
-
     companion object {
         private val RECOVERED_COLOR = Color.argb(70, 0, 204, 153)
         private val CONFIRMED_COLOR = Color.argb(70, 242, 185, 0)
@@ -164,17 +166,12 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
 
         private const val LAT_DEFAULT = 30.360227
         private const val LON_DEFAULT = 114.8260094
-        private const val DATA = "data"
         private const val TYPE = "type"
 
         @JvmStatic
-        fun newInstance(data: ArrayList<CovidDetail>, caseType: Int) =
-            VisualMapsFragment().apply {
-                arguments = Bundle().apply {
-                    putParcelableArrayList(DATA, data)
-                    putInt(TYPE, caseType)
-                }
-            }
+        fun newInstance(caseType: Int) = VisualMapsFragment().apply {
+            arguments = Bundle().apply { putInt(TYPE, caseType) }
+        }
     }
 
 }

@@ -59,6 +59,7 @@ class DetailActivity : BaseActivity() {
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
 
         initView()
+        attachMaps()
         viewModel.getDetail(caseType)
     }
 
@@ -89,13 +90,10 @@ class DetailActivity : BaseActivity() {
 
     private fun onListChanged(data: List<CovidDetail>) {
         detailAdapter.addAll(data)
-        if (binding.txtSearch.text.toString().isEmpty()) {
-            attachMaps(data)
-        }
     }
 
-    private fun attachMaps(data: List<CovidDetail>) {
-        mapsFragment = VisualMapsFragment.newInstance(ArrayList(data), caseType)
+    private fun attachMaps() {
+        mapsFragment = VisualMapsFragment.newInstance(caseType)
         mapsFragment?.let {
             supportFragmentManager.beginTransaction().replace(R.id.layout_visual, it)
                 .commitAllowingStateLoss()
