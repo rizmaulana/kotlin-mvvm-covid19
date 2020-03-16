@@ -16,5 +16,18 @@
     <string name="death_case_count">Deaths : %1$s</string>
     <string name="information_last_update">Last update %1$s</string>
     <string name="information_location_total_case"> "Total %1$s cases on China and %2$s on the other location"</string>
+    <string name="visitable_recycler_adapter_unregistered_message">
+        Resource %1$s.xml not registered on VisitableRecyclerAdapter!
+    </string>
+    <string name="confirmed">Confirmed</string>
+    <string name="recovered">Recovered</string>
+    <string name="deaths">Deaths</string>
+    <string name="covid19">COVID19</string>
+    <string-array name="detail_item_menu">
+        <item>Pin to Dashboard</item>
+    </string-array>
+
+    
+
 </resources>
 
