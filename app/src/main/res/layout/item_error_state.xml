@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_title"
+        android:id="@+id/text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -24,7 +24,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/tv_subtitle"
+        android:id="@+id/text_subtitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -32,26 +32,26 @@
         android:text="@string/connection_error_description"
         android:textColor="@color/white_50"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="@+id/tv_title"
+        app:layout_constraintEnd_toEndOf="@+id/text_title"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/tv_title"
+        app:layout_constraintStart_toStartOf="@+id/text_title"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <TextView
-        android:id="@+id/text_try_again"
+        android:id="@+id/text_retry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@drawable/bg_rounded_light_grey"
         android:padding="16dp"
-        android:text="@string/try_again"
+        android:text="@string/retry"
         android:textColor="@color/white"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_subtitle" />
+        app:layout_constraintTop_toBottomOf="@+id/text_subtitle" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
