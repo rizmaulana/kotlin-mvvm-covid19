@@ -56,6 +56,10 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
     }
 
+    override fun observeChange() {
+        observe(viewModel.detailListLiveData, ::updateMarkers)
+    }
+
     override fun onMapReady(map: GoogleMap?) {
         this.googleMap = map
 
@@ -70,6 +74,24 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
         }
 
         moveCamera(LatLng(LAT_DEFAULT, LON_DEFAULT))
+    }
+
+    fun selectItem(data: CovidDetail) {
+        googleMap?.let {
+            moveCamera(LatLng(data.lat, data.long))
+            startPulseAnimation(LatLng(data.lat, data.long))
+        }
+    }
+
+    private val valueAnimator by lazy {
+        ValueAnimator.ofFloat(
+            0f,
+            calculatePulseRadius(googleMap?.cameraPosition?.zoom ?: 4f).apply { }
+        ).apply {
+            startDelay = 100
+            duration = 800
+            interpolator = AccelerateDecelerateInterpolator()
+        }
     }
 
     private fun moveCamera(latLng: LatLng) {
@@ -96,24 +118,6 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
             marker?.let { m ->
                 markers.add(m)
             }
-        }
-    }
-
-    fun selectItem(data: CovidDetail) {
-        googleMap?.let {
-            moveCamera(LatLng(data.lat, data.long))
-            startPulseAnimation(LatLng(data.lat, data.long))
-        }
-    }
-
-    private val valueAnimator by lazy {
-        ValueAnimator.ofFloat(
-            0f,
-            calculatePulseRadius(googleMap?.cameraPosition?.zoom ?: 4f).apply { }
-        ).apply {
-            startDelay = 100
-            duration = 800
-            interpolator = AccelerateDecelerateInterpolator()
         }
     }
 
@@ -153,10 +157,6 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
         })
 
         valueAnimator.start()
-    }
-
-    override fun observeChange() {
-        observe(viewModel.detailListLiveData, ::updateMarkers)
     }
 
     companion object {
