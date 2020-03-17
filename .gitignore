@@ -3,6 +3,7 @@
 .DS_Store
 
 /app/google-services.json
+/app/production
 
 # Built application files
 *.apk
@@ -90,3 +91,4 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+
