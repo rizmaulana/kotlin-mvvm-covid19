@@ -19,6 +19,9 @@
     <string name="visitable_recycler_adapter_unregistered_message">
         File %1$s.xml tidak terdaftar pada VisitableRecyclerAdapter!
     </string>
+    <string name="type_city_province_region">Masukkan kota atau provinsi suatu negara</string>
+    <string name="case_reported">Kejadian dilaporkan</string>
+    <string name="tap_on_statistic">Tap pada statistik di sisi sebelah kanan untuk info lebih\nSumber Data : https://covid19.mathdro.id/api/</string>
     <string name="confirmed">Dikonfirmasi</string>
     <string name="recovered">Pulih</string>
     <string name="deaths">Meninggal</string>

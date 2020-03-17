@@ -77,7 +77,7 @@
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="6dp"
                 android:inputType="text"
-                android:hint="Type city or province region ..."
+                android:hint="@string/type_city_province_region"
                 android:textAppearance="@style/TextAppearance.App.TextView.H5.White"
                 android:textColor="@color/white"
                 android:textColorHint="@color/cool_grey"
