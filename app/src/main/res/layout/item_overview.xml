@@ -48,7 +48,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cases reported"
+                    android:text="@string/case_reported"
                     android:textColor="@color/cool_grey"
                     android:textSize="@dimen/text_14"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -92,7 +92,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Confirmed"
+                    android:text="@string/confirmed"
                     android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
                     android:textColor="@color/color_confirmed"
                     android:textSize="@dimen/text_14"
@@ -123,7 +123,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Recovered"
+                    android:text="@string/recovered"
                     android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
                     android:textColor="@color/color_recovered"
                     android:textSize="@dimen/text_14"
@@ -156,7 +156,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Deaths"
+                    android:text="@string/deaths"
                     android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
                     android:textColor="@color/color_death"
                     android:textSize="@dimen/text_14"
@@ -173,7 +173,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_x2"
-            android:text="Tap on statistic on the right side for more information\nData source : https://covid19.mathdro.id/api/"
+            android:text="@string/tap_on_statistic"
             android:textColor="@color/cool_grey"
             android:textSize="@dimen/text_14"
             app:layout_constraintBottom_toBottomOf="parent"
