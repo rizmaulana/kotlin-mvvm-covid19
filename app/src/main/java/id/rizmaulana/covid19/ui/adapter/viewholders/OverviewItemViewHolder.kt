@@ -13,6 +13,7 @@ import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.NumberUtils
 import id.rizmaulana.covid19.util.ext.color
+import id.rizmaulana.covid19.util.ext.visible
 
 data class OverviewItem(
     val confirmed: Int = 0,
@@ -96,7 +97,7 @@ class OverviewItemViewHolder(itemView: View) : BaseViewHolder<OverviewItem>(item
             setDrawEntryLabels(false)
             animateY(PIE_ANIMATION_DURATION, Easing.EaseInOutQuart)
             invalidate()
-            binding.layoutCases.visibility = View.VISIBLE
+            binding.layoutCases.visible()
         }
     }
 
