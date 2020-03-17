@@ -13,9 +13,9 @@
     <string name="visitable_recycler_adapter_unregistered_message">
         Resource %1$s.xml not registered on VisitableRecyclerAdapter!
     </string>
-    <string name="type_city_province_region">Type country or province region ...</string>
-    <string name="case_reported">Cases reported</string>
-    <string name="tap_on_statistic">Tap on statistic on the right side for more information\nData source : https://covid19.mathdro.id/api/</string>
+    <string name="type_city_province_region">Type country or province area</string>
+    <string name="case_reported">Case Reported</string>
+    <string name="tap_on_statistic">Tap on the right side of statistic for more info\nData Source : https://covid19.mathdro.id/api/</string>
     <string name="total_case">Total Case</string>
     <string name="confirmed">Confirmed</string>
     <string name="recovered">Recovered</string>
@@ -34,7 +34,7 @@
     <string name="feedback">Feedback</string>
     <string name="daily_updates">Daily Updates</string>
     <string name="show_graph">Show Graph</string>
-    <string name="pinch_zoom">Pinch to zoom in or zoom out data</string>
+    <string name="pinch_zoom">Pinch to zoom out and zoom in data</string>
 
 </resources>
 
