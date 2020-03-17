@@ -26,6 +26,12 @@
     <string name="recovered">Pulih</string>
     <string name="deaths">Meninggal</string>
     <string name="covid19">COVID19</string>
+    <string name="general_error_title">Woots!</string>
+    <string name="general_error_description">Terjadi kesalahan</string>
+    <string name="connection_error_title">Tidak dapat terhubung dengan internet</string>
+    <string name="connection_error_description">Kemungkinan terjadi kesalahan pada jaringan anda</string>
+    <string name="retry">Ulangi</string>
+    <string name="zero">0</string>
     <string-array name="detail_item_menu">
         <item>Sematkan ke Dasbor</item>
     </string-array>
