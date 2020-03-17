@@ -17,6 +17,7 @@
     <string name="type_city_province_region">Masukkan negara atau provinsi daerah</string>
     <string name="case_reported">Kejadian dilaporkan</string>
     <string name="tap_on_statistic">Tap pada statistik di sisi sebelah kanan untuk info lebih\nSumber Data : https://covid19.mathdro.id/api/</string>
+    <string name="total_case">Total Kasus</string>
     <string name="confirmed">Dikonfirmasi</string>
     <string name="recovered">Pulih</string>
     <string name="deaths">Meninggal</string>
@@ -31,5 +32,8 @@
     <string-array name="detail_item_menu">
         <item>Sematkan ke Dasbor</item>
     </string-array>
+    <string name="feedback">Umpan Balik</string>
+    <string name="show_graph">Tampilkan Grafis</string>
+    <string name="pinch_zoom">Cubit untuk memperbesar atau memperkecil data</string>
 </resources>
 
