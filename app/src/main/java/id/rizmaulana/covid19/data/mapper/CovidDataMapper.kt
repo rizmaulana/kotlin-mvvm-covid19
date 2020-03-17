@@ -20,7 +20,7 @@ object CovidDailyDataMapper {
             response.incrementRecovered,
             response.incrementConfirmed
         )
-    } ?: emptyList()
+    }.orEmpty()
 }
 
 object CovidOverviewDataMapper {
