@@ -35,7 +35,7 @@ class DailyGraphActivity : BaseActivity() {
         setContentView(binding.root)
         initView()
 
-        viewModel.loadDailyData()
+        viewModel.loadCacheDailyData()
     }
 
     private fun initView() {
@@ -44,11 +44,21 @@ class DailyGraphActivity : BaseActivity() {
             adapter = dailyAdapter
             setHasFixedSize(true)
         }
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.loadRemoteDailyData()
+        }
     }
 
     override fun observeChange() {
         observe(viewModel.toastMessage, ::showSnackbarMessage)
         observe(viewModel.dailyItems, ::onDailyDataLoaded)
+        observe(viewModel.loading, ::swipeLoading)
+    }
+
+    private fun swipeLoading(loading: Boolean) {
+        with(binding.swipeRefresh) {
+            post { isRefreshing = loading }
+        }
     }
 
     private fun onDailyDataLoaded(daily: List<DailyItem>) {

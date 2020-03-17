@@ -7,6 +7,7 @@ import id.rizmaulana.covid19.data.repository.Repository
 import id.rizmaulana.covid19.ui.adapter.viewholders.DailyItem
 import id.rizmaulana.covid19.ui.base.BaseViewModel
 import id.rizmaulana.covid19.util.SingleLiveEvent
+import id.rizmaulana.covid19.util.ext.addTo
 import id.rizmaulana.covid19.util.rx.SchedulerProvider
 
 /**
@@ -20,14 +21,30 @@ class DailyGraphViewModel(
     val toastMessage: LiveData<String>
         get() = _toastMessage
 
+    private val _loading = SingleLiveEvent<Boolean>()
+    val loading: LiveData<Boolean>
+        get() = _loading
+
     private val _dailyItems = MutableLiveData<List<DailyItem>>()
     val dailyItems: LiveData<List<DailyItem>>
         get() = _dailyItems
 
-    fun loadDailyData() {
+    fun loadCacheDailyData() {
         /*Assume daily data just got fresh data from remote api on previous page
           for UX Purpose, we directly load cache
         */
         _dailyItems.postValue(CovidDailyDataMapper.transform(appRepository.getCacheDaily().orEmpty()))
+    }
+
+    fun loadRemoteDailyData() {
+        appRepository.daily().subscribe({ response ->
+            _loading.postValue(false)
+            response.data?.let {
+                _dailyItems.postValue(CovidDailyDataMapper.transform(it))
+            }
+        }, {
+            _loading.postValue(false)
+
+        }).addTo(compositeDisposable)
     }
 }
