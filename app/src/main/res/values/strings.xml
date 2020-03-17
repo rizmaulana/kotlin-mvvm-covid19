@@ -4,12 +4,6 @@
     <string name="action_cancel">CANCEL</string>
     <string name="message_user_unautorizhed">You already login into another device</string>
     <string name="msg_unexpected_error">Cannot proced your request, please try again later</string>
-    <string name="label_login">Login</string>
-    <string name="label_email">Email</string>
-    <string name="label_password">Password</string>
-    <string name="label_forgot_password">Forgot password?</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="confirmed_case_count">Confirmed : %1$s</string>
     <string name="recovered_case_count">Recovered : %1$s</string>
@@ -19,6 +13,9 @@
     <string name="visitable_recycler_adapter_unregistered_message">
         Resource %1$s.xml not registered on VisitableRecyclerAdapter!
     </string>
+    <string name="type_city_province_region">Type country or province region ...</string>
+    <string name="case_reported">Cases reported</string>
+    <string name="tap_on_statistic">Tap on statistic on the right side for more information\nData source : https://covid19.mathdro.id/api/</string>
     <string name="total_case">Total Case</string>
     <string name="confirmed">Confirmed</string>
     <string name="recovered">Recovered</string>
@@ -33,11 +30,11 @@
     <string-array name="detail_item_menu">
         <item>Pin to Dashboard</item>
     </string-array>
-    <string name="feedback_url">https://docs.google.com/forms/d/11_o0SNMYpFqWv2kJkMnPQd2YTcJJYDwc0vlEPD_BmfM/edit</string>
+    <string name="feedback_url" translatable="false">https://docs.google.com/forms/d/11_o0SNMYpFqWv2kJkMnPQd2YTcJJYDwc0vlEPD_BmfM/edit</string>
     <string name="feedback">Feedback</string>
     <string name="daily_updates">Daily Updates</string>
     <string name="show_graph">Show Graph</string>
-
+    <string name="pinch_zoom">Pinch to zoom in or zoom out data</string>
 
 </resources>
 
