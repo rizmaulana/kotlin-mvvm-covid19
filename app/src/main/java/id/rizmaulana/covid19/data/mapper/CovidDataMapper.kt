@@ -9,7 +9,7 @@ import id.rizmaulana.covid19.ui.adapter.viewholders.PinnedItem
 
 object CovidDailyDataMapper {
 
-    fun transform(responses: List<CovidDaily>) = responses.map { response ->
+    fun transform(responses: List<CovidDaily>?) = responses?.map { response ->
         DailyItem(
             response.objectid,
             response.deltaConfirmed,
@@ -20,25 +20,24 @@ object CovidDailyDataMapper {
             response.incrementRecovered,
             response.incrementConfirmed
         )
-    }
+    }.orEmpty()
 }
 
 object CovidOverviewDataMapper {
 
-    fun transform(response: CovidOverview?) = if(response != null) listOf(OverviewItem(
-        response.confirmed?.value ?: 0,
-        response.recovered?.value ?: 0,
-        response.deaths?.value ?: 0))
-    else emptyList()
+    fun transform(response: CovidOverview?) = OverviewItem(
+        response?.confirmed?.value ?: 0,
+        response?.recovered?.value ?: 0,
+        response?.deaths?.value ?: 0)
 }
 
 object CovidPinnedDataMapper {
 
-    fun transform(response: CovidDetail?) = if(response != null) listOf(PinnedItem(
+    fun transform(response: CovidDetail?) : PinnedItem? = if(response != null) PinnedItem(
         response.confirmed,
         response.recovered,
         response.deaths,
         response.locationName,
-        response.lastUpdate))
-    else emptyList()
+        response.lastUpdate)
+    else null
 }

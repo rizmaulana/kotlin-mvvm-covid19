@@ -13,6 +13,7 @@
     <color name="manatee">#979797</color>
     <color name="onyx">#101010</color>
     <color name="white_15">#26ffffff</color>
+    <color name="white_50">#80FFFFFF</color>
 
     <color name="color_death">#F76353</color>
     <color name="color_recovered">#00CC99</color>

@@ -23,6 +23,12 @@
     <string name="recovered">Recovered</string>
     <string name="deaths">Deaths</string>
     <string name="covid19">COVID19</string>
+    <string name="general_error_title">Snap!</string>
+    <string name="general_error_description">Sorry something went wrong</string>
+    <string name="connection_error_title">Couldn\'t connect to Internet</string>
+    <string name="connection_error_description">There may be a problem with your connection</string>
+    <string name="retry">Retry</string>
+    <string name="zero">0</string>
     <string-array name="detail_item_menu">
         <item>Pin to Dashboard</item>
     </string-array>

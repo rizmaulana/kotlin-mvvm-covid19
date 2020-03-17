@@ -9,38 +9,63 @@ import id.rizmaulana.covid19.util.IncrementStatus
 import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.functions.Function3
+import retrofit2.HttpException
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
 
 /**
  * rizmaulana@live.com 2019-06-14.
  */
+
+data class Result<out T>(
+    val data: T? = null,
+    val error: Throwable? = null
+)
+
+fun <T> Observable<T>.responseToResult(): Observable<Result<T>> {
+    return map { it.asResult() }
+        .onErrorReturn {
+            when(it){
+                is HttpException,
+                is SocketTimeoutException,
+                is UnknownHostException -> {
+                    it.asErrorResult()
+                }
+                else -> throw it
+            }
+        }
+}
+
+fun <T> T.asResult(): Result<T> = Result(data = this, error = null)
+fun <T> Throwable.asErrorResult(): Result<T> = Result(data = null, error = this)
+
 open class AppRepository constructor(
     private val api: AppRemoteSource,
     private val pref: AppPrefSource
 ) : Repository {
-
-
-    override fun overview(): Observable<CovidOverview> {
+    override fun overview(): Observable<Result<CovidOverview>> {
         val cacheOverview = getCacheOverview()
-        val localObservable = if(cacheOverview != null) Observable.just(cacheOverview)
+        val localObservable = if(cacheOverview != null) Observable.just(Result(cacheOverview, null))
         else Observable.empty()
 
         val remoteObservable = api.overview()
             .flatMap {
                 setCacheOverview(it)
-                Observable.just(it)
+                Observable.just(it.asResult())
             }
             .onErrorResumeNext { t: Throwable ->
-                return@onErrorResumeNext if(cacheOverview != null) Observable.just(cacheOverview)
+                return@onErrorResumeNext if(cacheOverview != null) Observable.just(Result(cacheOverview, t))
                 else Observable.error(t)
             }
+
         return Observable.concatArrayEager(localObservable, remoteObservable)
     }
 
-    override fun daily(): Observable<List<CovidDaily>> {
+    override fun daily(): Observable<Result<List<CovidDaily>>> {
         val cacheDaily = getCacheDaily()
-        val localObservable= Observable.just(cacheDaily)
+        val localObservable= Observable.just(cacheDaily.asResult())
 
-        val remoteObservable: Observable<List<CovidDaily>> = api.daily()
+        val remoteObservable = api.daily()
             .flatMap {
                 var latestRecovered = 0
                 var latestConfirmed = 0
@@ -63,11 +88,10 @@ open class AppRepository constructor(
                 }.toMutableList()
                 proceedData.reverse()
                 setCacheDaily(proceedData)
-                Observable.just(proceedData.toList())
+                Observable.just(proceedData.toList().asResult())
             }
             .onErrorResumeNext { t: Throwable ->
-                return@onErrorResumeNext if(cacheDaily != null) Observable.just(cacheDaily)
-                else Observable.error(t)
+                return@onErrorResumeNext Observable.just(Result(cacheDaily, t))
             }
 
         return Observable.concatArrayEager(localObservable, remoteObservable)
@@ -140,7 +164,7 @@ open class AppRepository constructor(
         }
     }
 
-    override fun getPinnedCountry(): Observable<CovidDetail> {
+    override fun getPinnedCountry(): Observable<Result<CovidDetail>> {
         val prefData = getPrefCountry()
         return if(prefData != null) {
             confirmed()
@@ -148,17 +172,19 @@ open class AppRepository constructor(
                     stream.first {
                         if (it.provinceState != null) it.provinceState == prefData.provinceState
                         else it.countryRegion == prefData.countryRegion
-                    }
+                    }.asResult()
                 }
-                .onErrorResumeNext(Observable.just(prefData))
-        } else Observable.empty()
+                .onErrorResumeNext { t: Throwable ->
+                    Observable.just(Result(prefData, t))
+                }
+        } else Observable.just(Result())
     }
 
     override fun getPrefCountry(): CovidDetail? = pref.getPrefCountry()
 
     override fun getCacheOverview(): CovidOverview? = pref.getOverview()
 
-    override fun getCacheDaily(): List<CovidDaily>? = pref.getDaily()
+    override fun getCacheDaily(): List<CovidDaily> = pref.getDaily()
 
     override fun getCacheConfirmed(): List<CovidDetail>? = pref.getConfirmed()
 
