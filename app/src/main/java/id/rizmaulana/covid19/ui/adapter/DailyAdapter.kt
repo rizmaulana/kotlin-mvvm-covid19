@@ -1,56 +1,45 @@
 package id.rizmaulana.covid19.ui.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import id.rizmaulana.covid19.R
-import id.rizmaulana.covid19.ui.adapter.viewholders.*
-import id.rizmaulana.covid19.ui.base.BaseViewItem
+import id.rizmaulana.covid19.ui.adapter.viewholders.DailyItem
+import id.rizmaulana.covid19.ui.adapter.viewholders.DailyItemViewHolder
 
 
 /**
  * rizmaulana 2020-02-06.
  */
 
-typealias DailyAdapterItemClickListener = ((BaseViewItem, View) -> Unit)
 
-@Deprecated("Use VisitableRecyclerAdapter")
 class DailyAdapter(
-    private val listener: DailyAdapterItemClickListener? = null
-): ListAdapter<BaseViewItem, RecyclerView.ViewHolder>(DiffUtilItemCallback()) {
+    private val listener: () -> Unit = {}
+) : RecyclerView.Adapter<DailyItemViewHolder>() {
+    private val itemList = mutableListOf<DailyItem>()
 
-    private val DAILY_ITEM = "DAILY_ITEM".hashCode()
-    private val TEXT_ITEM = "TEXT_ITEM".hashCode()
-    private val OVERVIEW_ITEM = "OVERVIEW_ITEM".hashCode()
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+        DailyItemViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.item_daily,
+                parent,
+                false
+            )
+        )
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        return when(viewType){
-            DAILY_ITEM -> DailyItemViewHolder(layoutInflater.inflate(R.layout.item_daily, parent, false)).apply {
-                setOnClickListener { listener?.invoke(currentList.get(adapterPosition), it) }
-            }
-            OVERVIEW_ITEM -> OverviewItemViewHolder(layoutInflater.inflate(R.layout.item_overview, parent, false)).apply {
-                setOnClickListener { listener?.invoke(currentList.get(adapterPosition), it) }
-            }
-            else -> TextItemViewHolder(layoutInflater.inflate(R.layout.item_text, parent, false))
-        }
+    override fun getItemCount() = itemList.size
+
+    override fun onBindViewHolder(holder: DailyItemViewHolder, position: Int) {
+        holder.bind(itemList[holder.adapterPosition])
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return when(currentList.get(position)){
-            is DailyItem -> DAILY_ITEM
-            is OverviewItem -> OVERVIEW_ITEM
-            else -> TEXT_ITEM
+    fun addAll(list: List<DailyItem>){
+        with(itemList){
+            clear()
+            addAll(list)
         }
+        notifyDataSetChanged()
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when(getItemViewType(position)){
-            DAILY_ITEM -> (holder as? DailyItemViewHolder)?.bind(currentList[holder.adapterPosition] as DailyItem)
-            OVERVIEW_ITEM -> (holder as? OverviewItemViewHolder)?.bind(currentList[holder.adapterPosition] as OverviewItem)
-            else -> (holder as? TextItemViewHolder)?.bind(currentList[holder.adapterPosition] as TextItem)
-        }
-    }
+
 }

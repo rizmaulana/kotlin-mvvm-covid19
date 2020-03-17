@@ -19,6 +19,7 @@
     <string name="visitable_recycler_adapter_unregistered_message">
         Resource %1$s.xml not registered on VisitableRecyclerAdapter!
     </string>
+    <string name="total_case">Total Case</string>
     <string name="confirmed">Confirmed</string>
     <string name="recovered">Recovered</string>
     <string name="deaths">Deaths</string>
@@ -32,8 +33,11 @@
     <string-array name="detail_item_menu">
         <item>Pin to Dashboard</item>
     </string-array>
+    <string name="feedback_url">https://docs.google.com/forms/d/11_o0SNMYpFqWv2kJkMnPQd2YTcJJYDwc0vlEPD_BmfM/edit</string>
+    <string name="feedback">Feedback</string>
+    <string name="daily_updates">Daily Updates</string>
+    <string name="show_graph">Show Graph</string>
 
-    
 
 </resources>
 

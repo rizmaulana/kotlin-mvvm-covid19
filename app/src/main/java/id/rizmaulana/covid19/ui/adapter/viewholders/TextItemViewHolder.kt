@@ -5,12 +5,14 @@ import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ItemTextBinding
 import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
 import id.rizmaulana.covid19.ui.base.BaseViewItem
+import id.rizmaulana.covid19.util.ext.gone
+import id.rizmaulana.covid19.util.ext.visible
 
 
 data class TextItem(
-    val text: String? = null,
-    val textResId: Int? = null
-): BaseViewItem {
+    val textResId: Int? = null,
+    val textActionResId: Int? = null
+) : BaseViewItem {
     override fun layoutResId(): Int = R.layout.item_text
 }
 
@@ -18,13 +20,21 @@ class TextItemViewHolder(itemView: View) : BaseViewHolder<TextItem>(itemView) {
     private val binding: ItemTextBinding = ItemTextBinding.bind(itemView)
 
     override fun setOnClickListener(listener: (View) -> Unit) {
-        //Listener
+        binding.textAction.setOnClickListener(listener)
     }
 
     override fun bind(item: TextItem) {
         with(binding) {
-            root.context?.let {context ->
-                textTitle.text = item.text ?: if(item.textResId != null) context.getString(item.textResId) else ""
+            root.context?.let { context ->
+                textTitle.text = item.textResId?.let { context.getString(it) }.orEmpty()
+                if (item.textActionResId != null) {
+                    with(textAction) {
+                        visible()
+                        text = context.getString(item.textActionResId)
+                    }
+                } else {
+                    textAction.gone()
+                }
             }
         }
     }
