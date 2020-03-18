@@ -3,6 +3,7 @@ package id.rizmaulana.covid19.ui.overview
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -102,12 +103,25 @@ class DashboardActivity : BaseActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_dashboard, menu)
+
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.feedback_url)))
-        startActivity(intent)
+
+        // Handle action bar item clicks here. The action bar will
+// automatically handle clicks on the Home/Up button, so long
+// as you specify a parent activity in AndroidManifest.xml.
+        val id = item.itemId
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_change_settings) {
+            val mIntent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+            startActivity(mIntent)
+        } else if (id == R.id.fav) {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.feedback_url)))
+            startActivity(intent)
+        }
         return super.onOptionsItemSelected(item)
     }
 }

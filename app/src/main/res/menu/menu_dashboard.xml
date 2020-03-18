@@ -3,7 +3,24 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:icon="@drawable/ic_favorite"
+        android:id="@+id/fav"
         android:title="@string/feedback"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_settings"
+        android:title=" "
+        android:orderInCategory="100"
+        android:icon="@drawable/ic_menu"
+        app:showAsAction="always" >
+
+        <menu>
+
+            <item
+
+                android:id="@+id/action_change_settings"
+                android:title="@string/action_language"
+                app:showAsAction="never"/>
+        </menu>
+    </item>
 
 </menu>

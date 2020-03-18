@@ -35,6 +35,6 @@
     <string name="daily_updates">Daily Updates</string>
     <string name="show_graph">Show Graph</string>
     <string name="pinch_zoom">Pinch to zoom in or zoom out data</string>
-
+    <string name="action_language">Change languange</string>
 </resources>
 

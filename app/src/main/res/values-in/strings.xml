@@ -4,7 +4,7 @@
     <string name="action_cancel">BATALKAN</string>
     <string name="message_user_unautorizhed">Anda telah login pada device lain</string>
     <string name="msg_unexpected_error">Permintaan tidak dapat diproses, Silahkan coba lagi nanti</string>
-
+    <string name="action_language">Ganti Bahasa</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="confirmed_case_count">Dikonfirmasi : %1$s</string>
     <string name="recovered_case_count">Pulih : %1$s</string>
