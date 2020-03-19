@@ -157,15 +157,15 @@ open class AppRepository constructor(
             }
     }
 
-    override fun putPrefCountry(data: CovidDetail): Completable {
+    override fun putPinnedRegion(data: CovidDetail): Completable {
         return Completable.create {
             if (pref.setPrefCountry(data)) it.onComplete()
             else it.onError(Throwable("Not able to save"))
         }
     }
 
-    override fun getPinnedCountry(): Observable<Result<CovidDetail>> {
-        val prefData = getPrefCountry()
+    override fun pinnedRegion(): Observable<Result<CovidDetail>> {
+        val prefData = getCachePinnedRegion()
         return if(prefData != null) {
             confirmed()
                 .map { stream ->
@@ -180,7 +180,7 @@ open class AppRepository constructor(
         } else Observable.just(Result())
     }
 
-    override fun getPrefCountry(): CovidDetail? = pref.getPrefCountry()
+    override fun getCachePinnedRegion(): CovidDetail? = pref.getPrefCountry()
 
     override fun getCacheOverview(): CovidOverview? = pref.getOverview()
 

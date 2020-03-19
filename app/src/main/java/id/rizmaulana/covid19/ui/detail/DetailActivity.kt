@@ -103,7 +103,7 @@ class DetailActivity : BaseActivity() {
     private fun showItemListDialog(dataContext: CovidDetail) {
         AlertDialog.Builder(this)
             .setItems(resources.getStringArray(R.array.detail_item_menu)) { dialog, which ->
-                viewModel.putPrefCountry(dataContext)
+                viewModel.putPinnedRegion(dataContext)
             }
             .show()
     }

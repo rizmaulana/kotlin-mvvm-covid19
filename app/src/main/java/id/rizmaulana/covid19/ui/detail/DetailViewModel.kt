@@ -76,8 +76,8 @@ class DetailViewModel(
             .addTo(compositeDisposable)
     }
 
-    fun putPrefCountry(data: CovidDetail) {
-        appRepository.putPrefCountry(data)
+    fun putPinnedRegion(data: CovidDetail) {
+        appRepository.putPinnedRegion(data)
             .subscribeOn(schedulerProvider.ui())
             .subscribe({
                 errorMessage.postValue("Success")
