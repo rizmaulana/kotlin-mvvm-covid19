@@ -51,7 +51,7 @@ class DetailViewModel(
             CaseType.RECOVERED -> appRepository.recovered()
             CaseType.DEATHS -> appRepository.deaths()
             CaseType.CONFIRMED -> appRepository.confirmed()
-            else -> appRepository.fullStats()
+            else -> appRepository.confirmed()
         }.subscribeOn(schedulerProvider.ui())
             .doOnSubscribe {
                 val cache = when (caseType) {
@@ -76,8 +76,8 @@ class DetailViewModel(
             .addTo(compositeDisposable)
     }
 
-    fun putPrefCountry(data: CovidDetail) {
-        appRepository.putPrefCountry(data)
+    fun putPinnedRegion(data: CovidDetail) {
+        appRepository.putPinnedRegion(data)
             .subscribeOn(schedulerProvider.ui())
             .subscribe({
                 errorMessage.postValue("Success")
