@@ -29,6 +29,7 @@
     <string name="zero">0</string>
     <string-array name="detail_item_menu">
         <item>Pin to Dashboard</item>
+        <item>Unpin from Dashboard</item>
     </string-array>
     <string name="feedback_url" translatable="false">https://docs.google.com/forms/d/11_o0SNMYpFqWv2kJkMnPQd2YTcJJYDwc0vlEPD_BmfM/edit</string>
     <string name="feedback">Feedback</string>
