@@ -41,5 +41,5 @@ class AppPrefSource {
 
     fun getPrefCountry(): CovidDetail? = Hawk.get(CacheKey.PREF_COUNTRY, null)
 
-    fun setPrefCountry(covid: CovidDetail) = Hawk.put(CacheKey.PREF_COUNTRY, covid)
+    fun setPrefCountry(covid: CovidDetail?) = Hawk.put(CacheKey.PREF_COUNTRY, covid)
 }
