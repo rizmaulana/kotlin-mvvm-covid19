@@ -2,14 +2,21 @@ package id.rizmaulana.covid19.ui.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import id.rizmaulana.covid19.data.mapper.CovidDetailDataMapper
 import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.data.repository.Repository
+import id.rizmaulana.covid19.data.repository.Result
+import id.rizmaulana.covid19.ui.adapter.viewholders.LoadingStateItem
+import id.rizmaulana.covid19.ui.adapter.viewholders.LocationItem
+import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.ui.base.BaseViewModel
 import id.rizmaulana.covid19.util.CaseType
 import id.rizmaulana.covid19.util.Constant
 import id.rizmaulana.covid19.util.SingleLiveEvent
 import id.rizmaulana.covid19.util.ext.addTo
 import id.rizmaulana.covid19.util.rx.SchedulerProvider
+import io.reactivex.Observable
+import io.reactivex.functions.BiFunction
 
 /**
  * rizmaulana 2020-02-24.
@@ -20,11 +27,11 @@ class DetailViewModel(
 ) : BaseViewModel() {
 
     private var detailList = listOf<CovidDetail>()
-    private var filteredDetailList = listOf<CovidDetail>()
+    private var caseType: Int = CaseType.FULL
 
-    private val _detailListLiveData = MutableLiveData<List<CovidDetail>>()
-    val detailListLiveData: LiveData<List<CovidDetail>>
-        get() = _detailListLiveData
+    private val _detailListViewItems = MutableLiveData<List<BaseViewItem>>()
+    val detailListViewItems: LiveData<List<BaseViewItem>>
+        get() = _detailListViewItems
 
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean>
@@ -33,42 +40,67 @@ class DetailViewModel(
     val errorMessage = SingleLiveEvent<String>()
 
     fun findLocation(keyword: String) {
-        if (keyword.isEmpty()) {
-            _detailListLiveData.postValue(detailList)
-        } else {
-            filteredDetailList = detailList.filter {
-                (it.provinceState?.contains(
-                    keyword,
-                    true
-                ) ?: false || it.countryRegion?.contains(keyword, true) ?: false)
+        appRepository.getPinnedCountry()
+            .observeOn(schedulerProvider.ui())
+            .map {
+                val transformedList = CovidDetailDataMapper.transform(detailList, caseType)
+
+                val filtered = if(keyword.isNotEmpty()) transformedList.filter {
+                    (it.provinceState?.contains(
+                        keyword,
+                        true
+                    ) ?: false || it.countryRegion.contains(keyword, true))
+                }.toMutableList() else transformedList.toMutableList()
+
+                it.data?.let { pin ->
+                    val position = filtered.indexOfFirst { it.compositeKey() == pin.compositeKey }
+                    if(position != -1) filtered.set(position, filtered.get(position).copy(isPinned = true))
+                }
+
+                return@map filtered
             }
-            _detailListLiveData.postValue(filteredDetailList)
-        }
+            .subscribe({
+                _detailListViewItems.postValue(it)
+            }, {
+
+            }).addTo(compositeDisposable)
     }
 
     fun getDetail(caseType: Int) {
-        when (caseType) {
+        this.caseType = caseType
+        _loading.value = true
+        _detailListViewItems.value = listOf(LoadingStateItem())
+
+        val pinnedObservable = appRepository.getPinnedCountry()
+        val casesObservable = when (caseType) {
             CaseType.RECOVERED -> appRepository.recovered()
             CaseType.DEATHS -> appRepository.deaths()
             CaseType.CONFIRMED -> appRepository.confirmed()
             else -> appRepository.fullStats()
-        }.subscribeOn(schedulerProvider.ui())
-            .doOnSubscribe {
-                val cache = when (caseType) {
-                    CaseType.RECOVERED -> appRepository.getCacheRecovered()
-                    CaseType.DEATHS -> appRepository.getCacheDeath()
-                    CaseType.CONFIRMED -> appRepository.getCacheConfirmed()
-                    else -> appRepository.getCacheFull()
-                }
-                if (cache == null) _loading.postValue(true) else {
-                    detailList = cache
-                    _detailListLiveData.postValue(detailList)
-                }
+        }.observeOn(schedulerProvider.io())
+            .map {
+                detailList = it
+                CovidDetailDataMapper.transform(it, caseType)
             }
+            .observeOn(schedulerProvider.ui())
+
+        Observable.zip(casesObservable, pinnedObservable, BiFunction<
+                    List<LocationItem>?,
+                    Result<CovidDetail>?,
+                    List<BaseViewItem>> { cases, pinned ->
+                val items: MutableList<BaseViewItem> = mutableListOf()
+                val casesMutable = cases.toMutableList()
+                pinned.data?.let { pin ->
+                    val position = cases.indexOfFirst { it.compositeKey() == pin.compositeKey }
+                    if(position != -1) casesMutable.set(position, cases.get(position).copy(isPinned = true))
+                }
+
+                items.addAll(casesMutable)
+                return@BiFunction items.toList()
+            })
             .doFinally { _loading.postValue(false) }
             .subscribe({
-                detailList = it
-                _detailListLiveData.postValue(detailList)
+                _detailListViewItems.postValue(it)
             }, {
                 it.printStackTrace()
                 errorMessage.postValue(Constant.ERROR_MESSAGE)
@@ -76,15 +108,17 @@ class DetailViewModel(
             .addTo(compositeDisposable)
     }
 
-    fun putPrefCountry(data: CovidDetail) {
-        appRepository.putPrefCountry(data)
-            .subscribeOn(schedulerProvider.ui())
-            .subscribe({
-                errorMessage.postValue("Success")
-            }, {
-                errorMessage.postValue(it.message)
-            })
-            .addTo(compositeDisposable)
+    fun putPrefCountry(key: String) {
+        detailList.firstOrNull { it.provinceState + it.countryRegion == key }?.let {
+            appRepository.putPrefCountry(it)
+                .subscribeOn(schedulerProvider.ui())
+                .subscribe({
+                    errorMessage.postValue("Success")
+                }, {
+                    errorMessage.postValue(it.message)
+                })
+                .addTo(compositeDisposable)
+        }
     }
 
 }
