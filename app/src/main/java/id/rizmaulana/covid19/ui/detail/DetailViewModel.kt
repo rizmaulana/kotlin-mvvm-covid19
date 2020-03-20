@@ -24,6 +24,7 @@ class DetailViewModel(
 
     private var detailList = listOf<CovidDetail>()
     private var caseType: Int = CaseType.FULL
+    private var searchKey: String = ""
 
     private val _detailListViewItems = MutableLiveData<List<BaseViewItem>>()
     val detailListViewItems: LiveData<List<BaseViewItem>>
@@ -36,6 +37,8 @@ class DetailViewModel(
     val errorMessage = SingleLiveEvent<String>()
 
     fun findLocation(keyword: String) {
+        searchKey = keyword
+
         val cachePinnedRegion = appRepository.getCachePinnedRegion()
 
         val transformedList = CovidDetailDataMapper.transform(detailList, caseType)
@@ -92,7 +95,7 @@ class DetailViewModel(
         appRepository.removePinnedRegion()
             .subscribeOn(schedulerProvider.ui())
             .subscribe({
-                findLocation("") //refresh data
+                findLocation(searchKey) //refresh data
                 errorMessage.postValue("Success")
             }, {
                 errorMessage.postValue(it.message)
@@ -106,7 +109,7 @@ class DetailViewModel(
             appRepository.putPinnedRegion(it)
                 .subscribeOn(schedulerProvider.ui())
                 .subscribe({
-                    findLocation("") //refresh data
+                    findLocation(searchKey) //refresh data
                     errorMessage.postValue("Success")
                 }, {
                     errorMessage.postValue(it.message)
