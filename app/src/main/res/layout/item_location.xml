@@ -10,6 +10,25 @@
     android:padding="@dimen/space_x2"
     app:layout_goneMarginBottom="@dimen/space_half">
 
+    <RelativeLayout
+        android:id="@+id/relative_pinned"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_rounded_light_grey"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pinned"
+            android:textSize="12sp"
+            android:textColor="@color/white"/>
+    </RelativeLayout>
+
     <ImageView
         android:id="@+id/img_icon"
         android:layout_width="wrap_content"
