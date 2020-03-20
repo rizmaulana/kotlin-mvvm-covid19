@@ -14,9 +14,9 @@ interface Repository {
     fun recovered(): Observable<List<CovidDetail>>
     fun country(id: String): Observable<CovidOverview>
     fun fullStats(): Observable<List<CovidDetail>>
-    fun putPrefCountry(data: CovidDetail): Completable
-    fun getPinnedCountry(): Observable<Result<CovidDetail>>
-    fun getPrefCountry(): CovidDetail?
+    fun pinnedRegion(): Observable<Result<CovidDetail>>
+    fun putPinnedRegion(data: CovidDetail): Completable
+    fun getCachePinnedRegion(): CovidDetail?
     fun getCacheOverview(): CovidOverview?
     fun getCacheDaily(): List<CovidDaily>?
     fun getCacheConfirmed(): List<CovidDetail>?

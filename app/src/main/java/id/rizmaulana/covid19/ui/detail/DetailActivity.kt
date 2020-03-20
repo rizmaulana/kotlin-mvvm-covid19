@@ -109,6 +109,7 @@ class DetailActivity : BaseActivity() {
         AlertDialog.Builder(this)
             .setItems(resources.getStringArray(R.array.detail_item_menu)) { dialog, which ->
                 viewModel.putPrefCountry(item.compositeKey())
+                //viewModel.putPinnedRegion(dataContext)
             }
             .show()
     }

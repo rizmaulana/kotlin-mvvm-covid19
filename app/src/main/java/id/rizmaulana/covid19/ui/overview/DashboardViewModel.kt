@@ -68,7 +68,7 @@ class DashboardViewModel(
         val dailyObservable = appRepository.daily()
             .observeOn(schedulerProvider.io())
 
-        val pinnedObservable = appRepository.getPinnedCountry()
+        val pinnedObservable = appRepository.pinnedRegion()
             .observeOn(schedulerProvider.io())
 
         Observable.combineLatest(

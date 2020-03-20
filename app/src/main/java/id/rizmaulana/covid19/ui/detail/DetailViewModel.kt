@@ -108,9 +108,9 @@ class DetailViewModel(
             .addTo(compositeDisposable)
     }
 
-    fun putPrefCountry(key: String) {
+    fun putPinnedRegion(key: String) {
         detailList.firstOrNull { it.provinceState + it.countryRegion == key }?.let {
-            appRepository.putPrefCountry(it)
+            appRepository.putPinnedRegion(it)
                 .subscribeOn(schedulerProvider.ui())
                 .subscribe({
                     errorMessage.postValue("Success")

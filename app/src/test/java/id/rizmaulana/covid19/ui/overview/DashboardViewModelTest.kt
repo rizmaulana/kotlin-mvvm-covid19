@@ -5,7 +5,6 @@ import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.data.model.CovidOverview
 import id.rizmaulana.covid19.data.repository.Repository
 import id.rizmaulana.covid19.ui.InstantTaskExecutorRule
-import id.rizmaulana.covid19.ui.shouldBeInstanceOf
 import id.rizmaulana.covid19.util.Constant.ERROR_MESSAGE
 import id.rizmaulana.covid19.util.rx.TestSchedulerProvider
 import io.reactivex.Observable
@@ -106,7 +105,7 @@ class DashboardViewModelTest: Spek({
     Feature("Pinned Data") {
         Scenario("no pinned region data") {
             Given("null pref data") {
-                `when`(repository.getPrefCountry()).thenReturn(null)
+                `when`(repository.getCachePinnedRegion()).thenReturn(null)
             }
 
             When("request pin data") {
@@ -123,7 +122,7 @@ class DashboardViewModelTest: Spek({
             val expectedConf = 123
             val updateList = listOf(CovidDetail(countryRegion = "IND", confirmed = 123))
             Given("null pref data") {
-                `when`(repository.getPrefCountry()).thenReturn(detail)
+                `when`(repository.getCachePinnedRegion()).thenReturn(detail)
                 `when`(repository.confirmed()).thenReturn(
                     Observable.just(updateList)
                 )
@@ -142,7 +141,7 @@ class DashboardViewModelTest: Spek({
             val region = "IND"
             val detail = CovidDetail(countryRegion = region)
             Given("null pref data") {
-                `when`(repository.getPrefCountry()).thenReturn(detail)
+                `when`(repository.getCachePinnedRegion()).thenReturn(detail)
                 `when`(repository.confirmed()).thenReturn(
                     Observable.error(Exception(ERROR_MESSAGE))
                 )
