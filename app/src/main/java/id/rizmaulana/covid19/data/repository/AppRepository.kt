@@ -191,7 +191,7 @@ open class AppRepository constructor(
     override fun removePinnedRegion(): Completable {
         return Completable.create {
             if (pref.setPrefCountry(null)) it.onComplete()
-            else it.onError(Throwable("Not able to save"))
+            else it.onError(Throwable("Not able to remove"))
         }
     }
 
