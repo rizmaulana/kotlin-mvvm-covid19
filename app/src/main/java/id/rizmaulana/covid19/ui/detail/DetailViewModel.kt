@@ -88,6 +88,19 @@ class DetailViewModel(
             .addTo(compositeDisposable)
     }
 
+    fun removePinnedRegion(){
+        appRepository.removePinnedRegion()
+            .subscribeOn(schedulerProvider.ui())
+            .subscribe({
+                findLocation("") //refresh data
+                errorMessage.postValue("Success")
+            }, {
+                errorMessage.postValue(it.message)
+            })
+            .addTo(compositeDisposable)
+    }
+
+
     fun putPinnedRegion(key: String) {
         detailList.firstOrNull { it.compositeKey == key }?.let {
             appRepository.putPinnedRegion(it)

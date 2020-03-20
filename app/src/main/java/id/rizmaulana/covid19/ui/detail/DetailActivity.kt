@@ -106,9 +106,18 @@ class DetailActivity : BaseActivity() {
     }
 
     private fun showItemListDialog(item: LocationItem) {
+        val items = resources.getStringArray(R.array.detail_item_menu).toMutableList()
+        if(item.isPinned) items.removeAt(0)
+        else items.removeAt(1)
+
         AlertDialog.Builder(this)
-            .setItems(resources.getStringArray(R.array.detail_item_menu)) { dialog, which ->
-                viewModel.putPinnedRegion(item.compositeKey())
+            .setItems(items.toTypedArray()) { dialog, which ->
+                if(item.isPinned) {
+                    viewModel.removePinnedRegion()
+                }
+                else{
+                    viewModel.putPinnedRegion(item.compositeKey())
+                }
             }
             .show()
     }
