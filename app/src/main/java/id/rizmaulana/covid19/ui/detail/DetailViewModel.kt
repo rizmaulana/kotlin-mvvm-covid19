@@ -60,7 +60,7 @@ class DetailViewModel(
         _loading.value = true
         _detailListViewItems.value = listOf(LoadingStateItem())
 
-        val casesObservable = when (caseType) {
+        when (caseType) {
             CaseType.RECOVERED -> appRepository.recovered()
             CaseType.DEATHS -> appRepository.deaths()
             CaseType.CONFIRMED -> appRepository.confirmed()
@@ -89,10 +89,11 @@ class DetailViewModel(
     }
 
     fun putPinnedRegion(key: String) {
-        detailList.firstOrNull { it.provinceState + it.countryRegion == key }?.let {
+        detailList.firstOrNull { it.compositeKey == key }?.let {
             appRepository.putPinnedRegion(it)
                 .subscribeOn(schedulerProvider.ui())
                 .subscribe({
+                    findLocation("") //refresh data
                     errorMessage.postValue("Success")
                 }, {
                     errorMessage.postValue(it.message)
