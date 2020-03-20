@@ -1,5 +1,7 @@
 package id.rizmaulana.covid19.util
 
+import androidx.annotation.IntDef
+
 /**
  * rizmaulana@live.com 2019-06-14.
  */
@@ -21,6 +23,11 @@ object CacheKey {
     const val FULL_STATS = "cache_full_details"
     const val PREF_COUNTRY = "cache_pref_country"
 }
+
+
+@IntDef(CaseType.CONFIRMED, CaseType.DEATHS, CaseType.RECOVERED, CaseType.FULL)
+@Retention(AnnotationRetention.SOURCE)
+annotation class CaseTypes
 
 object CaseType {
     const val CONFIRMED = 0
