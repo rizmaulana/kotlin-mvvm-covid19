@@ -5,9 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import id.rizmaulana.covid19.data.mapper.CovidDetailDataMapper
 import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.data.repository.Repository
-import id.rizmaulana.covid19.data.repository.Result
 import id.rizmaulana.covid19.ui.adapter.viewholders.LoadingStateItem
-import id.rizmaulana.covid19.ui.adapter.viewholders.LocationItem
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.ui.base.BaseViewModel
 import id.rizmaulana.covid19.util.CaseType
@@ -15,8 +13,6 @@ import id.rizmaulana.covid19.util.Constant
 import id.rizmaulana.covid19.util.SingleLiveEvent
 import id.rizmaulana.covid19.util.ext.addTo
 import id.rizmaulana.covid19.util.rx.SchedulerProvider
-import io.reactivex.Observable
-import io.reactivex.functions.BiFunction
 
 /**
  * rizmaulana 2020-02-24.
@@ -40,30 +36,23 @@ class DetailViewModel(
     val errorMessage = SingleLiveEvent<String>()
 
     fun findLocation(keyword: String) {
-        appRepository.getPinnedCountry()
-            .observeOn(schedulerProvider.ui())
-            .map {
-                val transformedList = CovidDetailDataMapper.transform(detailList, caseType)
+        val cachePinnedRegion = appRepository.getCachePinnedRegion()
 
-                val filtered = if(keyword.isNotEmpty()) transformedList.filter {
-                    (it.provinceState?.contains(
-                        keyword,
-                        true
-                    ) ?: false || it.countryRegion.contains(keyword, true))
-                }.toMutableList() else transformedList.toMutableList()
+        val transformedList = CovidDetailDataMapper.transform(detailList, caseType)
 
-                it.data?.let { pin ->
-                    val position = filtered.indexOfFirst { it.compositeKey() == pin.compositeKey }
-                    if(position != -1) filtered.set(position, filtered.get(position).copy(isPinned = true))
-                }
+        val filtered = if(keyword.isNotEmpty()) transformedList.filter {
+            (it.provinceState?.contains(
+                keyword,
+                true
+            ) ?: false || it.countryRegion.contains(keyword, true))
+        }.toMutableList() else transformedList.toMutableList()
 
-                return@map filtered
-            }
-            .subscribe({
-                _detailListViewItems.postValue(it)
-            }, {
+        cachePinnedRegion?.let { pin ->
+            val position = filtered.indexOfFirst { it.compositeKey() == pin.compositeKey }
+            if(position != -1) filtered.set(position, filtered.get(position).copy(isPinned = true))
+        }
 
-            }).addTo(compositeDisposable)
+        _detailListViewItems.postValue(filtered)
     }
 
     fun getDetail(caseType: Int) {
@@ -71,7 +60,6 @@ class DetailViewModel(
         _loading.value = true
         _detailListViewItems.value = listOf(LoadingStateItem())
 
-        val pinnedObservable = appRepository.getPinnedCountry()
         val casesObservable = when (caseType) {
             CaseType.RECOVERED -> appRepository.recovered()
             CaseType.DEATHS -> appRepository.deaths()
@@ -80,24 +68,16 @@ class DetailViewModel(
         }.observeOn(schedulerProvider.io())
             .map {
                 detailList = it
-                CovidDetailDataMapper.transform(it, caseType)
-            }
-            .observeOn(schedulerProvider.ui())
+                val transformedList = CovidDetailDataMapper.transform(it, caseType).toMutableList()
 
-        Observable.zip(casesObservable, pinnedObservable, BiFunction<
-                    List<LocationItem>?,
-                    Result<CovidDetail>?,
-                    List<BaseViewItem>> { cases, pinned ->
-                val items: MutableList<BaseViewItem> = mutableListOf()
-                val casesMutable = cases.toMutableList()
-                pinned.data?.let { pin ->
-                    val position = cases.indexOfFirst { it.compositeKey() == pin.compositeKey }
-                    if(position != -1) casesMutable.set(position, cases.get(position).copy(isPinned = true))
+                appRepository.getCachePinnedRegion()?.let { pin ->
+                    val position = transformedList.indexOfFirst { it.compositeKey() == pin.compositeKey }
+                    if(position != -1) transformedList.set(position, transformedList.get(position).copy(isPinned = true))
                 }
 
-                items.addAll(casesMutable)
-                return@BiFunction items.toList()
-            })
+                transformedList.toList()
+            }
+            .observeOn(schedulerProvider.ui())
             .doFinally { _loading.postValue(false) }
             .subscribe({
                 _detailListViewItems.postValue(it)
