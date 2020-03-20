@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">MVVM Boilerplate</string>
     <string name="action_ok">OK</string>
-    <string name="action_cancel">CANCEL</string>
-    <string name="message_user_unautorizhed">You already login into another device</string>
-    <string name="msg_unexpected_error">Cannot proced your request, please try again later</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="message_user_unauthorized">You already login into another device</string>
+    <string name="msg_unexpected_error">Cannot proceed your request, please try again later</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="confirmed_case_count">Confirmed : %1$s</string>
     <string name="recovered_case_count">Recovered : %1$s</string>
@@ -13,7 +13,7 @@
     <string name="visitable_recycler_adapter_unregistered_message">
         Resource %1$s.xml not registered on VisitableRecyclerAdapter!
     </string>
-    <string name="type_city_province_region">Type country or province region ...</string>
+    <string name="type_city_province_region">Type country or province region …</string>
     <string name="case_reported">Cases reported</string>
     <string name="tap_on_statistic">Tap on statistic on the right side for more information\nData source : https://covid19.mathdro.id/api/</string>
     <string name="total_case">Total Case</string>
