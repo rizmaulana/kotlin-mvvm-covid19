@@ -40,10 +40,10 @@ class DailyGraphActivity : BaseActivity() {
 
     private fun initView() {
         binding.fabBack.setOnClickListener { onBackPressed() }
-        with(binding.recyclerView) {
-            adapter = dailyAdapter
-            setHasFixedSize(true)
-        }
+//        with(binding.recyclerView) {
+//            adapter = dailyAdapter
+//            setHasFixedSize(true)
+//        }
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.loadRemoteDailyData()
         }
