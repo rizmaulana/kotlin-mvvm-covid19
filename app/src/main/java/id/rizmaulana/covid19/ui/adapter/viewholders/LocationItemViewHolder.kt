@@ -32,6 +32,7 @@ class LocationItemViewHolder(itemView: View) : BaseViewHolder<LocationItem>(item
 
     override fun setOnClickListener(listener: (View) -> Unit) {
         binding.root.setOnClickListener { listener.invoke(it) }
+        binding.relativePinned.setOnClickListener { listener.invoke(it) }
     }
 
     override fun setOnLongClickListener(listener: (View) -> Unit) {
