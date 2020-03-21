@@ -18,26 +18,32 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <HorizontalScrollView
-                android:layout_width="wrap_content"
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/line_chart"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="@dimen/space_x2"
-                android:scrollbars="none"
                 app:layout_constraintBottom_toTopOf="@id/txt_info"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"/>
 
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent">
+<!--            <HorizontalScrollView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:layout_marginBottom="@dimen/space_x2"-->
+<!--                android:scrollbars="none"-->
+<!--                >-->
 
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/line_chart"
-                        android:layout_width="1000dp"
-                        android:layout_height="match_parent" />
-                </FrameLayout>
-            </HorizontalScrollView>
+<!--                <FrameLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="match_parent">-->
+
+<!--                    <com.github.mikephil.charting.charts.LineChart-->
+<!--                        android:id="@+id/line_chart"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="match_parent" />-->
+<!--                </FrameLayout>-->
+<!--            </HorizontalScrollView>-->
 
 
             <TextView

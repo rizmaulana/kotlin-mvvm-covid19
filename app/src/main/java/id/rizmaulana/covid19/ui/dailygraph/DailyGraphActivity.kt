@@ -76,14 +76,14 @@ class DailyGraphActivity : BaseActivity() {
             xAxis.textColor = color(R.color.cool_grey)
 
             axisLeft.textColor = color(R.color.cool_grey)
-            axisRight.textColor = color(R.color.cool_grey)
+//            axisRight.textColor = color(R.color.cool_grey)
             description.isEnabled = false
 
             axisRight.enableGridDashedLine(10f, 10f, 2f)
             axisLeft.enableGridDashedLine(10f, 10f, 2f)
             xAxis.enableGridDashedLine(10f, 10f, 2f)
 
-            val dates = daily.map { NumberUtils.formatTime(it.reportDate) }
+            val dates = daily.map { NumberUtils.formatShortDate(it.reportDate) }
             xAxis.valueFormatter = object : IndexAxisValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
                     return dates[value.toInt()]
