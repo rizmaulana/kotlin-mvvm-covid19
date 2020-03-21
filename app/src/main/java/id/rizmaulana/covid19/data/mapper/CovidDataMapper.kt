@@ -59,5 +59,5 @@ object CovidDetailDataMapper {
             response.provinceState,
             caseType
         )
-    }.orEmpty().sortedBy { it.locationName }
+    }.orEmpty()
 }
