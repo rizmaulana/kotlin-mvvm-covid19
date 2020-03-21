@@ -108,6 +108,8 @@ open class AppRepository constructor(
                 Observable.just(it)
             }
 
+        //Publish local confirmed data first and after api call completed publish the latest confirmed data from API
+        //So the user does not have to go back and forth to get the latest update
         return Observable.concatArrayEager(localObservable, remoteObservable)
     }
 
@@ -122,6 +124,8 @@ open class AppRepository constructor(
                 Observable.just(it)
             }
 
+        //Publish local deaths data first and after api call completed publish the latest deaths data from API
+        //So the user does not have to go back and forth to get the latest update
         return Observable.concatArrayEager(localObservable, remoteObservable)
     }
 
@@ -136,6 +140,8 @@ open class AppRepository constructor(
                 Observable.just(it)
             }
 
+        //Publish local recovered data first and after api call completed publish the latest recovered data from API
+        //So the user does not have to go back and forth to get the latest update
         return Observable.concatArrayEager(localObservable, remoteObservable)
     }
 
