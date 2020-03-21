@@ -43,8 +43,7 @@ class DetailActivity : BaseActivity() {
             if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
                 hideSoftKeyboard()
                 binding.txtSearch.clearFocus()
-            }
-            else if(newState == BottomSheetBehavior.STATE_EXPANDED){
+            } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
                 window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
             }
         }
@@ -107,23 +106,18 @@ class DetailActivity : BaseActivity() {
 
     private fun showItemListDialog(item: LocationItem) {
         val items = resources.getStringArray(R.array.detail_item_menu).toMutableList()
-        if(item.isPinned) items.removeAt(0)
-        else items.removeAt(1)
 
-        AlertDialog.Builder(this)
-            .setItems(items.toTypedArray()) { dialog, which ->
-                if(item.isPinned) {
-                    viewModel.removePinnedRegion()
-                }
-                else{
+        if (item.isPinned.not()) {
+            AlertDialog.Builder(this)
+                .setItems(items.toTypedArray()) { dialog, which ->
                     viewModel.putPinnedRegion(item.compositeKey())
                 }
-            }
-            .show()
+                .show()
+        }
     }
 
     private fun onLongItemClick(item: BaseViewItem, view: View) {
-        when(item){
+        when (item) {
             is LocationItem -> {
                 showItemListDialog(item)
             }
@@ -131,14 +125,21 @@ class DetailActivity : BaseActivity() {
     }
 
     private fun onItemClick(item: BaseViewItem, view: View) {
-        when(item){
+        when (item) {
             is LocationItem -> {
-                window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
-                view.postDelayed({
-                    hideSoftKeyboard()
-                    collapseBottomSheet()
-                    mapsFragment?.selectItem(item)
-                }, 100)
+                when (view.id) {
+                    R.id.root -> {
+                        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+                        view.postDelayed({
+                            hideSoftKeyboard()
+                            collapseBottomSheet()
+                            mapsFragment?.selectItem(item)
+                        }, 100)
+                    }
+                    R.id.relative_pinned -> {
+                        viewModel.removePinnedRegion()
+                    }
+                }
             }
         }
     }
