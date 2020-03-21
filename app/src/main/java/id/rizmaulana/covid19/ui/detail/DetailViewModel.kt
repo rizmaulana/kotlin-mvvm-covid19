@@ -43,7 +43,7 @@ class DetailViewModel(
 
         val transformedList = CovidDetailDataMapper.transform(detailList, caseType)
 
-        val filtered = if(keyword.isNotEmpty()) transformedList.filter {
+        val filtered = if (keyword.isNotEmpty()) transformedList.filter {
             (it.provinceState?.contains(
                 keyword,
                 true
@@ -52,7 +52,7 @@ class DetailViewModel(
 
         cachePinnedRegion?.let { pin ->
             val position = filtered.indexOfFirst { it.compositeKey() == pin.compositeKey }
-            if(position != -1) filtered.set(position, filtered.get(position).copy(isPinned = true))
+            if (position != -1) filtered.set(position, filtered.get(position).copy(isPinned = true))
         }
 
         _detailListViewItems.postValue(filtered)
@@ -60,7 +60,6 @@ class DetailViewModel(
 
     fun getDetail(caseType: Int) {
         this.caseType = caseType
-        _loading.value = true
         _detailListViewItems.value = listOf(LoadingStateItem())
 
         when (caseType) {
@@ -74,14 +73,17 @@ class DetailViewModel(
                 val transformedList = CovidDetailDataMapper.transform(it, caseType).toMutableList()
 
                 appRepository.getCachePinnedRegion()?.let { pin ->
-                    val position = transformedList.indexOfFirst { it.compositeKey() == pin.compositeKey }
-                    if(position != -1) transformedList.set(position, transformedList.get(position).copy(isPinned = true))
+                    val position =
+                        transformedList.indexOfFirst { it.compositeKey() == pin.compositeKey }
+                    if (position != -1) transformedList.set(
+                        position,
+                        transformedList.get(position).copy(isPinned = true)
+                    )
                 }
 
                 transformedList.toList()
             }
             .observeOn(schedulerProvider.ui())
-            .doFinally { _loading.postValue(false) }
             .subscribe({
                 _detailListViewItems.postValue(it)
             }, {
@@ -91,12 +93,12 @@ class DetailViewModel(
             .addTo(compositeDisposable)
     }
 
-    fun removePinnedRegion(){
+    fun removePinnedRegion() {
         appRepository.removePinnedRegion()
             .subscribeOn(schedulerProvider.ui())
             .subscribe({
                 findLocation(searchKey) //refresh data
-                errorMessage.postValue("Success")
+                errorMessage.postValue("Unpinned!")
             }, {
                 errorMessage.postValue(it.message)
             })
@@ -110,7 +112,7 @@ class DetailViewModel(
                 .subscribeOn(schedulerProvider.ui())
                 .subscribe({
                     findLocation(searchKey) //refresh data
-                    errorMessage.postValue("Success")
+                    errorMessage.postValue("Successfully pinned!")
                 }, {
                     errorMessage.postValue(it.message)
                 })
