@@ -1,5 +1,6 @@
 package id.rizmaulana.covid19.data.source.remote
 
+import id.rizmaulana.covid19.data.model.BaseResponse
 import id.rizmaulana.covid19.data.model.CovidDaily
 import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.data.model.CovidOverview
@@ -31,10 +32,10 @@ interface Api {
     fun country(@Path("country") country: String): Observable<CovidOverview>
 
     @GET
-    fun getIndonesiaDaily(@Url url: String = "https://indonesia-covid-19.mathdro.id/api/harian"): Observable<List<IndonesiaDaily>>
+    fun getIndonesiaDaily(@Url url: String = "https://indonesia-covid-19.mathdro.id/api/harian"): Observable<BaseResponse<List<IndonesiaDaily>>>
 
     @GET
-    fun getIndonesiaPerProvince(@Url url: String = "https://indonesia-covid-19.mathdro.id/api/provinsi"): Observable<List<IndonesiaPerProvince>>
+    fun getIndonesiaPerProvince(@Url url: String = "https://indonesia-covid-19.mathdro.id/api/provinsi"): Observable<BaseResponse<List<IndonesiaPerProvince>>>
 
 
 }

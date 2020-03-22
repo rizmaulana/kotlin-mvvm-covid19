@@ -23,6 +23,7 @@ class ItemTypeFactoryImpl : ItemTypeFactory() {
             LocationItemViewHolder.LAYOUT -> LocationItemViewHolder(containerView)
             LoadingStateItemViewHolder.LAYOUT -> LoadingStateItemViewHolder(containerView)
             ErrorStateItemViewHolder.LAYOUT -> ErrorStateItemViewHolder(containerView)
+            PerCountryDailyItemViewHolder.LAYOUT -> PerCountryDailyItemViewHolder(containerView)
             else -> onCreateViewHolder(containerView, viewType)
         }
     }

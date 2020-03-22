@@ -3,6 +3,8 @@ package id.rizmaulana.covid19.data.repository
 import id.rizmaulana.covid19.data.model.CovidDaily
 import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.data.model.CovidOverview
+import id.rizmaulana.covid19.data.model.indonesia.IndonesiaDaily
+import id.rizmaulana.covid19.data.model.indonesia.IndonesiaPerProvince
 import id.rizmaulana.covid19.data.source.generated.AppGeneratedSource
 import id.rizmaulana.covid19.data.source.pref.AppPrefSource
 import id.rizmaulana.covid19.data.source.remote.AppRemoteSource
@@ -224,6 +226,14 @@ open class AppRepository constructor(
                 }
         } else Observable.just(Result())
     }
+
+
+    override fun indonesiaDaily(): Observable<List<IndonesiaDaily>> = api.indonesiaDaily()
+        .flatMap { Observable.just(it.data.reversed()) }
+
+    override fun indonesiaPerProvince(): Observable<List<IndonesiaPerProvince>> =
+        api.indonesiaPerProvince()
+            .flatMap { Observable.just(it.data) }
 
     override fun getCachePinnedRegion(): CovidDetail? = pref.getPrefCountry()
 

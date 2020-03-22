@@ -23,11 +23,11 @@ data class IndonesiaDaily(
     @Expose @SerializedName("jumlahpasiendalamperawatan")
     val jumlahpasiendalamperawatan: Int = 0,
     @Expose @SerializedName("persentasePasienMeninggal")
-    val persentasePasienMeninggal: Int = 0,
+    val persentasePasienMeninggal: Float = 0f,
     @Expose @SerializedName("persentasePasienSembuh")
-    val persentasePasienSembuh: Int = 0,
+    val persentasePasienSembuh: Float = 0f,
     @Expose @SerializedName("persentasePasiendalamPerawatan")
-    val persentasePasiendalamPerawatan: Int = 0,
+    val persentasePasiendalamPerawatan: Float = 0f,
     @Expose @SerializedName("tanggal")
     val tanggal: Long = 0
 )

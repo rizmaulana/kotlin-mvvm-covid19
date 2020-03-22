@@ -39,7 +39,7 @@ class CountryIndonesiaActivity : BaseActivity() {
     }
 
     private fun initView() {
-        with(recycler_view){
+        with(recycler_view) {
             adapter = viewAdapter
             setHasFixedSize(true)
         }
