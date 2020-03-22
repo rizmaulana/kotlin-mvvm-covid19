@@ -111,7 +111,14 @@ class DashboardActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.feedback_url)))
+        val intent = Intent(
+            Intent.ACTION_VIEW, Uri.parse(
+                when (item.itemId) {
+                    R.id.action_update -> getString(R.string.update_url)
+                    else -> getString(R.string.feedback_url)
+                }
+            )
+        )
         startActivity(intent)
         return super.onOptionsItemSelected(item)
     }

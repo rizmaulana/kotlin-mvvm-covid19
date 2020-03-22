@@ -18,7 +18,12 @@
         <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_white</item>
         <item name="android:windowAnimationStyle">@null</item>
         <item name="homeAsUpIndicator">@drawable/ic_arrow_back_white</item>
+        <item name="android:actionOverflowButtonStyle">@style/WhiteOverflowButtonStyle</item>
 
+    </style>
+
+    <style name="WhiteOverflowButtonStyle">
+<item name="srcCompat">@drawable/ic_more_vert</item>
     </style>
 
     <style name="AlertDialogBlack" parent="@android:style/Theme.Dialog">
