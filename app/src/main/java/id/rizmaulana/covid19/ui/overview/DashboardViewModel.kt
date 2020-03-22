@@ -44,7 +44,6 @@ class DashboardViewModel(
         get() = _liveItems
 
     private fun showLoadingState(){
-        _loading.value = true
         if(_liveItems.value?.isEmpty() == null ||
                 _liveItems.value?.firstOrNull { it is ErrorStateItem } != null){
             _liveItems.value = listOf(LoadingStateItem())
@@ -60,6 +59,8 @@ class DashboardViewModel(
     }
 
     fun loadDashboard() {
+        showLoadingState()
+
         val overviewObservable = appRepository.overview()
             .observeOn(schedulerProvider.io()) //all stream below will be manage on io thread
 
@@ -92,6 +93,10 @@ class DashboardViewModel(
                         }
                         error?.let { currentThrowable = it }
                     }
+
+                    items.add(TextItem(R.string.per_country))
+
+
 
                     with(daily){
                         val dailies = CovidDailyDataMapper.transform(data)
