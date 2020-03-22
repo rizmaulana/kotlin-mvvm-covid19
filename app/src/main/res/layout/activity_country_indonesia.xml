@@ -8,7 +8,11 @@
     android:orientation="vertical"
     tools:context=".ui.percountry.indonesia.CountryIndonesiaActivity">
 
-    <include layout="@layout/layout_toolbar" />
+    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/colorPrimary" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/layout_content"

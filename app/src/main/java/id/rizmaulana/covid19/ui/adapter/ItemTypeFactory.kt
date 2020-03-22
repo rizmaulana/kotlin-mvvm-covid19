@@ -27,6 +27,9 @@ class ItemTypeFactoryImpl : ItemTypeFactory() {
             PerCountryDailyGraphItemViewHolder.LAYOUT -> PerCountryDailyGraphItemViewHolder(
                 containerView
             )
+            PerCountryProvinceGraphItemViewHolder.LAYOUT -> PerCountryProvinceGraphItemViewHolder(
+                containerView
+            )
             else -> onCreateViewHolder(containerView, viewType)
         }
     }

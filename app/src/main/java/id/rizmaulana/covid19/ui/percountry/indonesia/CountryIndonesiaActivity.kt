@@ -13,8 +13,6 @@ import id.rizmaulana.covid19.ui.base.BaseActivity
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.ui.dailygraph.DailyGraphActivity
 import id.rizmaulana.covid19.util.ext.observe
-import kotlinx.android.synthetic.main.activity_country_indonesia.*
-import kotlinx.android.synthetic.main.layout_toolbar.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class CountryIndonesiaActivity : BaseActivity() {
@@ -31,7 +29,7 @@ class CountryIndonesiaActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCountryIndonesiaBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setupActionBarWithBackButton(binding.root.toolbar)
+        setupActionBarWithBackButton(binding.toolbar)
         initView()
 
         viewModel.loadData()
@@ -39,7 +37,7 @@ class CountryIndonesiaActivity : BaseActivity() {
     }
 
     private fun initView() {
-        with(recycler_view) {
+        with(binding.recyclerView) {
             adapter = viewAdapter
             setHasFixedSize(true)
         }
