@@ -58,3 +58,8 @@ fun Fragment.color(resource: Int): Int {
 fun RecyclerView.ViewHolder.getString(@StringRes string: Int): String {
    return itemView.context.getString(string)
 }
+
+
+fun  RecyclerView.ViewHolder.getStringWithArg(@StringRes string: Int, arg: String): String {
+    return itemView.context.getString(string, arg)
+}

@@ -9,7 +9,7 @@ import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.NumberUtils
 import id.rizmaulana.covid19.util.ext.getStringWithArg
 
-data class PerCountryDailyItem(
+data class PerCountryDailyChartItem(
     val id: Int = 0,
     val confirmed: Int = 0,
     val totalDeath: Int = 0,
@@ -22,7 +22,7 @@ data class PerCountryDailyItem(
     override fun layoutResId(): Int = R.layout.item_daily_percountry
 }
 
-class PerCountryDailyItemViewHolder(itemView: View) :
+class PerCountryDailyChartItemViewHolder(itemView: View) :
     BaseViewHolder<PerCountryDailyItem>(itemView) {
     private val binding: ItemDailyPercountryBinding = ItemDailyPercountryBinding.bind(itemView)
 
