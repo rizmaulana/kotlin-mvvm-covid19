@@ -2,6 +2,7 @@ package id.rizmaulana.covid19.data.mapper
 
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.data.model.indonesia.IndonesiaDaily
+import id.rizmaulana.covid19.ui.adapter.viewholders.PerCountryDailyGraphItem
 import id.rizmaulana.covid19.ui.adapter.viewholders.PerCountryDailyItem
 
 /**
@@ -22,4 +23,8 @@ object IndonesiaDailyDataMapper {
             R.string.indonesia_daily_info
         )
     }.orEmpty()
+
+    fun transformIntoCountryDailyGraph(responses: List<IndonesiaDaily>?) = PerCountryDailyGraphItem(
+        listData = transformToPerCountryDaily(responses.orEmpty())
+    )
 }

@@ -24,6 +24,9 @@ class ItemTypeFactoryImpl : ItemTypeFactory() {
             LoadingStateItemViewHolder.LAYOUT -> LoadingStateItemViewHolder(containerView)
             ErrorStateItemViewHolder.LAYOUT -> ErrorStateItemViewHolder(containerView)
             PerCountryDailyItemViewHolder.LAYOUT -> PerCountryDailyItemViewHolder(containerView)
+            PerCountryDailyGraphItemViewHolder.LAYOUT -> PerCountryDailyGraphItemViewHolder(
+                containerView
+            )
             else -> onCreateViewHolder(containerView, viewType)
         }
     }

@@ -44,8 +44,9 @@ class CountryIndonesiaViewModel(
                 val list = mutableListOf<BaseViewItem>()
                 list.add(TextItem(R.string.case_per_province_chart))
                 list.add(TextItem(R.string.case_daily_chart))
+                list.add(IndonesiaDailyDataMapper.transformIntoCountryDailyGraph(daily))
                 list.add(TextItem(R.string.case_daily))
-                list.addAll(IndonesiaDailyDataMapper.transformToPerCountryDaily(daily))
+                list.addAll(IndonesiaDailyDataMapper.transformToPerCountryDaily(daily.reversed()))
                 return@BiFunction list
             })
             .doFinally { }

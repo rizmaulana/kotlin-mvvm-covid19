@@ -229,7 +229,7 @@ open class AppRepository constructor(
 
 
     override fun indonesiaDaily(): Observable<List<IndonesiaDaily>> = api.indonesiaDaily()
-        .flatMap { Observable.just(it.data.reversed()) }
+        .flatMap { Observable.just(it.data) }
 
     override fun indonesiaPerProvince(): Observable<List<IndonesiaPerProvince>> =
         api.indonesiaPerProvince()
