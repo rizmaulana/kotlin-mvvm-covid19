@@ -10,10 +10,12 @@ import android.view.WindowManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.jakewharton.rxbinding.widget.RxTextView
 import id.rizmaulana.covid19.R
-import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.databinding.ActivityDetailBinding
-import id.rizmaulana.covid19.ui.adapter.DetailAdapter
+import id.rizmaulana.covid19.ui.adapter.ItemTypeFactoryImpl
+import id.rizmaulana.covid19.ui.adapter.VisitableRecyclerAdapter
+import id.rizmaulana.covid19.ui.adapter.viewholders.LocationItem
 import id.rizmaulana.covid19.ui.base.BaseActivity
+import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.ui.maps.VisualMapsFragment
 import id.rizmaulana.covid19.util.CaseType
 import id.rizmaulana.covid19.util.ext.observe
@@ -41,12 +43,14 @@ class DetailActivity : BaseActivity() {
             if (newState == BottomSheetBehavior.STATE_COLLAPSED) {
                 hideSoftKeyboard()
                 binding.txtSearch.clearFocus()
+            } else if (newState == BottomSheetBehavior.STATE_EXPANDED) {
+                window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
             }
         }
     }
 
     private val detailAdapter by lazy {
-        DetailAdapter(caseType, ::onAdapterItemClicked, ::showItemListDialog)
+        VisitableRecyclerAdapter(ItemTypeFactoryImpl(), ::onItemClick, ::onLongItemClick)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,11 +89,11 @@ class DetailActivity : BaseActivity() {
     override fun observeChange() {
         observe(viewModel.loading, ::loading)
         observe(viewModel.errorMessage, ::showSnackbarMessage)
-        observe(viewModel.detailListLiveData, ::onListChanged)
+        observe(viewModel.detailListViewItems, ::onListChanged)
     }
 
-    private fun onListChanged(data: List<CovidDetail>) {
-        detailAdapter.addAll(data)
+    private fun onListChanged(data: List<BaseViewItem>) {
+        detailAdapter.submitList(data)
     }
 
     private fun attachMaps() {
@@ -100,18 +104,44 @@ class DetailActivity : BaseActivity() {
         }
     }
 
-    private fun showItemListDialog(dataContext: CovidDetail) {
-        AlertDialog.Builder(this)
-            .setItems(resources.getStringArray(R.array.detail_item_menu)) { dialog, which ->
-                viewModel.putPinnedRegion(dataContext)
-            }
-            .show()
+    private fun showItemListDialog(item: LocationItem) {
+        val items = resources.getStringArray(R.array.detail_item_menu).toMutableList()
+
+        if (item.isPinned.not()) {
+            AlertDialog.Builder(this)
+                .setItems(items.toTypedArray()) { dialog, which ->
+                    viewModel.putPinnedRegion(item.compositeKey())
+                }
+                .show()
+        }
     }
 
-    private fun onAdapterItemClicked(detail: CovidDetail) {
-        hideSoftKeyboard()
-        collapseBottomSheet()
-        mapsFragment?.selectItem(detail)
+    private fun onLongItemClick(item: BaseViewItem, view: View) {
+        when (item) {
+            is LocationItem -> {
+                showItemListDialog(item)
+            }
+        }
+    }
+
+    private fun onItemClick(item: BaseViewItem, view: View) {
+        when (item) {
+            is LocationItem -> {
+                when (view.id) {
+                    R.id.root -> {
+                        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN)
+                        view.postDelayed({
+                            hideSoftKeyboard()
+                            collapseBottomSheet()
+                            mapsFragment?.selectItem(item)
+                        }, 100)
+                    }
+                    R.id.relative_pinned -> {
+                        viewModel.removePinnedRegion()
+                    }
+                }
+            }
+        }
     }
 
     private fun collapseBottomSheet() {

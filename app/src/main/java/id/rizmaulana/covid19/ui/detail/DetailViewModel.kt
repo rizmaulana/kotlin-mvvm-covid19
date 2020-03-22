@@ -2,8 +2,11 @@ package id.rizmaulana.covid19.ui.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import id.rizmaulana.covid19.data.mapper.CovidDetailDataMapper
 import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.data.repository.Repository
+import id.rizmaulana.covid19.ui.adapter.viewholders.LoadingStateItem
+import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.ui.base.BaseViewModel
 import id.rizmaulana.covid19.util.CaseType
 import id.rizmaulana.covid19.util.Constant
@@ -20,11 +23,12 @@ class DetailViewModel(
 ) : BaseViewModel() {
 
     private var detailList = listOf<CovidDetail>()
-    private var filteredDetailList = listOf<CovidDetail>()
+    private var caseType: Int = CaseType.FULL
+    private var searchKey: String = ""
 
-    private val _detailListLiveData = MutableLiveData<List<CovidDetail>>()
-    val detailListLiveData: LiveData<List<CovidDetail>>
-        get() = _detailListLiveData
+    private val _detailListViewItems = MutableLiveData<List<BaseViewItem>>()
+    val detailListViewItems: LiveData<List<BaseViewItem>>
+        get() = _detailListViewItems
 
     private val _loading = MutableLiveData<Boolean>()
     val loading: LiveData<Boolean>
@@ -33,42 +37,55 @@ class DetailViewModel(
     val errorMessage = SingleLiveEvent<String>()
 
     fun findLocation(keyword: String) {
-        if (keyword.isEmpty()) {
-            _detailListLiveData.postValue(detailList)
-        } else {
-            filteredDetailList = detailList.filter {
-                (it.provinceState?.contains(
-                    keyword,
-                    true
-                ) ?: false || it.countryRegion?.contains(keyword, true) ?: false)
-            }
-            _detailListLiveData.postValue(filteredDetailList)
+        searchKey = keyword
+
+        val cachePinnedRegion = appRepository.getCachePinnedRegion()
+
+        val transformedList = CovidDetailDataMapper.transform(detailList, caseType)
+
+        val filtered = if (keyword.isNotEmpty()) transformedList.filter {
+            (it.provinceState?.contains(
+                keyword,
+                true
+            ) ?: false || it.countryRegion.contains(keyword, true))
+        }.toMutableList() else transformedList.toMutableList()
+
+        cachePinnedRegion?.let { pin ->
+            val position = filtered.indexOfFirst { it.compositeKey() == pin.compositeKey }
+            if (position != -1) filtered.set(position, filtered.get(position).copy(isPinned = true))
         }
+
+        _detailListViewItems.postValue(filtered)
     }
 
     fun getDetail(caseType: Int) {
+        this.caseType = caseType
+        _detailListViewItems.value = listOf(LoadingStateItem())
+
         when (caseType) {
             CaseType.RECOVERED -> appRepository.recovered()
             CaseType.DEATHS -> appRepository.deaths()
             CaseType.CONFIRMED -> appRepository.confirmed()
-            else -> appRepository.confirmed()
-        }.subscribeOn(schedulerProvider.ui())
-            .doOnSubscribe {
-                val cache = when (caseType) {
-                    CaseType.RECOVERED -> appRepository.getCacheRecovered()
-                    CaseType.DEATHS -> appRepository.getCacheDeath()
-                    CaseType.CONFIRMED -> appRepository.getCacheConfirmed()
-                    else -> appRepository.getCacheFull()
-                }
-                if (cache == null) _loading.postValue(true) else {
-                    detailList = cache
-                    _detailListLiveData.postValue(detailList)
-                }
-            }
-            .doFinally { _loading.postValue(false) }
-            .subscribe({
+            else -> appRepository.fullStats()
+        }.observeOn(schedulerProvider.io())
+            .map {
                 detailList = it
-                _detailListLiveData.postValue(detailList)
+                val transformedList = CovidDetailDataMapper.transform(it, caseType).toMutableList()
+
+                appRepository.getCachePinnedRegion()?.let { pin ->
+                    val position =
+                        transformedList.indexOfFirst { it.compositeKey() == pin.compositeKey }
+                    if (position != -1) transformedList.set(
+                        position,
+                        transformedList.get(position).copy(isPinned = true)
+                    )
+                }
+
+                transformedList.toList()
+            }
+            .observeOn(schedulerProvider.ui())
+            .subscribe({
+                _detailListViewItems.postValue(it)
             }, {
                 it.printStackTrace()
                 errorMessage.postValue(Constant.ERROR_MESSAGE)
@@ -76,15 +93,31 @@ class DetailViewModel(
             .addTo(compositeDisposable)
     }
 
-    fun putPinnedRegion(data: CovidDetail) {
-        appRepository.putPinnedRegion(data)
+    fun removePinnedRegion() {
+        appRepository.removePinnedRegion()
             .subscribeOn(schedulerProvider.ui())
             .subscribe({
-                errorMessage.postValue("Success")
+                findLocation(searchKey) //refresh data
+                errorMessage.postValue("Unpinned!")
             }, {
                 errorMessage.postValue(it.message)
             })
             .addTo(compositeDisposable)
+    }
+
+
+    fun putPinnedRegion(key: String) {
+        detailList.firstOrNull { it.compositeKey == key }?.let {
+            appRepository.putPinnedRegion(it)
+                .subscribeOn(schedulerProvider.ui())
+                .subscribe({
+                    findLocation(searchKey) //refresh data
+                    errorMessage.postValue("Successfully pinned!")
+                }, {
+                    errorMessage.postValue(it.message)
+                })
+                .addTo(compositeDisposable)
+        }
     }
 
 }

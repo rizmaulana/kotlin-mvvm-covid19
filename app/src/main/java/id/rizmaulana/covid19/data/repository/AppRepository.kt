@@ -97,23 +97,53 @@ open class AppRepository constructor(
         return Observable.concatArrayEager(localObservable, remoteObservable)
     }
 
-    override fun confirmed() = api.confirmed()
-        .flatMap {
-            setCacheConfirmed(it)
-            Observable.just(it)
-        }
+    override fun confirmed(): Observable<List<CovidDetail>> {
+        val cacheConfirmed = getCacheConfirmed()
+        val localObservable = if(cacheConfirmed != null) Observable.just(cacheConfirmed)
+        else Observable.empty()
 
-    override fun deaths() = api.deaths()
-        .flatMap {
-            setCacheDeath(it)
-            Observable.just(it)
-        }
+        val remoteObservable = api.confirmed()
+            .flatMap {
+                setCacheConfirmed(it)
+                Observable.just(it)
+            }
 
-    override fun recovered() = api.recovered()
-        .flatMap {
-            setCacheRecovered(it)
-            Observable.just(it)
-        }
+        //Publish local confirmed data first and after api call completed publish the latest confirmed data from API
+        //So the user does not have to go back and forth to get the latest update
+        return Observable.concatArrayEager(localObservable, remoteObservable)
+    }
+
+    override fun deaths(): Observable<List<CovidDetail>> {
+        val cacheDeath = getCacheDeath()
+        val localObservable = if(cacheDeath != null) Observable.just(cacheDeath)
+        else Observable.empty()
+
+        val remoteObservable = api.deaths()
+            .flatMap {
+                setCacheDeath(it)
+                Observable.just(it)
+            }
+
+        //Publish local deaths data first and after api call completed publish the latest deaths data from API
+        //So the user does not have to go back and forth to get the latest update
+        return Observable.concatArrayEager(localObservable, remoteObservable)
+    }
+
+    override fun recovered(): Observable<List<CovidDetail>>{
+        val cacheRecovered = getCacheRecovered()
+        val localObservable = if(cacheRecovered != null) Observable.just(cacheRecovered)
+        else Observable.empty()
+
+        val remoteObservable = api.recovered()
+            .flatMap {
+                setCacheRecovered(it)
+                Observable.just(it)
+            }
+
+        //Publish local recovered data first and after api call completed publish the latest recovered data from API
+        //So the user does not have to go back and forth to get the latest update
+        return Observable.concatArrayEager(localObservable, remoteObservable)
+    }
 
     override fun country(id: String): Observable<CovidOverview> = api.country(id)
         .flatMap {
@@ -161,6 +191,13 @@ open class AppRepository constructor(
         return Completable.create {
             if (pref.setPrefCountry(data)) it.onComplete()
             else it.onError(Throwable("Not able to save"))
+        }
+    }
+
+    override fun removePinnedRegion(): Completable {
+        return Completable.create {
+            if (pref.setPrefCountry(null)) it.onComplete()
+            else it.onError(Throwable("Not able to remove"))
         }
     }
 
