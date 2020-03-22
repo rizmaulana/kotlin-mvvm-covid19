@@ -3,7 +3,6 @@ package id.rizmaulana.covid19.ui.dailygraph
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.annotation.ColorRes
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
@@ -12,14 +11,17 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.material.tabs.TabLayout
 import id.rizmaulana.covid19.R
+import id.rizmaulana.covid19.data.model.CovidDaily
 import id.rizmaulana.covid19.databinding.ActivityDailyGraphBinding
 import id.rizmaulana.covid19.ui.adapter.DailyAdapter
-import id.rizmaulana.covid19.ui.adapter.viewholders.DailyItem
 import id.rizmaulana.covid19.ui.base.BaseActivity
 import id.rizmaulana.covid19.util.NumberUtils
 import id.rizmaulana.covid19.util.ext.color
 import id.rizmaulana.covid19.util.ext.observe
 import org.koin.android.viewmodel.ext.android.viewModel
+
+const val TOTAL_STATE = 0
+const val DELTA_STATE = 1
 
 class DailyGraphActivity : BaseActivity() {
 
@@ -30,6 +32,7 @@ class DailyGraphActivity : BaseActivity() {
 
         }
     }
+    private var currentState = TOTAL_STATE
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +62,10 @@ class DailyGraphActivity : BaseActivity() {
             }
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                Log.d("TAG", "${tab?.position}")
+                tab?.let {
+                    currentState = it.position
+                    setupChart(viewModel.dailyItems.value.orEmpty())
+                }
             }
         })
     }
@@ -76,12 +82,12 @@ class DailyGraphActivity : BaseActivity() {
         }
     }
 
-    private fun onDailyDataLoaded(daily: List<DailyItem>) {
-        dailyAdapter.addAll(daily)
+    private fun onDailyDataLoaded(daily: List<CovidDaily>) {
+//        dailyAdapter.addAll(daily)
         setupChart(daily)
     }
 
-    private fun setupChart(dailyData: List<DailyItem>) {
+    private fun setupChart(dailyData: List<CovidDaily>) {
         val daily = dailyData.reversed()
         with(binding.lineChart) {
             animateX(1500)
@@ -107,17 +113,27 @@ class DailyGraphActivity : BaseActivity() {
 
         }
 
-        val totalCaseDataSet = LineDataSet(
+        val totalConfirmed = LineDataSet(
             daily.mapIndexed { index, dailyItem ->
                 Entry(
                     index.toFloat(),
-                    dailyItem.mainlandChina.plus(dailyItem.otherLocations).toFloat(),
+                    dailyItem.totalConfirmed.toFloat(),
                     NumberUtils.formatTime(dailyItem.reportDate)
                 )
             }, getString(R.string.total_case)
         )
 
-        val confirmedDataSet = LineDataSet(
+        val totalRecovered = LineDataSet(
+            daily.mapIndexed { index, dailyItem ->
+                Entry(
+                    index.toFloat(),
+                    dailyItem.totalRecovered.toFloat(),
+                    NumberUtils.formatTime(dailyItem.reportDate)
+                )
+            }, getString(R.string.total_case)
+        )
+
+        val deltaConfirmed = LineDataSet(
             daily.mapIndexed { index, dailyItem ->
                 Entry(
                     index.toFloat(),
@@ -129,7 +145,7 @@ class DailyGraphActivity : BaseActivity() {
             setLineChartStyle(this, R.color.color_confirmed)
         }
 
-        val recoveredDataSet = LineDataSet(
+        val deltaRecovered = LineDataSet(
             daily.mapIndexed { index, dailyItem ->
                 Entry(
                     index.toFloat(),
@@ -141,8 +157,9 @@ class DailyGraphActivity : BaseActivity() {
             setLineChartStyle(this, R.color.color_recovered)
         }
 
-        val lineData = LineData(confirmedDataSet, recoveredDataSet)
+        val lineData = if (currentState == TOTAL_STATE) LineData(totalConfirmed, totalRecovered) else LineData(deltaConfirmed, deltaRecovered)
         binding.lineChart.data = lineData
+        binding.lineChart.invalidate()
     }
 
     private fun setLineChartStyle(lineDataSet: LineDataSet, @ColorRes colorResId: Int) {
