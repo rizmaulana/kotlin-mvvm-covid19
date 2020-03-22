@@ -49,6 +49,16 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBQ8lY1t6WA0VsPZ5TMyKCU_UzmWjneark" />
+
+        <receiver android:name=".ui.widget.LocationWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_provider" />
+        </receiver>
+        <service android:name=".ui.widget.LocationWidgetService"/>
     </application>
 
 </manifest>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/item_widget_pinned"
+    android:minWidth="256dp"
+    android:minHeight="150dp"
+    android:previewImage="@drawable/img_widget"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="1800000"
+    android:widgetCategory="home_screen|keyguard" >
+</appwidget-provider>

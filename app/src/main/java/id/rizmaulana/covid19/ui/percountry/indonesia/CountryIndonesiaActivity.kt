@@ -50,10 +50,10 @@ class CountryIndonesiaActivity : BaseActivity() {
     override fun observeChange() {
         observe(viewModel.items, ::onDataLoaded)
         observe(viewModel.toastMessage, ::showSnackbarMessage)
-        observe(viewModel.loading, ::loadingSwipeRefreash)
+        observe(viewModel.loading, ::loadingSwipeRefresh)
     }
 
-    private fun loadingSwipeRefreash(loading: Boolean) {
+    private fun loadingSwipeRefresh(loading: Boolean) {
         with(binding.swipeRefresh) {
             post {
                 isRefreshing = loading
