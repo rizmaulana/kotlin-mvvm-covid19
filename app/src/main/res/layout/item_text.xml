@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/space_x2">
 
     <TextView
         android:id="@+id/text_title"
@@ -13,17 +14,17 @@
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/text_14"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="Daily Updates" />
 
     <TextView
-        android:gravity="center"
-        android:drawableRight="@drawable/ic_chevron_right"
         android:id="@+id/text_action"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/space_x2"
+        android:drawableRight="@drawable/ic_chevron_right"
+        android:gravity="center"
         android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
         android:textColor="@color/colorAccent"
         android:textSize="@dimen/text_14"

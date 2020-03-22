@@ -95,8 +95,7 @@ class DashboardViewModel(
                     }
 
                     items.add(TextItem(R.string.per_country))
-
-
+                    items.addAll(appRepository.getPerCountryItem())
 
                     with(daily){
                         val dailies = CovidDailyDataMapper.transform(data)

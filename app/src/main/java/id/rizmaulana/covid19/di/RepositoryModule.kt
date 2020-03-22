@@ -7,8 +7,8 @@ import org.koin.dsl.module
 /**
  * rizmaulana 2020-02-24.
  */
- val repositoryModule = module {
+val repositoryModule = module {
     factory<Repository> {
-        AppRepository(get(), get())
+        AppRepository(get(), get(), get())
     }
 }
