@@ -14,6 +14,13 @@ data class PerCountryItem(
     @DrawableRes val icon: Int
 ) : BaseViewItem {
     override fun layoutResId(): Int = R.layout.item_per_country
+
+    companion object {
+        /*Generated country ID for identifier*/
+        const val ID = 1
+        const val MY = 2
+        const val UK = 3
+    }
 }
 
 class PerCountryViewHolder(itemView: View) : BaseViewHolder<PerCountryItem>(itemView) {

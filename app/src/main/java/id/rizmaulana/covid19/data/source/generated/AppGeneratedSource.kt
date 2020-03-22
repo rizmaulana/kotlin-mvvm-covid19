@@ -10,17 +10,10 @@ class AppGeneratedSource {
 
     fun getPerCountryItem() = listOf(
         PerCountryItem(
-            COUNTRY_ID,
+            PerCountryItem.ID,
             "Indonesia",
             "https://indonesia-covid-19.mathdro.id/api",
             R.drawable.flag_indonesia
         )
     )
-
-    companion object {
-        /*Generated country ID for identifier*/
-        const val COUNTRY_ID = 1
-        const val COUNTRY_MY = 2
-        const val COUNTRY_UK = 3
-    }
 }

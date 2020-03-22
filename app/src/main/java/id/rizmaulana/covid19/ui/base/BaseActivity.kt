@@ -13,6 +13,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import com.karumi.dexter.Dexter
@@ -154,6 +155,15 @@ abstract class BaseActivity : AppCompatActivity() {
             })
             .withErrorListener { showSnackbarError(Constant.ERROR_MESSAGE) }
             .check()
+    }
+
+    open fun setupActionBarWithBackButton(toolbar: Toolbar) {
+        setSupportActionBar(toolbar)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+        }
+        toolbar.setTitleTextAppearance(this, R.style.TextAppearance_App_TextView_Toolbar)
     }
 
     abstract fun observeChange()

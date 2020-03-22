@@ -161,6 +161,13 @@
     <style name="TextAppearance.App.TextView.Toolbar" parent="@style/TextAppearance.App.TextView">
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">@dimen/text_20</item>
+        <item name="android:textAppearance">@style/TextAppearance.App.TextView.ToolbarTextStyle</item>
+
+    </style>
+
+    <style name="TextAppearance.App.TextView.ToolbarTextStyle" parent="@style/TextAppearance.App.TextView">
+        <item name="android:textSize">@dimen/text_16</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="TextAppearance.App.TextView.Floating" parent="@style/TextAppearance.App.TextView.Display">
