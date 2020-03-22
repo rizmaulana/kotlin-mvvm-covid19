@@ -60,8 +60,6 @@ class DashboardViewModel(
     }
 
     fun loadDashboard() {
-        showLoadingState()
-
         val overviewObservable = appRepository.overview()
             .observeOn(schedulerProvider.io()) //all stream below will be manage on io thread
 
