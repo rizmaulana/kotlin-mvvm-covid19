@@ -11,7 +11,7 @@ class AppGeneratedSource {
     fun getPerCountryItem() = listOf(
         PerCountryItem(
             PerCountryItem.ID,
-            "Indonesia",
+            R.string.country_indonesia,
             "https://indonesia-covid-19.mathdro.id/api",
             R.drawable.flag_indonesia
         )

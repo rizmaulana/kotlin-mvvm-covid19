@@ -17,7 +17,7 @@
         android:id="@+id/txt_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pinned location is not set"
+        android:text="@string/pinned_not_set"
         android:textColor="@color/white"
         android:textSize="14sp"
         android:textStyle="bold" />
@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:text="Open map, tap and hold to country item"
+        android:text="@string/how_to_pin"
         android:textColor="@color/manatee"
         android:textSize="12sp" />
 
@@ -156,17 +156,17 @@
             android:id="@+id/txt_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Data source : https://covid19.mathdro.id/"
+            android:text="@string/source_data"
             android:textColor="@color/cool_grey"
             android:textSize="@dimen/text_12"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
 
         <ImageView
-            android:layout_alignParentEnd="true"
             android:id="@+id/img_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:background="@drawable/ic_refresh" />
     </RelativeLayout>
 

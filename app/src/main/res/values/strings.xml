@@ -47,12 +47,16 @@
     <string name="update_url" translatable="false">https://drive.google.com/open?id=1MaO9mIKWCFWSK2lFtEfKge1z8XDesi8n</string>
     <string name="day_on">(Day #%1$s)</string>
 
-
-
-
     <string name="country_indonesia">Indonesia</string>
-
     <string name="unpin">Unpin</string>
+    <string name="pinned_not_set">Pinned location is not set</string>
+    <string name="how_to_pin">Open map, tap and hold to country item</string>
+    <string name="source_data">Data source : https://covid19.mathdro.id/</string>
+    <string name="update_widget_start">Updating widget data …</string>
+    <string name="update_widget_success">Updating widget data success</string>
+    <string name="update_widget_fail">Updating widget data failed</string>
+
+
     <string name="total_chart_info">Total Line Chart shows the total number of confirmed and recovered case over period of time</string>
     <string name="delta_chart_info">Delta Line Chart shows the increment of confirmed and recovered case over period of time</string>
     <string name="total" translatable="false">Total</string>

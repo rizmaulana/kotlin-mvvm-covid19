@@ -7,6 +7,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
+import android.widget.Toast
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.data.mapper.CovidDataMapper
 import id.rizmaulana.covid19.data.model.CovidDetail
@@ -80,14 +81,21 @@ class LocationWidget : AppWidgetProvider(), KoinComponent {
                             .subscribeOn(schedulerProvider.ui())
                     }
                     .observeOn(schedulerProvider.ui())
+                    .doOnSubscribe { showToast(context, R.string.update_widget_start) }
                     .subscribe({
+                        showToast(context, R.string.update_widget_success)
                         updateData(context)
                     }, {
+                        showToast(context, R.string.update_widget_fail)
                         it.printStackTrace()
                     }
                     )
             }
         }
+    }
+
+    private fun showToast(context: Context?, msg: Int) {
+        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
     }
 
     private fun updateData(context: Context?) {
