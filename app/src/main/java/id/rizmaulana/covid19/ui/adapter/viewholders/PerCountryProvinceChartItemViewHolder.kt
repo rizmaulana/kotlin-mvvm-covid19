@@ -1,18 +1,21 @@
 package id.rizmaulana.covid19.ui.adapter.viewholders
 
 import android.view.View
-import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import id.rizmaulana.covid19.R
-import id.rizmaulana.covid19.databinding.ItemDailyPercountryGraphBinding
 import id.rizmaulana.covid19.databinding.ItemProvincePercountryGraphBinding
 import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.ext.color
+import id.rizmaulana.covid19.util.ext.getString
+import id.rizmaulana.covid19.util.ext.getStringWithArg
+import id.rizmaulana.covid19.util.ext.visible
 
 data class PerCountryProvinceGraphItem(
     val listData: List<PerCountryProvinceItem>
@@ -57,6 +60,35 @@ class PerCountryProvinceGraphItemViewHolder(itemView: View) :
             axisLeft.enableGridDashedLine(10f, 10f, 2f)
             xAxis.enableGridDashedLine(10f, 10f, 2f)
 
+            setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+                override fun onNothingSelected() {
+                }
+
+                override fun onValueSelected(e: Entry?, h: Highlight?) {
+                    val barEnrty = e as? BarEntry
+                    with(binding) {
+                        barEnrty?.let { dataBarEnty ->
+                            layoutData.visible()
+                            txtProvince.text = dataBarEnty.data.toString()
+                            txtConfirmed.text = getStringWithArg(
+                                R.string.confirmed_case_count,
+                                dataBarEnty.yVals[0].toInt().toString()
+                            )
+                            txtDeath.text = getStringWithArg(
+                                R.string.death_case_count,
+                                dataBarEnty.yVals[1].toInt().toString()
+                            )
+                            txtRecovered.text = getStringWithArg(
+                                R.string.recovered_case_count,
+                                dataBarEnty.yVals[2].toInt().toString()
+                            )
+
+                        }
+
+                    }
+                }
+            })
+
         }
 
     }
@@ -68,10 +100,21 @@ class PerCountryProvinceGraphItemViewHolder(itemView: View) :
                     perCountryProvinceItem.totalConfirmed.toFloat(),
                     perCountryProvinceItem.totalDeath.toFloat(),
                     perCountryProvinceItem.totalRecovered.toFloat()
-                )
+                ), perCountryProvinceItem.name
             )
         }
-        val barDataSet = BarDataSet(values, "COVID19")
+        val barDataSet = BarDataSet(values, getString(R.string.case_per_province_chart))
+        barDataSet.stackLabels = arrayOf(
+            getString(R.string.confirmed),
+            getString(R.string.deaths),
+            getString(R.string.recovered)
+        )
+        barDataSet.setColors(
+            color(R.color.color_confirmed),
+            color(R.color.color_death),
+            color(R.color.color_recovered)
+        )
+        barDataSet.setDrawValues(false)
         val dataSet = arrayListOf<IBarDataSet>()
         dataSet.add(barDataSet)
         binding.barChart.data = BarData(dataSet)

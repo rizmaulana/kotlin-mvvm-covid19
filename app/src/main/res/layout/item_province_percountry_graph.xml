@@ -1,8 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="400dp">
+
+    <LinearLayout
+        android:id="@+id/layout_data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_x2"
+        android:background="@drawable/bg_rounded_grey_small"
+        android:orientation="vertical"
+        android:padding="@dimen/space_x1_half"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/txt_province"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_12"
+            app:layout_constraintStart_toEndOf="@id/img_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="DKI Jakarta" />
+
+        <TextView
+            android:layout_marginTop="@dimen/space_half"
+            android:id="@+id/txt_confirmed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
+            android:textColor="@color/color_confirmed"
+            android:textSize="@dimen/text_12"
+            tools:text="Confirmed : 220 " />
+
+        <TextView
+            android:id="@+id/txt_death"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
+            android:textColor="@color/color_death"
+            android:textSize="@dimen/text_12"
+            tools:text="Death : 220 " />
+
+
+        <TextView
+            android:id="@+id/txt_recovered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
+            android:textColor="@color/color_recovered"
+            android:textSize="@dimen/text_12"
+            tools:text="Recovered : 220 " />
+
+    </LinearLayout>
 
     <HorizontalScrollView
         android:layout_width="wrap_content"
@@ -24,7 +79,6 @@
                 android:layout_height="match_parent" />
         </FrameLayout>
     </HorizontalScrollView>
-
 
     <TextView
         android:id="@+id/txt_info"
