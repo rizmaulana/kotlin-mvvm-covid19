@@ -168,4 +168,8 @@ class DailyGraphFragment : BaseFragment() {
         setupChart(daily)
     }
 
+    companion object {
+        fun newInstance(): DailyGraphFragment = DailyGraphFragment()
+    }
+
 }
