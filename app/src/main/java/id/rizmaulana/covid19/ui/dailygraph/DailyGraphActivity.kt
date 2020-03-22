@@ -3,12 +3,14 @@ package id.rizmaulana.covid19.ui.dailygraph
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.annotation.ColorRes
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.google.android.material.tabs.TabLayout
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ActivityDailyGraphBinding
 import id.rizmaulana.covid19.ui.adapter.DailyAdapter
@@ -47,6 +49,19 @@ class DailyGraphActivity : BaseActivity() {
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.loadRemoteDailyData()
         }
+        binding.tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                // nothing
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                // nothing
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                Log.d("TAG", "${tab?.position}")
+            }
+        })
     }
 
     override fun observeChange() {
