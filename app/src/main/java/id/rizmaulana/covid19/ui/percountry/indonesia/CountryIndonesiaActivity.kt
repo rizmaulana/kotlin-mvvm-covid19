@@ -13,6 +13,7 @@ import id.rizmaulana.covid19.ui.base.BaseActivity
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.ui.dailygraph.DailyGraphActivity
 import id.rizmaulana.covid19.util.ext.observe
+import kotlinx.android.synthetic.main.activity_dashboard.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class CountryIndonesiaActivity : BaseActivity() {
@@ -41,12 +42,23 @@ class CountryIndonesiaActivity : BaseActivity() {
             adapter = viewAdapter
             setHasFixedSize(true)
         }
+        swipe_refresh.setOnRefreshListener {
+            viewModel.loadData()
+        }
     }
 
     override fun observeChange() {
         observe(viewModel.items, ::onDataLoaded)
         observe(viewModel.toastMessage, ::showSnackbarMessage)
+        observe(viewModel.loading, ::loadingSwipeRefreash)
+    }
 
+    private fun loadingSwipeRefreash(loading: Boolean) {
+        with(binding.swipeRefresh) {
+            post {
+                isRefreshing = loading
+            }
+        }
     }
 
     private fun onDataLoaded(items: List<BaseViewItem>) {

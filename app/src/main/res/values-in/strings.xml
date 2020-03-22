@@ -35,6 +35,17 @@
     <string name="feedback">Umpan Balik</string>
     <string name="show_graph">Tampilkan Grafis</string>
     <string name="pinch_zoom">Cubit untuk memperbesar atau memperkecil data</string>
+
+    <string name="per_country">Data Per Negara</string>
+    <string name="source">Sumber : %1$s</string>
+    <string name="case_per_province_chart">Grafik kasus per provinsi</string>
+    <string name="case_daily_chart">Grafik kasus per hari</string>
+    <string name="case_daily">Kasus harian</string>
+    <string name="indonesia_daily_info">Kasus konfirmasi, pulih dan kematian adalah nilai akumulatif</string>
+    <string name="new_case">Kasus Baru</string>
+    <string name="new_case_case_count">Kasus Baru : %1$s</string>
+    <string name="check_update">Update aplikasi</string>
+    <string name="day_on">(Hari ke-%1$s)</string>
     <string name="show_data">Lihat data</string>
     <string name="total_chart_info">Total Line Chart menunjukkan jumlah total kasus terkonfirmasi dan pulih di kurun waktu yang ditentukan</string>
     <string name="delta_chart_info">Delta Line Chart menunjukkan peningkatan jumlah kasus terkonfirmasi dan pulih di kurun waktu yang ditentukan</string>

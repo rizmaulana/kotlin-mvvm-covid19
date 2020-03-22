@@ -54,7 +54,9 @@ class CountryIndonesiaViewModel(
                 }
                 return@BiFunction list
             })
-            .doFinally { }
+            .doFinally {
+                _loading.postValue(false)
+            }
             .subscribe({
                 _liveItems.postValue(it)
             }, {

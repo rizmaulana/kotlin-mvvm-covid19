@@ -45,6 +45,7 @@
     <string name="new_case_case_count">New Case : %1$s</string>
     <string name="check_update">Check for update</string>
     <string name="update_url" translatable="false">https://drive.google.com/open?id=1MaO9mIKWCFWSK2lFtEfKge1z8XDesi8n</string>
+    <string name="day_on">(Day #%1$s)</string>
 
 
 

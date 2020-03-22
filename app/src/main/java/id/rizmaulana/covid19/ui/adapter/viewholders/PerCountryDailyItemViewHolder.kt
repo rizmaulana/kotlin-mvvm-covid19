@@ -33,7 +33,7 @@ class PerCountryDailyItemViewHolder(itemView: View) :
     override fun bind(item: PerCountryDailyItem) {
         with(binding) {
             txtInformation.text = itemView.context.getString(item.info)
-            txtDate.text = "${NumberUtils.formatShortDate(item.date)} (Day #${item.day})"
+            txtDate.text = "${NumberUtils.formatShortDate(item.date)} ${getStringWithArg(R.string.day_on, item.day.toString())}"
             txtConfirmed.text = getStringWithArg(
                 R.string.confirmed_case_count,
                 NumberUtils.numberFormat(item.totalConfirmed)
