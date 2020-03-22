@@ -3,19 +3,9 @@ package id.rizmaulana.covid19.ui.dailygraph
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.annotation.ColorRes
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
-import com.google.android.material.tabs.TabLayout
-import id.rizmaulana.covid19.R
-import id.rizmaulana.covid19.data.model.CovidDaily
 import id.rizmaulana.covid19.databinding.ActivityDailyGraphBinding
 import id.rizmaulana.covid19.ui.adapter.DailyAdapter
 import id.rizmaulana.covid19.ui.base.BaseActivity
-import id.rizmaulana.covid19.util.NumberUtils
 import id.rizmaulana.covid19.util.ext.observe
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -47,7 +37,6 @@ class DailyGraphActivity : BaseActivity() {
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.loadRemoteDailyData()
         }
-
     }
 
     override fun observeChange() {

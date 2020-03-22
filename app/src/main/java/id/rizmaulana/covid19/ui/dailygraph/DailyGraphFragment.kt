@@ -14,16 +14,16 @@ import com.google.android.material.tabs.TabLayout
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.data.model.CovidDaily
 import id.rizmaulana.covid19.databinding.FragmentDailyGraphBinding
-import id.rizmaulana.covid19.util.ext.color
 import id.rizmaulana.covid19.ui.base.BaseFragment
 import id.rizmaulana.covid19.util.NumberUtils
+import id.rizmaulana.covid19.util.ext.color
 import id.rizmaulana.covid19.util.ext.observe
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 const val TOTAL_STATE = 0
 const val DELTA_STATE = 1
 
-class DailyGraphFragment: BaseFragment() {
+class DailyGraphFragment : BaseFragment() {
 
     private val viewModel by sharedViewModel<DailyGraphViewModel>()
 
