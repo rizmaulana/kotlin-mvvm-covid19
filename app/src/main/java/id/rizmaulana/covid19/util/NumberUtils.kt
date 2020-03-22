@@ -10,8 +10,9 @@ import java.util.*
  */
 object NumberUtils {
 
-    fun numberFormat(number: Int) =
+    fun numberFormat(number: Int?) = number?.let {
         NumberFormat.getNumberInstance(Locale.getDefault()).format(number)
+    } ?: "-"
 
     fun extractDigit(number: String) = Regex("[^0-9]").replace(number, "").toInt()
 

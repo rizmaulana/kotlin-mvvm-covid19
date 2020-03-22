@@ -29,9 +29,9 @@ class PinnedItemViewHolder(itemView: View) : BaseViewHolder<PinnedItem>(itemView
             val lastUpdate = NumberUtils.formatTime(item.lastUpdate)
             txtLocation.text = item.locationName
             txtUpdate.text = itemView.context.getString(R.string.information_last_update, lastUpdate)
-            txtData.text = "${item.confirmed ?: '-'}"
-            txtRcv.text = "${item.recovered ?: '-'}"
-            txtDeath.text = "${item.deaths ?: '-'}"
+            txtData.text = NumberUtils.numberFormat(item.confirmed)
+            txtRcv.text = NumberUtils.numberFormat(item.recovered)
+            txtDeath.text = NumberUtils.numberFormat(item.deaths)
         }
     }
 
