@@ -3,14 +3,16 @@ package id.rizmaulana.covid19.ui.widget
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
 import id.rizmaulana.covid19.R
+import id.rizmaulana.covid19.data.mapper.CovidDataMapper
 import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.data.repository.Repository
-import id.rizmaulana.covid19.ui.overview.DashboardActivity
 import id.rizmaulana.covid19.util.NumberUtils
+import id.rizmaulana.covid19.util.rx.SchedulerProvider
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 
@@ -19,6 +21,7 @@ import org.koin.core.inject
  */
 class LocationWidget : AppWidgetProvider(), KoinComponent {
     private val appRepository by inject<Repository>()
+    private val schedulerProvider by inject<SchedulerProvider>()
 
     override fun onUpdate(
         context: Context?,
@@ -38,8 +41,10 @@ class LocationWidget : AppWidgetProvider(), KoinComponent {
     ) {
         appWidgetIds?.forEachIndexed { index, i ->
             val appWidgetId = appWidgetIds[index]
-            val intent = Intent(context, DashboardActivity::class.java)
-            val pendingIntent = PendingIntent.getActivity(context, 0, intent, 0)
+            val intent = Intent(context, javaClass).apply {
+                action = UPDATE
+            }
+            val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
             val views = RemoteViews(context?.packageName, R.layout.item_widget_pinned)
             views.setTextViewText(R.id.txt_location, covidDetail.locationName)
             views.setTextViewText(
@@ -58,19 +63,41 @@ class LocationWidget : AppWidgetProvider(), KoinComponent {
                 R.id.txt_rcv,
                 NumberUtils.numberFormat(covidDetail.recovered)
             )
-            views.setOnClickResponse(R.id.img_refresh, )
+            views.setOnClickPendingIntent(R.id.img_refresh, pendingIntent)
             appWidgetManager?.updateAppWidget(appWidgetId, views)
         }
     }
 
     override fun onReceive(context: Context?, intent: Intent?) {
         super.onReceive(context, intent)
-        if (intent?.action == UPDATE){
+        if (intent?.action == UPDATE) {
             appRepository.getCachePinnedRegion()?.let { detail ->
-                appRepository.country(detail.)
-
+                appRepository.country(detail.iso2.orEmpty())
+                    .flatMapCompletable { overview ->
+                        val updatedRegion =
+                            CovidDataMapper.transformOverviewToUpdatedRegion(detail, overview)
+                        return@flatMapCompletable appRepository.putPinnedRegion(updatedRegion)
+                            .subscribeOn(schedulerProvider.ui())
+                    }
+                    .observeOn(schedulerProvider.ui())
+                    .subscribe({
+                        updateData(context)
+                    }, {
+                        it.printStackTrace()
+                    }
+                    )
             }
         }
+    }
+
+    private fun updateData(context: Context?) {
+        val appWidgetManager = AppWidgetManager.getInstance(context);
+        val thisAppWidgetComponentName =
+            ComponentName(context?.packageName.orEmpty(), javaClass.name)
+        val appWidgetIds = appWidgetManager.getAppWidgetIds(
+            thisAppWidgetComponentName
+        )
+        onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
     companion object {

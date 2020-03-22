@@ -146,7 +146,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_x2"
@@ -154,9 +154,8 @@
 
         <TextView
             android:id="@+id/txt_info"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="Data source : https://covid19.mathdro.id/"
             android:textColor="@color/cool_grey"
             android:textSize="@dimen/text_12"
@@ -164,11 +163,12 @@
             app:layout_constraintLeft_toLeftOf="parent" />
 
         <ImageView
+            android:layout_alignParentEnd="true"
             android:id="@+id/img_refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_refresh" />
-    </LinearLayout>
+            android:background="@drawable/ic_refresh" />
+    </RelativeLayout>
 
 
 </LinearLayout>
