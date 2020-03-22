@@ -52,13 +52,13 @@ class DailyGraphActivity : BaseActivity() {
         binding.swipeRefresh.setOnRefreshListener {
             viewModel.loadRemoteDailyData()
         }
-        binding.tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener{
+        binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
-                // nothing
+                // no op
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
-                // nothing
+                // no op
             }
 
             override fun onTabSelected(tab: TabLayout.Tab?) {
@@ -120,8 +120,10 @@ class DailyGraphActivity : BaseActivity() {
                     dailyItem.totalConfirmed.toFloat(),
                     NumberUtils.formatTime(dailyItem.reportDate)
                 )
-            }, getString(R.string.total_case)
-        )
+            }, getString(R.string.confirmed)
+        ).apply {
+            setLineChartStyle(this, R.color.color_confirmed)
+        }
 
         val totalRecovered = LineDataSet(
             daily.mapIndexed { index, dailyItem ->
@@ -130,8 +132,10 @@ class DailyGraphActivity : BaseActivity() {
                     dailyItem.totalRecovered.toFloat(),
                     NumberUtils.formatTime(dailyItem.reportDate)
                 )
-            }, getString(R.string.total_case)
-        )
+            }, getString(R.string.recovered)
+        ).apply {
+            setLineChartStyle(this, R.color.color_recovered)
+        }
 
         val deltaConfirmed = LineDataSet(
             daily.mapIndexed { index, dailyItem ->
@@ -157,7 +161,10 @@ class DailyGraphActivity : BaseActivity() {
             setLineChartStyle(this, R.color.color_recovered)
         }
 
-        val lineData = if (currentState == TOTAL_STATE) LineData(totalConfirmed, totalRecovered) else LineData(deltaConfirmed, deltaRecovered)
+        val lineData = when (currentState) {
+            TOTAL_STATE -> LineData(totalConfirmed, totalRecovered)
+            else -> LineData(deltaConfirmed, deltaRecovered)
+        }
         binding.lineChart.data = lineData
         binding.lineChart.invalidate()
     }
