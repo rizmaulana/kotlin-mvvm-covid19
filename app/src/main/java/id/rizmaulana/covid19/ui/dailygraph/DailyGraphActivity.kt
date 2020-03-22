@@ -11,7 +11,7 @@ import id.rizmaulana.covid19.util.ext.observe
 import kotlinx.android.synthetic.main.activity_daily_graph.view.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class DailyGraphActivity : BaseActivity() {
+class DailyGraphActivity : BaseActivity(), DailyGraphFragment.DailyListener {
 
     private val viewModel by viewModel<DailyGraphViewModel>()
     private lateinit var binding: ActivityDailyGraphBinding
@@ -38,14 +38,18 @@ class DailyGraphActivity : BaseActivity() {
 //            adapter = dailyAdapter
 //            setHasFixedSize(true)
 //        }
-        binding.swipeRefresh.setOnRefreshListener {
-            viewModel.loadRemoteDailyData()
-        }
+//        binding.swipeRefresh.setOnRefreshListener {
+//            viewModel.loadRemoteDailyData()
+//        }
     }
 
     override fun observeChange() {
         observe(viewModel.toastMessage, ::showSnackbarMessage)
         observe(viewModel.loading, ::swipeLoading)
+    }
+
+    override fun onSwap() {
+
     }
 
     private fun swipeLoading(loading: Boolean) {

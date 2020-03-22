@@ -1,5 +1,6 @@
 package id.rizmaulana.covid19.ui.dailygraph
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ import id.rizmaulana.covid19.util.NumberUtils
 import id.rizmaulana.covid19.util.ext.color
 import id.rizmaulana.covid19.util.ext.observe
 import org.koin.android.viewmodel.ext.android.sharedViewModel
+import java.lang.ClassCastException
 
 const val TOTAL_STATE = 0
 const val DELTA_STATE = 1
@@ -31,6 +33,7 @@ class DailyGraphFragment : BaseFragment() {
     private val binding get() = _binding!!
 
     private var currentState = TOTAL_STATE
+    var listener: DailyListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +46,7 @@ class DailyGraphFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.buttonShow.setOnClickListener { listener?.onSwap() }
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 // no op
@@ -59,6 +63,12 @@ class DailyGraphFragment : BaseFragment() {
                 }
             }
         })
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        listener = context as? DailyListener
+        if (listener == null) throw ClassCastException("$context must implement DailyListener")
     }
 
     override fun observeChange() {
@@ -167,6 +177,10 @@ class DailyGraphFragment : BaseFragment() {
     private fun onDailyDataLoaded(daily: List<CovidDaily>) {
 //        dailyAdapter.addAll(daily)
         setupChart(daily)
+    }
+
+    interface DailyListener {
+        fun onSwap()
     }
 
     companion object {
