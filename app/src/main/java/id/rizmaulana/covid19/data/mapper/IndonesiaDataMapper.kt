@@ -33,11 +33,11 @@ object IndonesiaDailyDataMapper {
 
     fun transformIntoCountryProvince(responses: List<IndonesiaPerProvince>?) = responses?.map {
         PerCountryProvinceItem(
-            it.fid,
+            it.kodeProvi,
             it.provinsi.orEmpty(),
-            it.kasusTerkonfirmasiAkumulatif,
-            it.kasusSembuhAkumulatif,
-            it.kasusMeninggalAkumulatif
+            it.kasusPosi,
+            it.kasusMeni,
+            it.kasusSemb
         )
     }.orEmpty()
 
