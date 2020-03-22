@@ -15,6 +15,7 @@ import java.net.UnknownHostException
  */
 abstract class BaseViewModel : ViewModel(), LifecycleObserver {
 
+
     protected val TAG = javaClass.simpleName
     protected val compositeDisposable by lazy { CompositeDisposable() }
 
