@@ -37,8 +37,8 @@
     <string name="pinch_zoom">Pinch to zoom in or zoom out data</string>
     <string name="per_country">Per Country Data</string>
     <string name="source">Source : %1$s</string>
-    <string name="case_per_province_chart">Per Province Case Chart</string>
-    <string name="case_daily_chart">Daily Case Chart</string>
+    <string name="case_per_province_chart">Per Province Case Graph</string>
+    <string name="case_daily_chart">Daily Case Graph</string>
     <string name="case_daily">Daily Case</string>
     <string name="indonesia_daily_info">Confirmed, recovered and death are total number</string>
     <string name="new_case">New Case</string>

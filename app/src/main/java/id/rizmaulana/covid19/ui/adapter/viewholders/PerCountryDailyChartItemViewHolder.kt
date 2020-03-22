@@ -96,18 +96,7 @@ class PerCountryDailyGraphItemViewHolder(itemView: View) :
         ).apply {
             setLineChartStyle(this, R.color.color_death)
         }
-        val dailyCase = LineDataSet(
-            daily.mapIndexed { index, dailyItem ->
-                Entry(
-                    index.toFloat(),
-                    dailyItem.confirmed.toFloat(),
-                    NumberUtils.formatTime(dailyItem.date)
-                )
-            }, getString(R.string.new_case)
-        ).apply {
-            setLineChartStyle(this, R.color.colorAccent)
-        }
-        val lineData = LineData(totalConfirmed, dailyCase, totalDeath, totalRecovered)
+        val lineData = LineData(totalConfirmed, totalDeath, totalRecovered)
         binding.lineChart.data = lineData
     }
 
