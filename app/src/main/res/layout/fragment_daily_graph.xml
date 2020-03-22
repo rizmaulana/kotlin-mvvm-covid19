@@ -8,7 +8,8 @@
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/line_chart"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -18,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/space_x2"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="@string/pinch_zoom"
         android:textColor="@color/cool_grey"
         android:textSize="@dimen/text_14"
@@ -50,5 +51,12 @@
             android:text="Delta" />
 
     </com.google.android.material.tabs.TabLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
