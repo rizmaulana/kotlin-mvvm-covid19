@@ -105,11 +105,15 @@ class DailyGraphFragment : BaseFragment() {
 
         }
 
-        val totalConfirmed = LineDataSet(
+        val confirmed = LineDataSet(
             daily.mapIndexed { index, dailyItem ->
+                val data = when (currentState) {
+                    TOTAL_STATE -> dailyItem.totalConfirmed.toFloat()
+                    else -> dailyItem.deltaConfirmed.toFloat()
+                }
                 Entry(
                     index.toFloat(),
-                    dailyItem.totalConfirmed.toFloat(),
+                    data,
                     NumberUtils.formatTime(dailyItem.reportDate)
                 )
             }, getString(R.string.confirmed)
@@ -117,11 +121,15 @@ class DailyGraphFragment : BaseFragment() {
             setLineChartStyle(this, R.color.color_confirmed)
         }
 
-        val totalRecovered = LineDataSet(
+        val recovered = LineDataSet(
             daily.mapIndexed { index, dailyItem ->
+                val data = when (currentState) {
+                    TOTAL_STATE -> dailyItem.totalRecovered.toFloat()
+                    else -> dailyItem.deltaRecovered.toFloat()
+                }
                 Entry(
                     index.toFloat(),
-                    dailyItem.totalRecovered.toFloat(),
+                    data,
                     NumberUtils.formatTime(dailyItem.reportDate)
                 )
             }, getString(R.string.recovered)
@@ -129,35 +137,7 @@ class DailyGraphFragment : BaseFragment() {
             setLineChartStyle(this, R.color.color_recovered)
         }
 
-        val deltaConfirmed = LineDataSet(
-            daily.mapIndexed { index, dailyItem ->
-                Entry(
-                    index.toFloat(),
-                    dailyItem.deltaConfirmed.toFloat(),
-                    NumberUtils.formatTime(dailyItem.reportDate)
-                )
-            }, getString(R.string.confirmed)
-        ).apply {
-            setLineChartStyle(this, R.color.color_confirmed)
-        }
-
-        val deltaRecovered = LineDataSet(
-            daily.mapIndexed { index, dailyItem ->
-                Entry(
-                    index.toFloat(),
-                    dailyItem.deltaRecovered.toFloat(),
-                    NumberUtils.formatTime(dailyItem.reportDate)
-                )
-            }, getString(R.string.recovered)
-        ).apply {
-            setLineChartStyle(this, R.color.color_recovered)
-        }
-
-        val lineData = when (currentState) {
-            TOTAL_STATE -> LineData(totalConfirmed, totalRecovered)
-            else -> LineData(deltaConfirmed, deltaRecovered)
-        }
-        binding.lineChart.data = lineData
+        binding.lineChart.data = LineData(confirmed, recovered)
         binding.lineChart.invalidate()
     }
 
