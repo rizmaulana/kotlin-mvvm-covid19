@@ -1,6 +1,7 @@
 package id.rizmaulana.covid19.ui.dailygraph
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -46,8 +47,12 @@ class DailyGraphFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            binding.buttonShow.visibility = View.GONE
+        } else {
+            binding.buttonShow.setOnClickListener { listener?.onSwap() }
+        }
         binding.tvInfo.text = getString(R.string.total_chart_info)
-        binding.buttonShow.setOnClickListener { listener?.onSwap() }
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
                 // no op
