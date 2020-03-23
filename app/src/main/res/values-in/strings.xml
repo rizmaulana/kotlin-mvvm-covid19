@@ -35,5 +35,8 @@
     <string name="feedback">Umpan Balik</string>
     <string name="show_graph">Tampilkan Grafis</string>
     <string name="pinch_zoom">Cubit untuk memperbesar atau memperkecil data</string>
+    <string name="show_data">Lihat data</string>
+    <string name="total_chart_info">Total Line Chart menunjukkan jumlah total kasus terkonfirmasi dan pulih di kurun waktu yang ditentukan</string>
+    <string name="delta_chart_info">Delta Line Chart menunjukkan peningkatan jumlah kasus terkonfirmasi dan pulih di kurun waktu yang ditentukan</string>
 </resources>
 
