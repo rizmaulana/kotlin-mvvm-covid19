@@ -46,6 +46,7 @@ class DailyGraphFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.tvInfo.text = getString(R.string.total_chart_info)
         binding.buttonShow.setOnClickListener { listener?.onSwap() }
         binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -60,6 +61,8 @@ class DailyGraphFragment : BaseFragment() {
                 tab?.let {
                     currentState = it.position
                     setupChart(viewModel.dailyItems.value.orEmpty())
+                    val infoStr = if (currentState == TOTAL_STATE) R.string.total_chart_info else R.string.delta_chart_info
+                    binding.tvInfo.text = getString(infoStr)
                 }
             }
         })
@@ -175,7 +178,6 @@ class DailyGraphFragment : BaseFragment() {
     }
 
     private fun onDailyDataLoaded(daily: List<CovidDaily>) {
-//        dailyAdapter.addAll(daily)
         setupChart(daily)
     }
 

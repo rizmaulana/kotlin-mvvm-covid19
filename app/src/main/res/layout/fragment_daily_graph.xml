@@ -80,6 +80,8 @@
             android:id="@+id/tv_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableEnd="@drawable/ic_info_outline_black_24dp"
+            android:drawableRight="@drawable/ic_info_outline_black_24dp"
             android:fontFamily="sans-serif"
             android:textAppearance="@style/TextAppearance.App.TextView.Normal"
             tools:text="Total Line Chart shows the total number of confirmed and recovered case over period of time" />
