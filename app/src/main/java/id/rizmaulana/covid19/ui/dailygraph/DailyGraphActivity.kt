@@ -15,11 +15,7 @@ class DailyGraphActivity : BaseActivity(), DailyGraphFragment.DailyListener {
 
     private val viewModel by viewModel<DailyGraphViewModel>()
     private lateinit var binding: ActivityDailyGraphBinding
-    private val dailyAdapter by lazy {
-        DailyAdapter {
 
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,30 +28,19 @@ class DailyGraphActivity : BaseActivity(), DailyGraphFragment.DailyListener {
 
     private fun initView() {
         val fragment = DailyGraphFragment.newInstance()
-        supportFragmentManager.beginTransaction().add(R.id.frame_layout, fragment, "").commit()
+        supportFragmentManager.beginTransaction().add(R.id.frame_layout, fragment, "graph_fragment").commit()
         binding.fabBack.setOnClickListener { onBackPressed() }
-//        with(binding.recyclerView) {
-//            adapter = dailyAdapter
-//            setHasFixedSize(true)
-//        }
-//        binding.swipeRefresh.setOnRefreshListener {
-//            viewModel.loadRemoteDailyData()
-//        }
     }
 
     override fun observeChange() {
         observe(viewModel.toastMessage, ::showSnackbarMessage)
-        observe(viewModel.loading, ::swipeLoading)
     }
 
     override fun onSwap() {
-
-    }
-
-    private fun swipeLoading(loading: Boolean) {
-        with(binding.swipeRefresh) {
-            post { isRefreshing = loading }
-        }
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.frame_layout, DailyDataListFragment.newInstance(), "list_fragment")
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
     companion object {
