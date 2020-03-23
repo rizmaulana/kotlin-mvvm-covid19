@@ -38,6 +38,7 @@ class DailyGraphActivity : BaseActivity(), DailyGraphFragment.DailyListener {
 
     override fun onSwap() {
         val transaction = supportFragmentManager.beginTransaction()
+        transaction.setCustomAnimations(R.anim.slide_in_right, 0, 0, R.anim.slide_out_right)
         transaction.replace(R.id.frame_layout, DailyDataListFragment.newInstance(), "list_fragment")
         transaction.addToBackStack(null)
         transaction.commit()
