@@ -89,10 +89,8 @@ class DailyGraphFragment : BaseFragment() {
 
             axisLeft.textColor = color(R.color.cool_grey)
             axisRight.isEnabled = false
-//            axisRight.textColor = color(R.color.cool_grey)
             description.isEnabled = false
 
-//            axisRight.enableGridDashedLine(10f, 10f, 2f)
             axisLeft.enableGridDashedLine(10f, 10f, 2f)
             xAxis.enableGridDashedLine(10f, 10f, 2f)
 
