@@ -22,20 +22,23 @@ class DiffUtilItemCallback : DiffUtil.ItemCallback<BaseViewItem>() {
 
 abstract class BaseViewHolder<T: BaseViewItem>(containerView: View): RecyclerView.ViewHolder(containerView) {
     abstract fun bind(item: T)
-    abstract fun setOnClickListener(listener: (View) -> Unit)
+    open fun setOnClickListener(listener: (View) -> Unit) {  } //override if want to use it
+    open fun setOnLongClickListener(listener: (View) -> Unit) {  } //override if want to use it
 }
 
 typealias VisitableAdapterItemClickListener = ((BaseViewItem, View) -> Unit)
 
 class VisitableRecyclerAdapter(
     private val factory: ItemTypeFactory,
-    private val listener: VisitableAdapterItemClickListener? = null
+    private val onClick: VisitableAdapterItemClickListener? = null,
+    private val onLongClick: VisitableAdapterItemClickListener? = null
 ): ListAdapter<BaseViewItem, BaseViewHolder<BaseViewItem>>(DiffUtilItemCallback()) {
 
     @Suppress("UNCHECKED_CAST")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<BaseViewItem> {
         return factory.onCreateViewHolder(LayoutInflater.from(parent.context).inflate(viewType, parent,false), viewType).apply {
-            setOnClickListener{ listener?.invoke(currentList.get(adapterPosition), it) }
+            setOnClickListener{ onClick?.invoke(currentList.get(adapterPosition), it) }
+            setOnLongClickListener{ onLongClick?.invoke(currentList.get(adapterPosition), it) }
         } as BaseViewHolder<BaseViewItem>
     }
 

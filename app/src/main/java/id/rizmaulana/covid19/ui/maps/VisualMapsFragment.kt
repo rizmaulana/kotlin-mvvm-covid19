@@ -16,8 +16,9 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import id.rizmaulana.covid19.R
-import id.rizmaulana.covid19.data.model.CovidDetail
+import id.rizmaulana.covid19.ui.adapter.viewholders.LocationItem
 import id.rizmaulana.covid19.ui.base.BaseFragment
+import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.ui.detail.DetailViewModel
 import id.rizmaulana.covid19.util.CaseType
 import id.rizmaulana.covid19.util.ext.observe
@@ -57,7 +58,7 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
     }
 
     override fun observeChange() {
-        observe(viewModel.detailListLiveData, ::updateMarkers)
+        observe(viewModel.detailListViewItems, ::updateMarkers)
     }
 
     override fun onMapReady(map: GoogleMap?) {
@@ -76,7 +77,7 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
         moveCamera(LatLng(LAT_DEFAULT, LON_DEFAULT))
     }
 
-    fun selectItem(data: CovidDetail) {
+    fun selectItem(data: LocationItem) {
         googleMap?.let {
             moveCamera(LatLng(data.lat, data.long))
             startPulseAnimation(LatLng(data.lat, data.long))
@@ -98,10 +99,10 @@ class VisualMapsFragment : BaseFragment(), OnMapReadyCallback {
         googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 4f))
     }
 
-    private fun updateMarkers(data: List<CovidDetail>) {
+    private fun updateMarkers(data: List<BaseViewItem>) {
         googleMap?.clear()
         markers.clear()
-        data.forEach {
+        data.filterIsInstance<LocationItem>().forEach {
             val marker = googleMap?.addMarker(
                 MarkerOptions().position(LatLng(it.lat, it.long))
                     .anchor(0.5f, 0.5f)

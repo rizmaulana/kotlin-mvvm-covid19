@@ -16,6 +16,7 @@ interface Repository {
     fun fullStats(): Observable<List<CovidDetail>>
     fun pinnedRegion(): Observable<Result<CovidDetail>>
     fun putPinnedRegion(data: CovidDetail): Completable
+    fun removePinnedRegion(): Completable
     fun getCachePinnedRegion(): CovidDetail?
     fun getCacheOverview(): CovidOverview?
     fun getCacheDaily(): List<CovidDaily>?
