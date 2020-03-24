@@ -4,6 +4,8 @@ import android.view.View
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ItemErrorStateBinding
 import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
+import id.rizmaulana.covid19.ui.adapter.ItemTypeFactory
+import id.rizmaulana.covid19.ui.adapter.ItemTypeFactoryImpl
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 
 
@@ -11,7 +13,7 @@ class ErrorStateItem(
     val titleResId: Int,
     val subtitleResId: Int
 ): BaseViewItem {
-    override fun layoutResId(): Int = R.layout.item_error_state
+    override fun typeOf(itemFactory: ItemTypeFactory): Int = itemFactory.type(this)
 }
 
 class ErrorStateItemViewHolder(itemView: View) : BaseViewHolder<ErrorStateItem>(itemView) {

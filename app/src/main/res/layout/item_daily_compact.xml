@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="1dp"
+    android:background="@color/davy_grey"
+    android:padding="@dimen/space_x2"
+    app:layout_goneMarginBottom="@dimen/space_half">
+
+    <TextView
+        android:id="@+id/txt_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_14"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="20 Januari 2019" />
+
+    <LinearLayout
+        android:id="@+id/layout_case"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txt_date"
+        app:layout_constraintTop_toBottomOf="@id/txt_date">
+
+        <ImageView
+            android:id="@+id/img_confirmed"
+            android:layout_width="@dimen/space_x3"
+            android:layout_height="@dimen/space_x3"
+            app:srcCompat="@drawable/ic_trending_up" />
+
+        <TextView
+            android:id="@+id/txt_confirmed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space"
+            android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
+            android:textColor="@color/color_confirmed"
+            android:textSize="@dimen/text_14"
+            tools:text="Confirmed : 220 " />
+
+        <ImageView
+            android:id="@+id/img_recovered"
+            android:layout_width="@dimen/space_x3"
+            android:layout_height="@dimen/space_x3"
+            android:layout_marginLeft="@dimen/space_x2"
+            app:srcCompat="@drawable/ic_trending_down" />
+
+        <TextView
+            android:id="@+id/txt_recovered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space"
+            android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
+            android:textColor="@color/color_recovered"
+            android:textSize="@dimen/text_14"
+            tools:text="Recovered : 90 " />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

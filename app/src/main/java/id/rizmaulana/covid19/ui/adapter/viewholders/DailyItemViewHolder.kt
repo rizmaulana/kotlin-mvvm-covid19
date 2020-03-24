@@ -5,6 +5,8 @@ import androidx.core.content.ContextCompat
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ItemDailyBinding
 import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
+import id.rizmaulana.covid19.ui.adapter.ItemTypeFactory
+import id.rizmaulana.covid19.ui.adapter.ItemTypeFactoryImpl
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.IncrementStatus
 import id.rizmaulana.covid19.util.NumberUtils
@@ -19,7 +21,7 @@ data class DailyItem(
     var incrementRecovered: Int = IncrementStatus.FLAT,
     var incrementConfirmed: Int = IncrementStatus.FLAT
 ): BaseViewItem {
-    override fun layoutResId(): Int = R.layout.item_daily
+    override fun typeOf(itemFactory: ItemTypeFactory) = itemFactory.type(this)
 }
 
 class DailyItemViewHolder(itemView: View) : BaseViewHolder<DailyItem>(itemView) {
