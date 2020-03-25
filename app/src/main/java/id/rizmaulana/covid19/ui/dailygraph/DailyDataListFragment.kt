@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.FragmentDailyListBinding
 import id.rizmaulana.covid19.ui.adapter.DailyFactoryImpl
 import id.rizmaulana.covid19.ui.adapter.VisitableRecyclerAdapter
@@ -16,8 +17,7 @@ class DailyDataListFragment : BaseFragment() {
 
     private val viewModel by sharedViewModel<DailyGraphViewModel>()
 
-    private var _binding: FragmentDailyListBinding? = null
-    private val binding get() = _binding!!
+    lateinit var binding: FragmentDailyListBinding
     private val dailyAdapter by lazy {
         VisitableRecyclerAdapter(DailyFactoryImpl())
     }
@@ -27,7 +27,7 @@ class DailyDataListFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentDailyListBinding.inflate(inflater, container, false)
+        binding = FragmentDailyListBinding.inflate(inflater, container, false)
         return binding.root
     }
 

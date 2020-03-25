@@ -30,8 +30,7 @@ class DailyGraphFragment : BaseFragment() {
 
     private val viewModel by sharedViewModel<DailyGraphViewModel>()
 
-    private var _binding: FragmentDailyGraphBinding? = null
-    private val binding get() = _binding!!
+    lateinit var binding: FragmentDailyGraphBinding
 
     private var currentState = TOTAL_STATE
     var listener: DailyListener? = null
@@ -41,7 +40,7 @@ class DailyGraphFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentDailyGraphBinding.inflate(inflater, container, false)
+        binding = FragmentDailyGraphBinding.inflate(inflater, container, false)
         return binding.root
     }
 
