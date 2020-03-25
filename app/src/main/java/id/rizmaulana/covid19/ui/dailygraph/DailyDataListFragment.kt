@@ -6,7 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.rizmaulana.covid19.databinding.FragmentDailyListBinding
-import id.rizmaulana.covid19.ui.adapter.DailyAdapter
+import id.rizmaulana.covid19.ui.adapter.DailyFactoryImpl
+import id.rizmaulana.covid19.ui.adapter.VisitableRecyclerAdapter
 import id.rizmaulana.covid19.ui.base.BaseFragment
 import id.rizmaulana.covid19.util.ext.observe
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -18,9 +19,7 @@ class DailyDataListFragment : BaseFragment() {
     private var _binding: FragmentDailyListBinding? = null
     private val binding get() = _binding!!
     private val dailyAdapter by lazy {
-        DailyAdapter {
-
-        }
+        VisitableRecyclerAdapter(DailyFactoryImpl())
     }
 
     override fun onCreateView(
@@ -46,7 +45,7 @@ class DailyDataListFragment : BaseFragment() {
     override fun observeChange() {
         observe(viewModel.loading, ::swipeLoading)
         observe(viewModel.dailyItemsVH) { items ->
-            dailyAdapter.addAll(items)
+            dailyAdapter.submitList(items)
         }
     }
 
