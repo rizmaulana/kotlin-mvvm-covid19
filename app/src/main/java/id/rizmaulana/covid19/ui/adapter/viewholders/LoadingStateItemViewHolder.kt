@@ -8,9 +8,7 @@ import id.rizmaulana.covid19.ui.adapter.ItemTypeFactoryImpl
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 
 
-class LoadingStateItem: BaseViewItem {
-    override fun typeOf(itemFactory: ItemTypeFactory): Int = itemFactory.type(this)
-}
+class LoadingStateItem: BaseViewItem
 
 class LoadingStateItemViewHolder(itemView: View) : BaseViewHolder<LoadingStateItem>(itemView) {
 

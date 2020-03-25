@@ -15,9 +15,7 @@ data class PinnedItem(
     val deaths: Int? = null,
     val locationName: String,
     val lastUpdate: Long
-): BaseViewItem {
-    override fun typeOf(itemFactory: ItemTypeFactory): Int = itemFactory.type(this)
-}
+): BaseViewItem
 
 class PinnedItemViewHolder(itemView: View) : BaseViewHolder<PinnedItem>(itemView) {
     private val binding: ItemPinnedBinding = ItemPinnedBinding.bind(itemView)

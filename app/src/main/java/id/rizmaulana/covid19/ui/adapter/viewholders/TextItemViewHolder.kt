@@ -14,9 +14,7 @@ import id.rizmaulana.covid19.util.ext.visible
 data class TextItem(
     val textResId: Int? = null,
     val textActionResId: Int? = null
-) : BaseViewItem {
-    override fun typeOf(itemFactory: ItemTypeFactory): Int = itemFactory.type(this)
-}
+) : BaseViewItem
 
 class TextItemViewHolder(itemView: View) : BaseViewHolder<TextItem>(itemView) {
     private val binding: ItemTextBinding = ItemTextBinding.bind(itemView)

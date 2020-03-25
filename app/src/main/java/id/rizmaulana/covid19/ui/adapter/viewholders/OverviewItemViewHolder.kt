@@ -21,9 +21,7 @@ data class OverviewItem(
     val confirmed: Int = 0,
     val recovered: Int = 0,
     val deaths: Int = 0
-): BaseViewItem {
-    override fun typeOf(itemFactory: ItemTypeFactory): Int = itemFactory.type(this)
-}
+): BaseViewItem
 
 class OverviewItemViewHolder(itemView: View) : BaseViewHolder<OverviewItem>(itemView) {
     private val binding: ItemOverviewBinding = ItemOverviewBinding.bind(itemView)

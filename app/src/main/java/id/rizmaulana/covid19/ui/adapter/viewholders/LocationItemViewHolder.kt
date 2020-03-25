@@ -24,7 +24,6 @@ data class LocationItem(
     @CaseTypes val caseType: Int,
     val isPinned: Boolean = false
 ): BaseViewItem {
-    override fun typeOf(itemFactory: ItemTypeFactory): Int = itemFactory.type(this)
     fun compositeKey() = countryRegion + provinceState
 }
 

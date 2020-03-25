@@ -19,9 +19,7 @@ data class DailyItem(
     val reportDate: String = "",
     var incrementRecovered: Int = IncrementStatus.FLAT,
     var incrementConfirmed: Int = IncrementStatus.FLAT
-): BaseViewItem {
-    override fun typeOf(itemFactory: ItemTypeFactory) = itemFactory.type(this)
-}
+): BaseViewItem
 
 class DailyItemViewHolder(itemView: View) : BaseViewHolder<DailyItem>(itemView) {
     private val binding: ItemDailyBinding = ItemDailyBinding.bind(itemView)

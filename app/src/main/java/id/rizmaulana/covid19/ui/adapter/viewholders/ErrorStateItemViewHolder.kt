@@ -12,9 +12,7 @@ import id.rizmaulana.covid19.ui.base.BaseViewItem
 class ErrorStateItem(
     val titleResId: Int,
     val subtitleResId: Int
-): BaseViewItem {
-    override fun typeOf(itemFactory: ItemTypeFactory): Int = itemFactory.type(this)
-}
+): BaseViewItem
 
 class ErrorStateItemViewHolder(itemView: View) : BaseViewHolder<ErrorStateItem>(itemView) {
 
