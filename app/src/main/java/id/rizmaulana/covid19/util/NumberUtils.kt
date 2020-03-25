@@ -1,6 +1,7 @@
 package id.rizmaulana.covid19.util
 
 import java.text.NumberFormat
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,7 +27,11 @@ object NumberUtils {
 
     fun formatShortDate(time: String): String {
         val parser = SimpleDateFormat("yyyy-mm-dd", Locale.getDefault())
-        val origin = parser.parse(time)
+        val origin = try {
+            parser.parse(time)
+        } catch (e: ParseException) {
+            ""
+        }
         val sdf = SimpleDateFormat("dd MMM", Locale.getDefault())
         return sdf.format(origin)
     }
