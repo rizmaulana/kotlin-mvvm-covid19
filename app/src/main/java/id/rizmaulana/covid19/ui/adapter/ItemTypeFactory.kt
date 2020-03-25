@@ -39,11 +39,21 @@ class ItemTypeFactoryImpl: ItemTypeFactory() {
 
 }
 
-//class DailyFactoryImpl: ItemTypeFactory() {
-//    override fun onCreateViewHolder(
-//        containerView: View,
-//        viewType: Int
-//    ): BaseViewHolder<out BaseViewItem> {
-//
-//    }
-//}
+class DailyFactoryImpl: ItemTypeFactory() {
+    override fun onCreateViewHolder(
+        containerView: View,
+        viewType: Int
+    ): BaseViewHolder<out BaseViewItem> {
+        return when(viewType) {
+            DailyCompactViewHolder.LAYOUT -> DailyCompactViewHolder(containerView)
+            else -> throw ClassCastException()
+        }
+    }
+
+    override fun type(item: BaseViewItem): Int {
+        return when(item) {
+            is DailyItem -> DailyCompactViewHolder.LAYOUT
+            else -> throw ClassCastException()
+        }
+    }
+}
