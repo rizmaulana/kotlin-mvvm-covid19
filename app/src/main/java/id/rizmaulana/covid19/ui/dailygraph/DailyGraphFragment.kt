@@ -117,7 +117,7 @@ class DailyGraphFragment : BaseFragment() {
                 Entry(
                     index.toFloat(),
                     data,
-                    NumberUtils.formatTime(dailyItem.reportDate)
+                    dailyItem.reportDate
                 )
             }, getString(R.string.confirmed)
         ).apply {
@@ -133,7 +133,7 @@ class DailyGraphFragment : BaseFragment() {
                 Entry(
                     index.toFloat(),
                     data,
-                    NumberUtils.formatTime(dailyItem.reportDate)
+                    dailyItem.reportDate
                 )
             }, getString(R.string.recovered)
         ).apply {
