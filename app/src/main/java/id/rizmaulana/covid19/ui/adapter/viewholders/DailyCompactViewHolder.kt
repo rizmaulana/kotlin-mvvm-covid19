@@ -1,11 +1,9 @@
 package id.rizmaulana.covid19.ui.adapter.viewholders
 
 import android.view.View
-import androidx.core.content.ContextCompat
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ItemDailyCompactBinding
 import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
-import id.rizmaulana.covid19.util.IncrementStatus
 import id.rizmaulana.covid19.util.NumberUtils
 
 class DailyCompactViewHolder(itemView: View) : BaseViewHolder<DailyItem>(itemView) {
@@ -14,7 +12,7 @@ class DailyCompactViewHolder(itemView: View) : BaseViewHolder<DailyItem>(itemVie
 
     override fun bind(item: DailyItem) {
         with(binding) {
-            txtDate.text = item.reportDate
+            txtDate.text = NumberUtils.formatStringDate(item.reportDate)
 
             root.context?.let {
                 txtConfirmed.text = it.getString(R.string.confirmed_case_count, NumberUtils.numberFormat(item.deltaConfirmed))
