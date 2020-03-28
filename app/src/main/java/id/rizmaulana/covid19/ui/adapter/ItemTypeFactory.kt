@@ -49,6 +49,7 @@ class ItemTypeFactoryImpl : ItemTypeFactory() {
         is PerCountryDailyItem -> PerCountryDailyItemViewHolder.LAYOUT
         is PerCountryDailyGraphItem -> PerCountryDailyGraphItemViewHolder.LAYOUT
         is PerCountryProvinceGraphItem -> PerCountryProvinceGraphItemViewHolder.LAYOUT
+        is PerCountryItem -> PerCountryViewHolder.LAYOUT
         else -> throw ClassCastException()
     }
 
