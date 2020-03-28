@@ -109,7 +109,7 @@ open class AppRepository constructor(
 
     override fun confirmed(): Observable<List<CovidDetail>> {
         val cacheConfirmed = getCacheConfirmed()
-        val localObservable = if(cacheConfirmed != null) Observable.just(cacheConfirmed)
+        val localObservable = if (cacheConfirmed != null) Observable.just(cacheConfirmed)
         else Observable.empty()
 
         val remoteObservable = api.confirmed()
@@ -125,7 +125,7 @@ open class AppRepository constructor(
 
     override fun deaths(): Observable<List<CovidDetail>> {
         val cacheDeath = getCacheDeath()
-        val localObservable = if(cacheDeath != null) Observable.just(cacheDeath)
+        val localObservable = if (cacheDeath != null) Observable.just(cacheDeath)
         else Observable.empty()
 
         val remoteObservable = api.deaths()
@@ -139,9 +139,9 @@ open class AppRepository constructor(
         return Observable.concatArrayEager(localObservable, remoteObservable)
     }
 
-    override fun recovered(): Observable<List<CovidDetail>>{
+    override fun recovered(): Observable<List<CovidDetail>> {
         val cacheRecovered = getCacheRecovered()
-        val localObservable = if(cacheRecovered != null) Observable.just(cacheRecovered)
+        val localObservable = if (cacheRecovered != null) Observable.just(cacheRecovered)
         else Observable.empty()
 
         val remoteObservable = api.recovered()
@@ -229,11 +229,11 @@ open class AppRepository constructor(
 
 
     override fun getIndonesiaDaily(): Observable<List<IndonesiaDaily>> = api.indonesiaDaily()
-        .flatMap { Observable.just(it.data) }
+        .map { it.data }
 
     override fun getIndonesiaPerProvince(): Observable<List<IndonesiaPerProvince>> =
         api.indonesiaPerProvince()
-            .flatMap { Observable.just(it.data) }
+            .map { it.data }
 
     override fun getCachePinnedRegion(): CovidDetail? = pref.getPrefCountry()
 
