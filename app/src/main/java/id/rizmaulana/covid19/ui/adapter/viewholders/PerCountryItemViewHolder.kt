@@ -15,7 +15,6 @@ data class PerCountryItem(
     val source: String,
     @DrawableRes val icon: Int
 ) : BaseViewItem {
-    override fun layoutResId(): Int = R.layout.item_per_country
 
     companion object {
         /*Generated country ID for identifier*/

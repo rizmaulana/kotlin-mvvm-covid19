@@ -17,9 +17,7 @@ import id.rizmaulana.covid19.util.ext.getString
 
 data class PerCountryDailyGraphItem(
     val listData: List<PerCountryDailyItem>
-) : BaseViewItem {
-    override fun layoutResId(): Int = R.layout.item_daily_percountry_graph
-}
+) : BaseViewItem
 
 class PerCountryDailyGraphItemViewHolder(itemView: View) :
     BaseViewHolder<PerCountryDailyGraphItem>(itemView) {

@@ -7,7 +7,7 @@ import id.rizmaulana.covid19.databinding.ItemDailyPercountryBinding
 import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.NumberUtils
-import id.rizmaulana.covid19.util.ext.getStringWithArg
+import id.rizmaulana.covid19.util.ext.getString
 
 data class PerCountryDailyItem(
     val id: Int = 0,
@@ -18,9 +18,7 @@ data class PerCountryDailyItem(
     val date: Long = 0,
     val day: Int = 0,
     @StringRes val info: Int
-) : BaseViewItem {
-    override fun layoutResId(): Int = R.layout.item_daily_percountry
-}
+) : BaseViewItem
 
 class PerCountryDailyItemViewHolder(itemView: View) :
     BaseViewHolder<PerCountryDailyItem>(itemView) {
@@ -33,20 +31,20 @@ class PerCountryDailyItemViewHolder(itemView: View) :
     override fun bind(item: PerCountryDailyItem) {
         with(binding) {
             txtInformation.text = itemView.context.getString(item.info)
-            txtDate.text = "${NumberUtils.formatShortDate(item.date)} ${getStringWithArg(R.string.day_on, item.day.toString())}"
-            txtConfirmed.text = getStringWithArg(
+            txtDate.text = "${NumberUtils.formatShortDate(item.date)} ${getString(R.string.day_on, item.day.toString())}"
+            txtConfirmed.text = getString(
                 R.string.confirmed_case_count,
                 NumberUtils.numberFormat(item.totalConfirmed)
             )
-            txtDeath.text = getStringWithArg(
+            txtDeath.text = getString(
                 R.string.death_case_count,
                 NumberUtils.numberFormat(item.totalDeath)
             )
-            txtRcv.text = getStringWithArg(
+            txtRcv.text = getString(
                 R.string.recovered_case_count,
                 NumberUtils.numberFormat(item.totalRecovered)
             )
-            txtNewCase.text = getStringWithArg(
+            txtNewCase.text = getString(
                 R.string.new_case_case_count,
                 NumberUtils.numberFormat(item.confirmed)
             )

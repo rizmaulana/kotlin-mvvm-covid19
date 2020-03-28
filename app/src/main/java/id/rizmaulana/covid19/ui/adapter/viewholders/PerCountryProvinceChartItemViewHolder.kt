@@ -14,14 +14,11 @@ import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.ext.color
 import id.rizmaulana.covid19.util.ext.getString
-import id.rizmaulana.covid19.util.ext.getStringWithArg
 import id.rizmaulana.covid19.util.ext.visible
 
 data class PerCountryProvinceGraphItem(
     val listData: List<PerCountryProvinceItem>
-) : BaseViewItem {
-    override fun layoutResId(): Int = R.layout.item_province_percountry_graph
-}
+) : BaseViewItem
 
 data class PerCountryProvinceItem(
     val id: Int,
@@ -70,15 +67,15 @@ class PerCountryProvinceGraphItemViewHolder(itemView: View) :
                         barEnrty?.let { dataBarEnty ->
                             layoutData.visible()
                             txtProvince.text = dataBarEnty.data.toString()
-                            txtConfirmed.text = getStringWithArg(
+                            txtConfirmed.text = getString(
                                 R.string.confirmed_case_count,
                                 dataBarEnty.yVals[0].toInt().toString()
                             )
-                            txtDeath.text = getStringWithArg(
+                            txtDeath.text = getString(
                                 R.string.death_case_count,
                                 dataBarEnty.yVals[1].toInt().toString()
                             )
-                            txtRecovered.text = getStringWithArg(
+                            txtRecovered.text = getString(
                                 R.string.recovered_case_count,
                                 dataBarEnty.yVals[2].toInt().toString()
                             )

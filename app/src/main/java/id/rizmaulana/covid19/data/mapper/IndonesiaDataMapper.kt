@@ -17,12 +17,12 @@ object IndonesiaDailyDataMapper {
     fun transformToPerCountryDaily(responses: List<IndonesiaDaily>?) = responses?.map { response ->
         PerCountryDailyItem(
             response.fid,
-            response.jumlahKasusBaruperHari,
-            response.jumlahPasienMeninggal,
-            response.jumlahPasienSembuh,
-            response.jumlahKasusKumulatif,
-            response.tanggal,
-            response.harike,
+            response.newCasePerDay,
+            response.totalDeath,
+            response.totalRecover,
+            response.totalCase,
+            response.date,
+            response.days,
             R.string.indonesia_daily_info
         )
     }.orEmpty()
@@ -33,11 +33,11 @@ object IndonesiaDailyDataMapper {
 
     fun transformIntoCountryProvince(responses: List<IndonesiaPerProvince>?) = responses?.map {
         PerCountryProvinceItem(
-            it.kodeProvi,
-            it.provinsi.orEmpty(),
-            it.kasusPosi,
-            it.kasusMeni,
-            it.kasusSemb
+            it.provinceCode,
+            it.provinceName.orEmpty(),
+            it.confirmed,
+            it.deaths,
+            it.recovered
         )
     }.orEmpty()
 

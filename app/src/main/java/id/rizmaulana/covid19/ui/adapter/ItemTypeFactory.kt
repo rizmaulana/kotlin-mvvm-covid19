@@ -5,7 +5,11 @@ import id.rizmaulana.covid19.ui.adapter.viewholders.*
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 
 abstract class ItemTypeFactory {
-    abstract fun onCreateViewHolder(containerView: View, viewType: Int): BaseViewHolder<out BaseViewItem>
+    abstract fun onCreateViewHolder(
+        containerView: View,
+        viewType: Int
+    ): BaseViewHolder<out BaseViewItem>
+
     abstract fun type(item: BaseViewItem): Int
 }
 
@@ -34,7 +38,7 @@ class ItemTypeFactoryImpl : ItemTypeFactory() {
         }
     }
 
-    override fun type(item: BaseViewItem): Int = when(item) {
+    override fun type(item: BaseViewItem): Int = when (item) {
         is DailyItem -> DailyItemViewHolder.LAYOUT
         is OverviewItem -> OverviewItemViewHolder.LAYOUT
         is TextItem -> TextItemViewHolder.LAYOUT
@@ -42,24 +46,27 @@ class ItemTypeFactoryImpl : ItemTypeFactory() {
         is LocationItem -> LocationItemViewHolder.LAYOUT
         is LoadingStateItem -> LoadingStateItemViewHolder.LAYOUT
         is ErrorStateItem -> ErrorStateItemViewHolder.LAYOUT
+        is PerCountryDailyItem -> PerCountryDailyItemViewHolder.LAYOUT
+        is PerCountryDailyGraphItem -> PerCountryDailyGraphItemViewHolder.LAYOUT
+        is PerCountryProvinceGraphItem -> PerCountryProvinceGraphItemViewHolder.LAYOUT
         else -> throw ClassCastException()
     }
 
 }
 
-class DailyFactoryImpl: ItemTypeFactory() {
+class DailyFactoryImpl : ItemTypeFactory() {
     override fun onCreateViewHolder(
         containerView: View,
         viewType: Int
     ): BaseViewHolder<out BaseViewItem> {
-        return when(viewType) {
+        return when (viewType) {
             DailyCompactViewHolder.LAYOUT -> DailyCompactViewHolder(containerView)
             else -> throw ClassCastException()
         }
     }
 
     override fun type(item: BaseViewItem): Int {
-        return when(item) {
+        return when (item) {
             is DailyItem -> DailyCompactViewHolder.LAYOUT
             else -> throw ClassCastException()
         }
