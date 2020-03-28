@@ -22,10 +22,6 @@ object NumberUtils {
         return sdf.format(Date(time))
     }
 
-    fun formatShortDate(time: Long): String {
-        val sdf = SimpleDateFormat("dd MMM", Locale.getDefault())
-        return sdf.format(Date(time))
-    }
 
     fun formatShortDate(time: Long): String {
         val sdf = SimpleDateFormat("dd MMM", Locale.getDefault())

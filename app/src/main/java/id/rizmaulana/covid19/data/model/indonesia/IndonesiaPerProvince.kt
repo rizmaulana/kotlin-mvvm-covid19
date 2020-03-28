@@ -11,13 +11,13 @@ data class IndonesiaPerProvince(
     @Expose @SerializedName("fid")
     val fid: Int = 0,
     @Expose @SerializedName("kasusMeni")
-    val kasusMeni: Int = 0,
+    val deaths: Int = 0,
     @Expose @SerializedName("kasusPosi")
-    val kasusPosi: Int = 0,
+    val confirmed: Int = 0,
     @Expose @SerializedName("kasusSemb")
-    val kasusSemb: Int = 0,
+    val recovered: Int = 0,
     @Expose @SerializedName("kodeProvi")
-    val kodeProvi: Int = 0,
+    val provinceCode: Int = 0,
     @Expose @SerializedName("provinsi")
-    val provinsi: String? = null
+    val provinceName: String? = null
 )

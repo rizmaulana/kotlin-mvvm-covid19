@@ -29,7 +29,7 @@ interface Repository {
     fun getCacheFull(): List<CovidDetail>?
     fun getCacheCountry(id: String): CovidOverview?
     fun getPerCountryItem(): List<PerCountryItem>
-    fun indonesiaDaily(): Observable<List<IndonesiaDaily>>
-    fun indonesiaPerProvince(): Observable<List<IndonesiaPerProvince>>
+    fun getIndonesiaDaily(): Observable<List<IndonesiaDaily>>
+    fun getIndonesiaPerProvince(): Observable<List<IndonesiaPerProvince>>
 
 }

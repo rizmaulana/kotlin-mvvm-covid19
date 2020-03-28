@@ -38,8 +38,8 @@ class CountryIndonesiaViewModel(
 
     fun loadData() {
         Observable.zip(
-            appRepository.indonesiaDaily(),
-            appRepository.indonesiaPerProvince(),
+            appRepository.getIndonesiaDaily(),
+            appRepository.getIndonesiaPerProvince(),
             BiFunction<List<IndonesiaDaily>, List<IndonesiaPerProvince>, List<BaseViewItem>> { daily, province ->
                 val list = mutableListOf<BaseViewItem>()
                 if (province.isNullOrEmpty().not()) {

@@ -48,7 +48,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="<GOOGLE_API_KEY>" />
+            android:value="AIzaSyBQ8lY1t6WA0VsPZ5TMyKCU_UzmWjneark" />
 
         <receiver android:name=".ui.widget.LocationWidget">
             <intent-filter>

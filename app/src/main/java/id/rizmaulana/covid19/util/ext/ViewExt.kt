@@ -8,8 +8,8 @@ import android.widget.EditText
 import androidx.annotation.ColorRes
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.RecyclerView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 
 
 /**
@@ -57,14 +57,14 @@ fun Fragment.color(resource: Int): Int {
 }
 
 fun RecyclerView.ViewHolder.getString(@StringRes string: Int): String {
-   return itemView.context.getString(string)
+    return itemView.context.getString(string)
 }
 
 
-fun  RecyclerView.ViewHolder.getStringWithArg(@StringRes string: Int, arg: String): String {
-    return itemView.context.getString(string, arg)
+fun RecyclerView.ViewHolder.getString(@StringRes string: Int, vararg arg: String): String {
+    return itemView.context.getString(string, *arg)
 }
 
-fun  RecyclerView.ViewHolder.color(@ColorRes resource: Int): Int {
+fun RecyclerView.ViewHolder.color(@ColorRes resource: Int): Int {
     return itemView.context.color(resource)
 }
