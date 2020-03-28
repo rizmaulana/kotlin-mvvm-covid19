@@ -6,6 +6,7 @@ import id.rizmaulana.covid19.ui.base.BaseViewItem
 
 abstract class ItemTypeFactory {
     abstract fun onCreateViewHolder(containerView: View, viewType: Int): BaseViewHolder<out BaseViewItem>
+    abstract fun type(item: BaseViewItem): Int
 }
 
 class ItemTypeFactoryImpl: ItemTypeFactory() {
@@ -22,6 +23,37 @@ class ItemTypeFactoryImpl: ItemTypeFactory() {
             LoadingStateItemViewHolder.LAYOUT -> LoadingStateItemViewHolder(containerView)
             ErrorStateItemViewHolder.LAYOUT -> ErrorStateItemViewHolder(containerView)
             else -> onCreateViewHolder(containerView, viewType)
+        }
+    }
+
+    override fun type(item: BaseViewItem): Int = when(item) {
+        is DailyItem -> DailyItemViewHolder.LAYOUT
+        is OverviewItem -> OverviewItemViewHolder.LAYOUT
+        is TextItem -> TextItemViewHolder.LAYOUT
+        is PinnedItem -> PinnedItemViewHolder.LAYOUT
+        is LocationItem -> LocationItemViewHolder.LAYOUT
+        is LoadingStateItem -> LoadingStateItemViewHolder.LAYOUT
+        is ErrorStateItem -> ErrorStateItemViewHolder.LAYOUT
+        else -> throw ClassCastException()
+    }
+
+}
+
+class DailyFactoryImpl: ItemTypeFactory() {
+    override fun onCreateViewHolder(
+        containerView: View,
+        viewType: Int
+    ): BaseViewHolder<out BaseViewItem> {
+        return when(viewType) {
+            DailyCompactViewHolder.LAYOUT -> DailyCompactViewHolder(containerView)
+            else -> throw ClassCastException()
+        }
+    }
+
+    override fun type(item: BaseViewItem): Int {
+        return when(item) {
+            is DailyItem -> DailyCompactViewHolder.LAYOUT
+            else -> throw ClassCastException()
         }
     }
 }

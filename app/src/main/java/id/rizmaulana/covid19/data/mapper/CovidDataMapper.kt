@@ -13,7 +13,6 @@ object CovidDailyDataMapper {
 
     fun transform(responses: List<CovidDaily>?) = responses?.map { response ->
         DailyItem(
-            response.objectid,
             response.deltaConfirmed,
             response.deltaRecovered,
             response.mainlandChina,

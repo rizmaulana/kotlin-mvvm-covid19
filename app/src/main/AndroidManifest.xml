@@ -20,8 +20,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity
             android:name=".ui.dailygraph.DailyGraphActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait" />
+            android:configChanges="orientation" />
 
         <uses-library
             android:name="org.apache.http.legacy"

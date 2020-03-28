@@ -10,6 +10,8 @@ import com.github.mikephil.charting.data.PieEntry
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ItemOverviewBinding
 import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
+import id.rizmaulana.covid19.ui.adapter.ItemTypeFactory
+import id.rizmaulana.covid19.ui.adapter.ItemTypeFactoryImpl
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.NumberUtils
 import id.rizmaulana.covid19.util.ext.color
@@ -19,9 +21,7 @@ data class OverviewItem(
     val confirmed: Int = 0,
     val recovered: Int = 0,
     val deaths: Int = 0
-): BaseViewItem {
-    override fun layoutResId(): Int = R.layout.item_overview
-}
+): BaseViewItem
 
 class OverviewItemViewHolder(itemView: View) : BaseViewHolder<OverviewItem>(itemView) {
     private val binding: ItemOverviewBinding = ItemOverviewBinding.bind(itemView)

@@ -9,9 +9,9 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 
-class DiffUtilItemCallback : DiffUtil.ItemCallback<BaseViewItem>() {
+class DiffUtilItemCallback(private val factory: ItemTypeFactory) : DiffUtil.ItemCallback<BaseViewItem>() {
     override fun areItemsTheSame(oldItem: BaseViewItem, newItem: BaseViewItem): Boolean {
-        return oldItem.layoutResId() == newItem.layoutResId()
+        return oldItem.typeOf(factory) == newItem.typeOf(factory)
     }
 
     @SuppressLint("DiffUtilEquals")
@@ -32,7 +32,7 @@ class VisitableRecyclerAdapter(
     private val factory: ItemTypeFactory,
     private val onClick: VisitableAdapterItemClickListener? = null,
     private val onLongClick: VisitableAdapterItemClickListener? = null
-): ListAdapter<BaseViewItem, BaseViewHolder<BaseViewItem>>(DiffUtilItemCallback()) {
+): ListAdapter<BaseViewItem, BaseViewHolder<BaseViewItem>>(DiffUtilItemCallback(factory)) {
 
     @Suppress("UNCHECKED_CAST")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<BaseViewItem> {
@@ -42,9 +42,9 @@ class VisitableRecyclerAdapter(
         } as BaseViewHolder<BaseViewItem>
     }
 
-    override fun getItemViewType(position: Int): Int = currentList.get(position).layoutResId()
+    override fun getItemViewType(position: Int): Int = currentList[position].typeOf(factory)
 
     override fun onBindViewHolder(holder: BaseViewHolder<BaseViewItem>, position: Int) {
-        holder.bind(currentList.get(position))
+        holder.bind(currentList[position])
     }
 }

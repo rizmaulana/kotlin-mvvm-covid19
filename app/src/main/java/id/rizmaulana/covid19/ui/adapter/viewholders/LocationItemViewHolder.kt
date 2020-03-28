@@ -4,6 +4,7 @@ import android.view.View
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ItemLocationBinding
 import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
+import id.rizmaulana.covid19.ui.adapter.ItemTypeFactory
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.CaseType
 import id.rizmaulana.covid19.util.CaseTypes
@@ -23,7 +24,6 @@ data class LocationItem(
     @CaseTypes val caseType: Int,
     val isPinned: Boolean = false
 ): BaseViewItem {
-    override fun layoutResId(): Int = R.layout.item_location
     fun compositeKey() = countryRegion + provinceState
 }
 

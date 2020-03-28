@@ -5,22 +5,21 @@ import androidx.core.content.ContextCompat
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ItemDailyBinding
 import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
+import id.rizmaulana.covid19.ui.adapter.ItemTypeFactory
+import id.rizmaulana.covid19.ui.adapter.ItemTypeFactoryImpl
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.IncrementStatus
 import id.rizmaulana.covid19.util.NumberUtils
 
 data class DailyItem(
-    val objectid: Int = 0,
     val deltaConfirmed: Int = 0,
     val deltaRecovered: Int = 0,
     val mainlandChina: Int = 0,
     val otherLocations: Int = 0,
-    val reportDate: Long = 0,
+    val reportDate: String = "",
     var incrementRecovered: Int = IncrementStatus.FLAT,
     var incrementConfirmed: Int = IncrementStatus.FLAT
-): BaseViewItem {
-    override fun layoutResId(): Int = R.layout.item_daily
-}
+): BaseViewItem
 
 class DailyItemViewHolder(itemView: View) : BaseViewHolder<DailyItem>(itemView) {
     private val binding: ItemDailyBinding = ItemDailyBinding.bind(itemView)
@@ -31,7 +30,7 @@ class DailyItemViewHolder(itemView: View) : BaseViewHolder<DailyItem>(itemView) 
 
     override fun bind(item: DailyItem) {
         with(binding) {
-            txtDate.text = NumberUtils.formatTime(item.reportDate)
+            txtDate.text = item.reportDate
 
             root.context?.let {
                 txtInformation.text = it.getString(

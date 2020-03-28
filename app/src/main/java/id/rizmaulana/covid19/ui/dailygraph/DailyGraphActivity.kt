@@ -3,31 +3,19 @@ package id.rizmaulana.covid19.ui.dailygraph
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.annotation.ColorRes
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import android.view.View
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ActivityDailyGraphBinding
-import id.rizmaulana.covid19.ui.adapter.DailyAdapter
-import id.rizmaulana.covid19.ui.adapter.viewholders.DailyItem
 import id.rizmaulana.covid19.ui.base.BaseActivity
-import id.rizmaulana.covid19.util.NumberUtils
-import id.rizmaulana.covid19.util.ext.color
 import id.rizmaulana.covid19.util.ext.observe
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class DailyGraphActivity : BaseActivity() {
+class DailyGraphActivity : BaseActivity(), DailyGraphFragment.DailyListener {
 
     private val viewModel by viewModel<DailyGraphViewModel>()
     private lateinit var binding: ActivityDailyGraphBinding
-    private val dailyAdapter by lazy {
-        DailyAdapter {
 
-        }
-    }
+    private var singlePane: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,110 +27,26 @@ class DailyGraphActivity : BaseActivity() {
     }
 
     private fun initView() {
+        val frameLayout: View? = findViewById(R.id.frame_layout)
+        singlePane = frameLayout?.visibility == View.VISIBLE
+        if (singlePane) {
+            val fragment = DailyGraphFragment.newInstance()
+            supportFragmentManager.beginTransaction().add(R.id.frame_layout, fragment, "graph_fragment").commit()
+        }
         binding.fabBack.setOnClickListener { onBackPressed() }
-        with(binding.recyclerView) {
-            adapter = dailyAdapter
-            setHasFixedSize(true)
-        }
-        binding.swipeRefresh.setOnRefreshListener {
-            viewModel.loadRemoteDailyData()
-        }
     }
 
     override fun observeChange() {
         observe(viewModel.toastMessage, ::showSnackbarMessage)
-        observe(viewModel.dailyItems, ::onDailyDataLoaded)
-        observe(viewModel.loading, ::swipeLoading)
     }
 
-    private fun swipeLoading(loading: Boolean) {
-        with(binding.swipeRefresh) {
-            post { isRefreshing = loading }
-        }
-    }
-
-    private fun onDailyDataLoaded(daily: List<DailyItem>) {
-        dailyAdapter.addAll(daily)
-        setupChart(daily)
-    }
-
-    private fun setupChart(dailyData: List<DailyItem>) {
-        val daily = dailyData.reversed()
-        with(binding.lineChart) {
-            animateX(1500)
-            legend.textColor = color(R.color.white)
-
-            xAxis.position = XAxis.XAxisPosition.BOTTOM
-            xAxis.textColor = color(R.color.cool_grey)
-
-            axisLeft.textColor = color(R.color.cool_grey)
-            axisRight.textColor = color(R.color.cool_grey)
-            description.isEnabled = false
-
-            axisRight.enableGridDashedLine(10f, 10f, 2f)
-            axisLeft.enableGridDashedLine(10f, 10f, 2f)
-            xAxis.enableGridDashedLine(10f, 10f, 2f)
-
-            val dates = daily.map { NumberUtils.formatTime(it.reportDate) }
-            xAxis.valueFormatter = object : IndexAxisValueFormatter() {
-                override fun getFormattedValue(value: Float): String {
-                    return dates[value.toInt()]
-                }
-            }
-
-        }
-
-        val totalCaseDataSet = LineDataSet(
-            daily.mapIndexed { index, dailyItem ->
-                Entry(
-                    index.toFloat(),
-                    dailyItem.mainlandChina.plus(dailyItem.otherLocations).toFloat(),
-                    NumberUtils.formatTime(dailyItem.reportDate)
-                )
-            }, getString(R.string.total_case)
-        )
-
-        val confirmedDataSet = LineDataSet(
-            daily.mapIndexed { index, dailyItem ->
-                Entry(
-                    index.toFloat(),
-                    dailyItem.deltaConfirmed.toFloat(),
-                    NumberUtils.formatTime(dailyItem.reportDate)
-                )
-            }, getString(R.string.confirmed)
-        ).apply {
-            setLineChartStyle(this, R.color.color_confirmed)
-        }
-
-        val recoveredDataSet = LineDataSet(
-            daily.mapIndexed { index, dailyItem ->
-                Entry(
-                    index.toFloat(),
-                    dailyItem.deltaRecovered.toFloat(),
-                    NumberUtils.formatTime(dailyItem.reportDate)
-                )
-            }, getString(R.string.recovered)
-        ).apply {
-            setLineChartStyle(this, R.color.color_recovered)
-        }
-
-        val lineData = LineData(confirmedDataSet, recoveredDataSet)
-        binding.lineChart.data = lineData
-    }
-
-    private fun setLineChartStyle(lineDataSet: LineDataSet, @ColorRes colorResId: Int) {
-        with(lineDataSet) {
-            color = color(colorResId)
-            lineWidth = 2f
-            circleRadius = 1f
-            setDrawCircleHole(false)
-            setCircleColor(color(colorResId))
-            mode = LineDataSet.Mode.CUBIC_BEZIER
-            valueTextColor = color(R.color.white)
-
-            setDrawFilled(true)
-            fillColor = color(colorResId)
-            fillAlpha = 60
+    override fun onSwap() {
+        if (singlePane) {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.setCustomAnimations(R.anim.slide_in_right, 0, 0, R.anim.slide_out_right)
+            transaction.replace(R.id.frame_layout, DailyDataListFragment.newInstance(), "list_fragment")
+            transaction.addToBackStack(null)
+            transaction.commit()
         }
     }
 

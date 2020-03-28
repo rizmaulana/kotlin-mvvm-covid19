@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 
 
 /**
@@ -43,4 +44,11 @@ fun View.gone() {
 
 fun Context.color(resource: Int): Int {
     return ContextCompat.getColor(this, resource)
+}
+
+fun Fragment.color(resource: Int): Int {
+    context?.let {
+        return ContextCompat.getColor(it, resource)
+    }
+    return 0
 }

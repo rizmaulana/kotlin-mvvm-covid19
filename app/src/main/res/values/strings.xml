@@ -36,6 +36,11 @@
     <string name="show_graph">Show Graph</string>
     <string name="pinch_zoom">Pinch to zoom in or zoom out data</string>
     <string name="unpin">Unpin</string>
+    <string name="total_chart_info">Total Line Chart shows the total number of confirmed and recovered case over period of time</string>
+    <string name="delta_chart_info">Delta Line Chart shows the increment of confirmed and recovered case over period of time</string>
+    <string name="total" translatable="false">Total</string>
+    <string name="delta" translatable="false">Delta</string>
+    <string name="show_data">Show data</string>
 
 </resources>
 
