@@ -21,7 +21,6 @@ import id.rizmaulana.covid19.util.NumberUtils
 import id.rizmaulana.covid19.util.ext.color
 import id.rizmaulana.covid19.util.ext.observe
 import org.koin.android.viewmodel.ext.android.sharedViewModel
-import java.lang.ClassCastException
 
 const val TOTAL_STATE = 0
 const val DELTA_STATE = 1
@@ -98,7 +97,7 @@ class DailyGraphFragment : BaseFragment() {
             axisLeft.enableGridDashedLine(10f, 10f, 2f)
             xAxis.enableGridDashedLine(10f, 10f, 2f)
 
-            val dates = daily.map { NumberUtils.formatShortDate(it.reportDate) }
+            val dates = daily.map { NumberUtils.formatStringDate(it.reportDate) }
             xAxis.valueFormatter = object : IndexAxisValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
                     return dates[value.toInt()]

@@ -35,7 +35,28 @@
     <string name="daily_updates">Daily Updates</string>
     <string name="show_graph">Show Graph</string>
     <string name="pinch_zoom">Pinch to zoom in or zoom out data</string>
+    <string name="per_country">Per Country Data</string>
+    <string name="source">Source : %1$s</string>
+    <string name="case_per_province_chart">Per Province Case Graph</string>
+    <string name="case_daily_chart">Daily Case Graph</string>
+    <string name="case_daily">Daily Case</string>
+    <string name="indonesia_daily_info">Confirmed, recovered and death are total number</string>
+    <string name="new_case">New Case</string>
+    <string name="new_case_case_count">New Case : %1$s</string>
+    <string name="check_update">Check for update</string>
+    <string name="update_url" translatable="false">https://drive.google.com/open?id=1MaO9mIKWCFWSK2lFtEfKge1z8XDesi8n</string>
+    <string name="day_on">(Day #%1$s)</string>
+
+    <string name="country_indonesia">Indonesia</string>
     <string name="unpin">Unpin</string>
+    <string name="pinned_not_set">Pinned location is not set</string>
+    <string name="how_to_pin">Open map, tap and hold to country item, remove and add this widget once more</string>
+    <string name="source_data">Data source : https://covid19.mathdro.id/</string>
+    <string name="update_widget_start">Updating widget data …</string>
+    <string name="update_widget_success">Updating widget data successful</string>
+    <string name="update_widget_fail">Updating widget data failed</string>
+
+
     <string name="total_chart_info">Total Line Chart shows the total number of confirmed and recovered case over period of time</string>
     <string name="delta_chart_info">Delta Line Chart shows the increment of confirmed and recovered case over period of time</string>
     <string name="total" translatable="false">Total</string>

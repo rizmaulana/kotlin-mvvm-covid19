@@ -2,8 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:icon="@drawable/ic_favorite"
+        android:id="@+id/action_feedback"
         android:title="@string/feedback"
-        app:showAsAction="always" />
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_update"
+        android:title="@string/check_update"
+        app:showAsAction="never" />
 
 </menu>

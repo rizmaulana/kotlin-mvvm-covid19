@@ -3,6 +3,7 @@ package id.rizmaulana.covid19
 import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDexApplication
+import com.jakewharton.threetenabp.AndroidThreeTen
 import com.orhanobut.hawk.Hawk
 import id.rizmaulana.covid19.di.*
 import org.koin.android.ext.android.inject
@@ -19,6 +20,8 @@ class AppController : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
+
+        AndroidThreeTen.init(this);
 
         startKoin {
             androidContext(this@AppController)

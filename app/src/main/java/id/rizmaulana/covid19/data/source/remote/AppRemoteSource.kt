@@ -15,4 +15,8 @@ class AppRemoteSource(private val api: Api) {
     fun recovered() = api.recovered()
 
     fun country(id: String) = api.country(id)
+
+    fun indonesiaDaily() = api.getIndonesiaDaily()
+
+    fun indonesiaPerProvince() = api.getIndonesiaPerProvince()
 }

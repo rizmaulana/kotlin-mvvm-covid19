@@ -19,6 +19,12 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
+            android:name=".ui.percountry.indonesia.CountryIndonesiaActivity"
+            android:configChanges="orientation"
+            android:label="@string/country_indonesia"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
             android:name=".ui.dailygraph.DailyGraphActivity"
             android:configChanges="orientation" />
 
@@ -42,7 +48,16 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="<GOOGLE_MAPS_API_KEY>" />
+            android:value="<GOOGLE_API_KEY>" />
+
+        <receiver android:name=".ui.widget.LocationWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_provider" />
+        </receiver>
     </application>
 
 </manifest>

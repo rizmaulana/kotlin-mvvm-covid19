@@ -18,7 +18,12 @@
         <item name="android:homeAsUpIndicator">@drawable/ic_arrow_back_white</item>
         <item name="android:windowAnimationStyle">@null</item>
         <item name="homeAsUpIndicator">@drawable/ic_arrow_back_white</item>
+        <item name="android:actionOverflowButtonStyle">@style/WhiteOverflowButtonStyle</item>
 
+    </style>
+
+    <style name="WhiteOverflowButtonStyle">
+<item name="srcCompat">@drawable/ic_more_vert</item>
     </style>
 
     <style name="AlertDialogBlack" parent="@android:style/Theme.Dialog">
@@ -161,6 +166,7 @@
     <style name="TextAppearance.App.TextView.Toolbar" parent="@style/TextAppearance.App.TextView">
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textSize">@dimen/text_20</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="TextAppearance.App.TextView.Floating" parent="@style/TextAppearance.App.TextView.Display">
@@ -222,7 +228,6 @@
         <item name="android:textStyle">bold</item>
         <item name="android:visibility">gone</item>
     </style>
-
 
 
     <style name="TextAppearance.App.TextView.H5.White.Bold" parent="@style/TextAppearance.App.TextView.H5.White">

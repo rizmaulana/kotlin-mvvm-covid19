@@ -5,8 +5,6 @@ import androidx.core.content.ContextCompat
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ItemDailyBinding
 import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
-import id.rizmaulana.covid19.ui.adapter.ItemTypeFactory
-import id.rizmaulana.covid19.ui.adapter.ItemTypeFactoryImpl
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.IncrementStatus
 import id.rizmaulana.covid19.util.NumberUtils
@@ -30,7 +28,7 @@ class DailyItemViewHolder(itemView: View) : BaseViewHolder<DailyItem>(itemView) 
 
     override fun bind(item: DailyItem) {
         with(binding) {
-            txtDate.text = item.reportDate
+            txtDate.text = NumberUtils.formatStringDate(item.reportDate)
 
             root.context?.let {
                 txtInformation.text = it.getString(

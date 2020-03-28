@@ -44,7 +44,6 @@ class DashboardViewModel(
         get() = _liveItems
 
     private fun showLoadingState(){
-        _loading.value = true
         if(_liveItems.value?.isEmpty() == null ||
                 _liveItems.value?.firstOrNull { it is ErrorStateItem } != null){
             _liveItems.value = listOf(LoadingStateItem())
@@ -94,6 +93,9 @@ class DashboardViewModel(
                         }
                         error?.let { currentThrowable = it }
                     }
+
+                    items.add(TextItem(R.string.per_country))
+                    items.addAll(appRepository.getPerCountryItem())
 
                     with(daily){
                         val dailies = CovidDailyDataMapper.transform(data)

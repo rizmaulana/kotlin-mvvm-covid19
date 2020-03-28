@@ -3,6 +3,9 @@ package id.rizmaulana.covid19.data.repository
 import id.rizmaulana.covid19.data.model.CovidDaily
 import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.data.model.CovidOverview
+import id.rizmaulana.covid19.data.model.indonesia.IndonesiaDaily
+import id.rizmaulana.covid19.data.model.indonesia.IndonesiaPerProvince
+import id.rizmaulana.covid19.data.source.generated.AppGeneratedSource
 import id.rizmaulana.covid19.data.source.pref.AppPrefSource
 import id.rizmaulana.covid19.data.source.remote.AppRemoteSource
 import id.rizmaulana.covid19.util.IncrementStatus
@@ -25,7 +28,7 @@ data class Result<out T>(
 fun <T> Observable<T>.responseToResult(): Observable<Result<T>> {
     return map { it.asResult() }
         .onErrorReturn {
-            when(it){
+            when (it) {
                 is HttpException,
                 is SocketTimeoutException,
                 is UnknownHostException -> {
@@ -41,12 +44,14 @@ fun <T> Throwable.asErrorResult(): Result<T> = Result(data = null, error = this)
 
 open class AppRepository constructor(
     private val api: AppRemoteSource,
-    private val pref: AppPrefSource
+    private val pref: AppPrefSource,
+    private val generated: AppGeneratedSource
 ) : Repository {
     override fun overview(): Observable<Result<CovidOverview>> {
         val cacheOverview = getCacheOverview()
-        val localObservable = if(cacheOverview != null) Observable.just(Result(cacheOverview, null))
-        else Observable.empty()
+        val localObservable =
+            if (cacheOverview != null) Observable.just(Result(cacheOverview, null))
+            else Observable.empty()
 
         val remoteObservable = api.overview()
             .flatMap {
@@ -54,7 +59,12 @@ open class AppRepository constructor(
                 Observable.just(it.asResult())
             }
             .onErrorResumeNext { t: Throwable ->
-                return@onErrorResumeNext if(cacheOverview != null) Observable.just(Result(cacheOverview, t))
+                return@onErrorResumeNext if (cacheOverview != null) Observable.just(
+                    Result(
+                        cacheOverview,
+                        t
+                    )
+                )
                 else Observable.error(t)
             }
 
@@ -63,7 +73,7 @@ open class AppRepository constructor(
 
     override fun daily(): Observable<Result<List<CovidDaily>>> {
         val cacheDaily = getCacheDaily()
-        val localObservable= Observable.just(cacheDaily.asResult())
+        val localObservable = Observable.just(cacheDaily.asResult())
 
         val remoteObservable = api.daily()
             .flatMap {
@@ -99,7 +109,7 @@ open class AppRepository constructor(
 
     override fun confirmed(): Observable<List<CovidDetail>> {
         val cacheConfirmed = getCacheConfirmed()
-        val localObservable = if(cacheConfirmed != null) Observable.just(cacheConfirmed)
+        val localObservable = if (cacheConfirmed != null) Observable.just(cacheConfirmed)
         else Observable.empty()
 
         val remoteObservable = api.confirmed()
@@ -115,7 +125,7 @@ open class AppRepository constructor(
 
     override fun deaths(): Observable<List<CovidDetail>> {
         val cacheDeath = getCacheDeath()
-        val localObservable = if(cacheDeath != null) Observable.just(cacheDeath)
+        val localObservable = if (cacheDeath != null) Observable.just(cacheDeath)
         else Observable.empty()
 
         val remoteObservable = api.deaths()
@@ -129,9 +139,9 @@ open class AppRepository constructor(
         return Observable.concatArrayEager(localObservable, remoteObservable)
     }
 
-    override fun recovered(): Observable<List<CovidDetail>>{
+    override fun recovered(): Observable<List<CovidDetail>> {
         val cacheRecovered = getCacheRecovered()
-        val localObservable = if(cacheRecovered != null) Observable.just(cacheRecovered)
+        val localObservable = if (cacheRecovered != null) Observable.just(cacheRecovered)
         else Observable.empty()
 
         val remoteObservable = api.recovered()
@@ -203,7 +213,7 @@ open class AppRepository constructor(
 
     override fun pinnedRegion(): Observable<Result<CovidDetail>> {
         val prefData = getCachePinnedRegion()
-        return if(prefData != null) {
+        return if (prefData != null) {
             confirmed()
                 .map { stream ->
                     stream.first {
@@ -216,6 +226,14 @@ open class AppRepository constructor(
                 }
         } else Observable.just(Result())
     }
+
+
+    override fun getIndonesiaDaily(): Observable<List<IndonesiaDaily>> = api.indonesiaDaily()
+        .map { it.data }
+
+    override fun getIndonesiaPerProvince(): Observable<List<IndonesiaPerProvince>> =
+        api.indonesiaPerProvince()
+            .map { it.data }
 
     override fun getCachePinnedRegion(): CovidDetail? = pref.getPrefCountry()
 
@@ -246,5 +264,7 @@ open class AppRepository constructor(
     private fun setCacheCountry(covid: CovidOverview) = pref.setCountry(covid)
 
     private fun setCacheFull(covid: List<CovidDetail>) = pref.setFullStats(covid)
+
+    override fun getPerCountryItem() = generated.getPerCountryItem()
 
 }

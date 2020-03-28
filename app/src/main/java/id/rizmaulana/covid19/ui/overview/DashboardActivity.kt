@@ -11,14 +11,12 @@ import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ActivityDashboardBinding
 import id.rizmaulana.covid19.ui.adapter.ItemTypeFactoryImpl
 import id.rizmaulana.covid19.ui.adapter.VisitableRecyclerAdapter
-import id.rizmaulana.covid19.ui.adapter.viewholders.DailyItem
-import id.rizmaulana.covid19.ui.adapter.viewholders.ErrorStateItem
-import id.rizmaulana.covid19.ui.adapter.viewholders.OverviewItem
-import id.rizmaulana.covid19.ui.adapter.viewholders.TextItem
+import id.rizmaulana.covid19.ui.adapter.viewholders.*
 import id.rizmaulana.covid19.ui.base.BaseActivity
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.ui.dailygraph.DailyGraphActivity
 import id.rizmaulana.covid19.ui.detail.DetailActivity
+import id.rizmaulana.covid19.ui.percountry.indonesia.CountryIndonesiaActivity
 import id.rizmaulana.covid19.util.CaseType
 import id.rizmaulana.covid19.util.ext.observe
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -91,6 +89,13 @@ class DashboardActivity : BaseActivity() {
             is DailyItem -> {
                 Log.e("DailyItem", "DailyItem Click: ${viewItem.deltaConfirmed}")
             }
+            is PerCountryItem -> {
+                /*Assuming every local country data has different API, so we provide dedicated activity,
+                * But with reusable components*/
+                when (viewItem.id) {
+                    PerCountryItem.ID -> CountryIndonesiaActivity.startActivity(this)
+                }
+            }
             is TextItem -> {
                 DailyGraphActivity.startActivity(this)
             }
@@ -106,7 +111,14 @@ class DashboardActivity : BaseActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.feedback_url)))
+        val intent = Intent(
+            Intent.ACTION_VIEW, Uri.parse(
+                when (item.itemId) {
+                    R.id.action_update -> getString(R.string.update_url)
+                    else -> getString(R.string.feedback_url)
+                }
+            )
+        )
         startActivity(intent)
         return super.onOptionsItemSelected(item)
     }

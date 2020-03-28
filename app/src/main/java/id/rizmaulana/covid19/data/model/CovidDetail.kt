@@ -18,8 +18,10 @@ data class CovidDetail(
     @Expose @SerializedName("lat") val lat: Double = 0.0,
     @Expose @SerializedName("long") val long: Double = 0.0,
     @Expose @SerializedName("provinceState") val provinceState: String? = null,
-    @Expose @SerializedName("recovered") val recovered: Int = 0
+    @Expose @SerializedName("recovered") val recovered: Int = 0,
+    @Expose @SerializedName("iso2") val iso2: String? = null
 ) : Parcelable {
     val locationName get() = countryRegion + if (!provinceState.isNullOrEmpty()) ", $provinceState" else ""
     val compositeKey get() = countryRegion + provinceState
 }
+

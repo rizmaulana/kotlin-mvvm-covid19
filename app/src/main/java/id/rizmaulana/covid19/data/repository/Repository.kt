@@ -3,6 +3,9 @@ package id.rizmaulana.covid19.data.repository
 import id.rizmaulana.covid19.data.model.CovidDaily
 import id.rizmaulana.covid19.data.model.CovidDetail
 import id.rizmaulana.covid19.data.model.CovidOverview
+import id.rizmaulana.covid19.data.model.indonesia.IndonesiaDaily
+import id.rizmaulana.covid19.data.model.indonesia.IndonesiaPerProvince
+import id.rizmaulana.covid19.ui.adapter.viewholders.PerCountryItem
 import io.reactivex.Completable
 import io.reactivex.Observable
 
@@ -25,4 +28,8 @@ interface Repository {
     fun getCacheRecovered(): List<CovidDetail>?
     fun getCacheFull(): List<CovidDetail>?
     fun getCacheCountry(id: String): CovidOverview?
+    fun getPerCountryItem(): List<PerCountryItem>
+    fun getIndonesiaDaily(): Observable<List<IndonesiaDaily>>
+    fun getIndonesiaPerProvince(): Observable<List<IndonesiaPerProvince>>
+
 }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="1dp"
+    android:background="@color/davy_grey"
+    android:foreground="?selectableItemBackground"
+    android:padding="@dimen/space_x2"
+    app:layout_goneMarginBottom="@dimen/space_half">
+
+    <ImageView
+        android:id="@+id/img_icon"
+        android:layout_width="@dimen/space_x4"
+        android:layout_height="@dimen/space_x4"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_country"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_x2"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_14"
+        app:layout_constraintStart_toEndOf="@id/img_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Indonesia" />
+
+
+    <TextView
+        android:id="@+id/txt_information"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_x2"
+        android:layout_marginTop="@dimen/space_half"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/cool_grey"
+        android:textSize="@dimen/text_14"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/img_chevron"
+        app:layout_constraintStart_toEndOf="@id/img_icon"
+        app:layout_constraintTop_toBottomOf="@id/txt_country"
+        tools:text="Data source : https://covid19.mathdro.id/api/" />
+
+    <ImageView
+        android:id="@+id/img_chevron"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_chevron_right" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
