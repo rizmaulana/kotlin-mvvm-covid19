@@ -54,7 +54,7 @@
     <string name="source_data">Sumber data : https://covid19.mathdro.id/</string>
     <string name="update_widget_start">Memperbaharui data widget …</string>
     <string name="update_widget_success">Pembaharuan data widget berhasil</string>
-    <string name="update_widget_fail">Permbaharuan data widget gagal</string>
+    <string name="update_widget_fail">Pembaharuan data widget gagal</string>
     <string name="show_data">Lihat data</string>
     <string name="total_chart_info">Total Line Chart menunjukkan jumlah total kasus terkonfirmasi dan pulih di kurun waktu yang ditentukan</string>
     <string name="delta_chart_info">Delta Line Chart menunjukkan peningkatan jumlah kasus terkonfirmasi dan pulih di kurun waktu yang ditentukan</string>

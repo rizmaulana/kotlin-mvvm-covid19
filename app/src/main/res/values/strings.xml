@@ -53,7 +53,7 @@
     <string name="how_to_pin">Open map, tap and hold to country item, remove and add this widget once more</string>
     <string name="source_data">Data source : https://covid19.mathdro.id/</string>
     <string name="update_widget_start">Updating widget data …</string>
-    <string name="update_widget_success">Updating widget data success</string>
+    <string name="update_widget_success">Updating widget data successful</string>
     <string name="update_widget_fail">Updating widget data failed</string>
 
 
