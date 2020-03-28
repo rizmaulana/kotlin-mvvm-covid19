@@ -1,8 +1,10 @@
 package id.rizmaulana.covid19.util
 
+import org.threeten.bp.Instant
+import org.threeten.bp.LocalDate
+import org.threeten.bp.ZoneId
+import org.threeten.bp.format.DateTimeFormatter
 import java.text.NumberFormat
-import java.text.ParseException
-import java.text.SimpleDateFormat
 import java.util.*
 
 /**
@@ -18,25 +20,23 @@ object NumberUtils {
 
     //TODO: Move to another class for date formatter
     fun formatTime(time: Long): String {
-        val sdf = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
-        return sdf.format(Date(time))
+        val instant = Instant.ofEpochMilli(time)
+        val local = instant.atZone(ZoneId.systemDefault()).toLocalDateTime()
+        return local.format(DateTimeFormatter.ofPattern("dd MMMM yyyy"))
     }
 
 
     fun formatShortDate(time: Long): String {
-        val sdf = SimpleDateFormat("dd MMM", Locale.getDefault())
-        return sdf.format(Date(time))
+        val instant = Instant.ofEpochMilli(time)
+        val local = instant.atZone(ZoneId.systemDefault()).toLocalDateTime()
+        return local.format(DateTimeFormatter.ofPattern("dd MMM"))
     }
 
-    fun formatShortDate(time: String): String {
-        val parser = SimpleDateFormat("yyyy-mm-dd", Locale.getDefault())
-        val origin = try {
-            parser.parse(time)
-        } catch (e: ParseException) {
-            ""
-        }
-        val sdf = SimpleDateFormat("dd MMM", Locale.getDefault())
-        return sdf.format(origin)
+    fun formatStringDate(time: String): String {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val local = LocalDate.parse(time, formatter)
+        return local.format(DateTimeFormatter.ofPattern("dd MMMM yyyy"))
     }
+
 
 }
