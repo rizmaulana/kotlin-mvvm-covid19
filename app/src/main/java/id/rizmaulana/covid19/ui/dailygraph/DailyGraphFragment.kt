@@ -97,7 +97,7 @@ class DailyGraphFragment : BaseFragment() {
             axisLeft.enableGridDashedLine(10f, 10f, 2f)
             xAxis.enableGridDashedLine(10f, 10f, 2f)
 
-            val dates = daily.map { NumberUtils.formatStringDate(it.reportDate) }
+            val dates = daily.map { NumberUtils.formatShortDate(it.reportDate) }
             xAxis.valueFormatter = object : IndexAxisValueFormatter() {
                 override fun getFormattedValue(value: Float): String {
                     return dates[value.toInt()]
