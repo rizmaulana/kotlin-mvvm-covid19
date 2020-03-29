@@ -32,6 +32,12 @@ object NumberUtils {
         return local.format(DateTimeFormatter.ofPattern("dd MMM"))
     }
 
+    fun formatShortDate(time: String): String {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val local = LocalDate.parse(time, formatter)
+        return local.format(DateTimeFormatter.ofPattern("dd MMM"))
+    }
+
     fun formatStringDate(time: String): String {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val local = LocalDate.parse(time, formatter)
