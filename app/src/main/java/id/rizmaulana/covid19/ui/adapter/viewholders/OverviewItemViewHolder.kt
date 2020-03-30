@@ -28,6 +28,7 @@ class OverviewItemViewHolder(itemView: View) : BaseViewHolder<OverviewItem>(item
     private var confirmed: Int = 0
     private var recovered: Int = 0
     private var deaths: Int = 0
+    private var active: Int = 0
 
     private fun startNumberChangeAnimator(finalValue: Int?, view: TextView) {
         val initialValue = NumberUtils.extractDigit(view.text.toString())
@@ -50,30 +51,27 @@ class OverviewItemViewHolder(itemView: View) : BaseViewHolder<OverviewItem>(item
     override fun bind(item: OverviewItem) {
         if(item.confirmed == confirmed && item.recovered == recovered && item.deaths == deaths) return
 
-        with(binding){
-            startNumberChangeAnimator(item.confirmed, txtConfirmed)
-            startNumberChangeAnimator(item.deaths, txtDeaths)
-            startNumberChangeAnimator(item.recovered, txtRecovered)
-        }
-
         confirmed = item.confirmed
         recovered = item.recovered
         deaths = item.deaths
+        active = confirmed.minus(recovered).minus(deaths)
+
+        with(binding){
+            startNumberChangeAnimator(confirmed, txtConfirmed)
+            startNumberChangeAnimator(deaths, txtDeaths)
+            startNumberChangeAnimator(recovered, txtRecovered)
+        }
 
         val context = itemView.context
         val pieDataSet = PieDataSet(
             listOf(
-                PieEntry(item.confirmed.toFloat(), context.getString(R.string.confirmed)),
-                PieEntry(item.recovered.toFloat(), context.getString(R.string.recovered)),
-                PieEntry(item.deaths.toFloat(), context.getString(R.string.deaths))
+                PieEntry(active.toFloat(), context.getString(R.string.active)),
+                PieEntry(recovered.toFloat(), context.getString(R.string.recovered)),
+                PieEntry(deaths.toFloat(), context.getString(R.string.deaths))
             ), context.getString(R.string.covid19)
         )
 
-        binding.txtCases.text = NumberUtils.numberFormat(
-            (item.confirmed
-                .plus(item.recovered)
-                .plus(item.deaths))
-        ).toString()
+        binding.txtCases.text = NumberUtils.numberFormat(item.confirmed).toString()
 
         with(binding.root.context) {
             val colors = arrayListOf(
@@ -81,7 +79,6 @@ class OverviewItemViewHolder(itemView: View) : BaseViewHolder<OverviewItem>(item
                 color(R.color.color_recovered),
                 color(R.color.color_death)
             )
-
             pieDataSet.colors = colors
         }
 
