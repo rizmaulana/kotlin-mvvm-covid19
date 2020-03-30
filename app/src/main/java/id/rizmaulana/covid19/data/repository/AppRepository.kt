@@ -183,8 +183,8 @@ open class AppRepository constructor(
 
                     result.add(
                         it1.copy(
-                            recovered = t2Match?.recovered ?: -1,
-                            deaths = t3Match?.deaths ?: -1
+                            recovered = t2Match?.recovered ?: 0,
+                            deaths = t3Match?.deaths ?: 0
                         )
                     )
 
