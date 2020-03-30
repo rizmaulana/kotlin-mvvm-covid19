@@ -81,7 +81,7 @@ class DashboardActivity : BaseActivity() {
         when (viewItem) {
             is OverviewItem -> {
                 when (view.id) {
-                    R.id.layout_confirmed -> permission(CaseType.CONFIRMED)
+                    R.id.layout_active -> permission(CaseType.CONFIRMED)
                     R.id.layout_recovered -> permission(CaseType.RECOVERED)
                     R.id.layout_death -> permission(CaseType.DEATHS)
                 }

@@ -42,7 +42,7 @@ class OverviewItemViewHolder(itemView: View) : BaseViewHolder<OverviewItem>(item
 
     override fun setOnClickListener(listener: (View) -> Unit) {
         with(binding) {
-            layoutConfirmed.setOnClickListener { listener.invoke(it) }
+            layoutActive.setOnClickListener { listener.invoke(it) }
             layoutRecovered.setOnClickListener { listener.invoke(it) }
             layoutDeath.setOnClickListener { listener.invoke(it) }
         }
@@ -57,7 +57,7 @@ class OverviewItemViewHolder(itemView: View) : BaseViewHolder<OverviewItem>(item
         active = confirmed.minus(recovered).minus(deaths)
 
         with(binding){
-            startNumberChangeAnimator(confirmed, txtConfirmed)
+            startNumberChangeAnimator(active, txtActive)
             startNumberChangeAnimator(deaths, txtDeaths)
             startNumberChangeAnimator(recovered, txtRecovered)
         }
@@ -75,7 +75,7 @@ class OverviewItemViewHolder(itemView: View) : BaseViewHolder<OverviewItem>(item
 
         with(binding.root.context) {
             val colors = arrayListOf(
-                color(R.color.color_confirmed),
+                color(R.color.color_active),
                 color(R.color.color_recovered),
                 color(R.color.color_death)
             )

@@ -17,5 +17,6 @@
 
     <color name="color_death">#F76353</color>
     <color name="color_recovered">#00CC99</color>
+    <color name="color_active">#F2B900</color>
     <color name="color_confirmed">#F2B900</color>
 </resources>
