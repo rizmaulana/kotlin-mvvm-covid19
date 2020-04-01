@@ -18,6 +18,7 @@
     <string name="case_reported">Kejadian dilaporkan</string>
     <string name="tap_on_statistic">Tap pada statistik di sisi sebelah kanan untuk info lebih\nSumber Data : https://covid19.mathdro.id/api/</string>
     <string name="total_case">Total Kasus</string>
+    <string name="active">Aktif</string>
     <string name="confirmed">Dikonfirmasi</string>
     <string name="recovered">Pulih</string>
     <string name="deaths">Meninggal</string>

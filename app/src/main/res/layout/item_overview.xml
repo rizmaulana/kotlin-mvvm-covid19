@@ -74,7 +74,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_confirmed"
+                android:id="@+id/layout_active"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_x3"
@@ -83,7 +83,7 @@
                 android:paddingLeft="@dimen/space_x2">
 
                 <TextView
-                    android:id="@+id/txt_confirmed"
+                    android:id="@+id/txt_active"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/zero"
@@ -95,12 +95,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/confirmed"
+                    android:text="@string/active"
                     android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
-                    android:textColor="@color/color_confirmed"
+                    android:textColor="@color/color_active"
                     android:textSize="@dimen/text_14"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/txt_confirmed" />
+                    app:layout_constraintTop_toBottomOf="@id/txt_active" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -133,7 +133,6 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txt_recovered" />
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -165,7 +164,6 @@
                     android:textSize="@dimen/text_14"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txt_deaths" />
-
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
