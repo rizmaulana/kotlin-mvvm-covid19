@@ -66,6 +66,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:paddingStart="@dimen/space_x2"
             android:paddingLeft="@dimen/space_x2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_weight="2"
@@ -79,7 +80,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_x3"
                 android:clickable="true"
+                android:focusable="true"
                 android:foreground="?selectableItemBackground"
+                android:paddingStart="@dimen/space_x2"
                 android:paddingLeft="@dimen/space_x2">
 
                 <TextView
@@ -142,7 +145,9 @@
                 android:layout_marginTop="@dimen/space_x2"
                 android:layout_marginBottom="@dimen/space_x3"
                 android:clickable="true"
+                android:focusable="true"
                 android:foreground="?selectableItemBackground"
+                android:paddingStart="@dimen/space_x2"
                 android:paddingLeft="@dimen/space_x2">
 
                 <TextView

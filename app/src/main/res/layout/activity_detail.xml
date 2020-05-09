@@ -81,7 +81,9 @@
                 android:textAppearance="@style/TextAppearance.App.TextView.H5.White"
                 android:textColor="@color/white"
                 android:textColorHint="@color/cool_grey"
-                android:textSize="@dimen/text_14"/>
+                android:textSize="@dimen/text_14"
+                android:layout_toEndOf="@id/img_search"
+                android:layout_toStartOf="@+id/img_clear" />
 
             <ImageView
                 android:id="@+id/img_clear"

@@ -54,6 +54,7 @@
             android:layout_marginRight="24dp"
             android:layout_marginBottom="24dp"
             android:clickable="true"
+            android:focusable="true"
             app:srcCompat="@drawable/ic_public_black_24dp" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
