@@ -22,6 +22,7 @@
         android:id="@+id/txt_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_x2"
         android:layout_marginLeft="@dimen/space_x2"
         android:textColor="@color/white"
         android:textSize="@dimen/text_14"
@@ -33,6 +34,7 @@
         android:id="@+id/layout_case"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/space_x2"
         android:layout_marginLeft="@dimen/space_x2"
         android:layout_marginTop="@dimen/space_quarter"
         android:gravity="center_vertical"
@@ -51,6 +53,7 @@
             android:id="@+id/txt_confirmed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space"
             android:layout_marginLeft="@dimen/space"
             android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
             android:textColor="@color/color_confirmed"
@@ -61,6 +64,7 @@
             android:id="@+id/img_recovered"
             android:layout_width="@dimen/space_x3"
             android:layout_height="@dimen/space_x3"
+            android:layout_marginStart="@dimen/space_x2"
             android:layout_marginLeft="@dimen/space_x2"
             app:srcCompat="@drawable/ic_trending_down" />
 
@@ -68,6 +72,7 @@
             android:id="@+id/txt_recovered"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space"
             android:layout_marginLeft="@dimen/space"
             android:textAppearance="@style/TextAppearance.App.TextView.H5.White.Bold"
             android:textColor="@color/color_recovered"
@@ -76,19 +81,17 @@
     </LinearLayout>
 
     <TextView
-        android:layout_marginTop="@dimen/space"
         android:id="@+id/txt_information"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space"
         android:textColor="@color/cool_grey"
         android:textSize="@dimen/text_14"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/layout_case"
         app:layout_constraintTop_toBottomOf="@id/layout_case"
-        app:layout_constraintBottom_toBottomOf="parent"
         tools:text="Tap onData source : https://covid19.mathdro.id/api/" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -17,13 +17,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Base"
         android:usesCleartextTraffic="true"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning,UnusedAttribute">
         <activity
             android:name=".ui.percountry.indonesia.CountryIndonesiaActivity"
             android:configChanges="orientation"
             android:label="@string/country_indonesia"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.dailygraph.DailyGraphActivity"
             android:configChanges="orientation" />
@@ -35,10 +36,12 @@
         <activity
             android:name=".ui.detail.DetailActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".ui.overview.DashboardActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
