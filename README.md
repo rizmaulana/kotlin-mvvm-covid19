@@ -19,6 +19,7 @@ Since Google restrict app distribution about covid-19 on Google Play Store, we w
 8. [SlidingUp Panel](https://github.com/umano/AndroidSlidingUpPanel)
 9. Spek2 Framework
 10. Android ViewBinding
+11. [Kiel](https://github.com/ibrahimyilmaz/kiel)
 
 ### License
 ```
