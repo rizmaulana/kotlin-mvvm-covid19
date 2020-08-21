@@ -27,8 +27,4 @@ class DailyCompactViewHolder(itemView: View) : RecyclerViewHolder<DailyItem>(ite
             }
         }
     }
-
-    companion object {
-        val LAYOUT = R.layout.item_daily_compact
-    }
 }
