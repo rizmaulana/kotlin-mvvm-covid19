@@ -31,14 +31,14 @@ fun createAdapter(
     register(
         layoutResource = R.layout.item_daily,
         viewHolder = ::DailyItemViewHolder,
-        onBindBindViewHolder = { dailyItemViewHolder, _, dailyItem ->
+        onBindViewHolder = { dailyItemViewHolder, _, dailyItem ->
             dailyItemViewHolder.itemView.setOnClickListener { onItemClick?.invoke(dailyItem, it) }
         }
     )
     register(
         layoutResource = R.layout.item_error_state,
         viewHolder = ::ErrorStateItemViewHolder,
-        onBindBindViewHolder = { errorStateItemViewHolder, _, errorStateItem ->
+        onBindViewHolder = { errorStateItemViewHolder, _, errorStateItem ->
             errorStateItemViewHolder.binding.textRetry.setOnClickListener {
                 onItemClick?.invoke(
                     errorStateItem,
@@ -54,7 +54,7 @@ fun createAdapter(
     register(
         layoutResource = R.layout.item_location,
         viewHolder = ::LocationItemViewHolder,
-        onBindBindViewHolder = { locationItemViewHolder, _, locationItem ->
+        onBindViewHolder = { locationItemViewHolder, _, locationItem ->
             with(locationItemViewHolder) {
                 binding.root.setOnClickListener { onItemClick?.invoke(locationItem, it) }
                 binding.relativePinned.setOnClickListener { onItemClick?.invoke(locationItem, it) }
@@ -69,7 +69,7 @@ fun createAdapter(
     register(
         layoutResource = R.layout.item_overview,
         viewHolder = ::OverviewItemViewHolder,
-        onBindBindViewHolder = { overviewItemViewHolder, _, overviewItem ->
+        onBindViewHolder = { overviewItemViewHolder, _, overviewItem ->
             with(overviewItemViewHolder.binding) {
                 layoutActive.setOnClickListener { onItemClick?.invoke(overviewItem, it) }
                 layoutRecovered.setOnClickListener { onItemClick?.invoke(overviewItem, it) }
@@ -80,7 +80,7 @@ fun createAdapter(
     register(
         layoutResource = R.layout.item_daily_percountry_graph,
         viewHolder = ::PerCountryDailyGraphItemViewHolder,
-        onBindBindViewHolder = { perCountryDailyGraphItemViewHolder, _, perCountryDailyGraphItem ->
+        onBindViewHolder = { perCountryDailyGraphItemViewHolder, _, perCountryDailyGraphItem ->
             perCountryDailyGraphItemViewHolder.binding.root.setOnClickListener {
                 onItemClick?.invoke(perCountryDailyGraphItem, it)
             }
@@ -89,7 +89,7 @@ fun createAdapter(
     register(
         layoutResource = R.layout.item_daily_percountry,
         viewHolder = ::PerCountryDailyItemViewHolder,
-        onBindBindViewHolder = { perCountryDailyItemViewHolder, _, perCountryDailyItem ->
+        onBindViewHolder = { perCountryDailyItemViewHolder, _, perCountryDailyItem ->
             perCountryDailyItemViewHolder.binding.root.setOnClickListener {
                 onItemClick?.invoke(perCountryDailyItem, it)
             }
@@ -98,7 +98,7 @@ fun createAdapter(
     register(
         layoutResource = R.layout.item_per_country,
         viewHolder = ::PerCountryViewHolder,
-        onBindBindViewHolder = { perCountryViewHolder, _, perCountryItem ->
+        onBindViewHolder = { perCountryViewHolder, _, perCountryItem ->
             perCountryViewHolder.binding.root.setOnClickListener {
                 onItemClick?.invoke(perCountryItem, it)
             }
@@ -107,7 +107,7 @@ fun createAdapter(
     register(
         layoutResource = R.layout.item_province_percountry_graph,
         viewHolder = ::PerCountryProvinceGraphItemViewHolder,
-        onBindBindViewHolder = { perCountryProvinceGraphItemViewHolder, _, perCountryProvinceGraphItem ->
+        onBindViewHolder = { perCountryProvinceGraphItemViewHolder, _, perCountryProvinceGraphItem ->
             perCountryProvinceGraphItemViewHolder.binding.root.setOnClickListener {
                 onItemClick?.invoke(perCountryProvinceGraphItem, it)
             }
@@ -120,7 +120,7 @@ fun createAdapter(
     register(
         layoutResource = R.layout.item_text,
         viewHolder = ::TextItemViewHolder,
-        onBindBindViewHolder = { textItemViewHolder, _, textItem ->
+        onBindViewHolder = { textItemViewHolder, _, textItem ->
             textItemViewHolder.binding.textAction.setOnClickListener {
                 onItemClick?.invoke(textItem, it)
             }
