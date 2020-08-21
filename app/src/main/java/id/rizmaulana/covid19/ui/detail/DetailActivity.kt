@@ -11,8 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.jakewharton.rxbinding.widget.RxTextView
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ActivityDetailBinding
-import id.rizmaulana.covid19.ui.adapter.ItemTypeFactoryImpl
-import id.rizmaulana.covid19.ui.adapter.VisitableRecyclerAdapter
+import id.rizmaulana.covid19.ui.adapter.createAdapter
 import id.rizmaulana.covid19.ui.adapter.viewholders.LocationItem
 import id.rizmaulana.covid19.ui.base.BaseActivity
 import id.rizmaulana.covid19.ui.base.BaseViewItem
@@ -49,9 +48,9 @@ class DetailActivity : BaseActivity() {
         }
     }
 
-    private val detailAdapter by lazy {
-        VisitableRecyclerAdapter(ItemTypeFactoryImpl(), ::onItemClick, ::onLongItemClick)
-    }
+    private val detailAdapter = createAdapter(
+        ::onItemClick, ::onLongItemClick
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -161,5 +160,5 @@ class DetailActivity : BaseActivity() {
             }
         )
     }
-
 }
+

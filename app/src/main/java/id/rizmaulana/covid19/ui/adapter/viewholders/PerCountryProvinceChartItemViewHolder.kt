@@ -10,11 +10,11 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ItemProvincePercountryGraphBinding
-import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.ext.color
 import id.rizmaulana.covid19.util.ext.getString
 import id.rizmaulana.covid19.util.ext.visible
+import me.ibrahimyilmaz.kiel.core.RecyclerViewHolder
 
 data class PerCountryProvinceGraphItem(
     val listData: List<PerCountryProvinceItem>
@@ -29,15 +29,12 @@ data class PerCountryProvinceItem(
 )
 
 class PerCountryProvinceGraphItemViewHolder(itemView: View) :
-    BaseViewHolder<PerCountryProvinceGraphItem>(itemView) {
-    private val binding: ItemProvincePercountryGraphBinding =
+    RecyclerViewHolder<PerCountryProvinceGraphItem>(itemView) {
+    val binding: ItemProvincePercountryGraphBinding =
         ItemProvincePercountryGraphBinding.bind(itemView)
 
-    override fun setOnClickListener(listener: (View) -> Unit) {
-        binding.root.setOnClickListener { listener.invoke(it) }
-    }
-
-    override fun bind(item: PerCountryProvinceGraphItem) {
+    override fun bind(position: Int, item: PerCountryProvinceGraphItem) {
+        super.bind(position, item)
         setupChart(item.listData)
         setupData(item.listData)
     }
@@ -116,10 +113,5 @@ class PerCountryProvinceGraphItemViewHolder(itemView: View) :
         dataSet.add(barDataSet)
         binding.barChart.data = BarData(dataSet)
         binding.barChart.invalidate()
-    }
-
-
-    companion object {
-        const val LAYOUT = R.layout.item_province_percountry_graph
     }
 }

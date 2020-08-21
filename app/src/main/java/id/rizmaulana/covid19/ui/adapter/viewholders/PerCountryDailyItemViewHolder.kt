@@ -4,10 +4,10 @@ import android.view.View
 import androidx.annotation.StringRes
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ItemDailyPercountryBinding
-import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.NumberUtils
 import id.rizmaulana.covid19.util.ext.getString
+import me.ibrahimyilmaz.kiel.core.RecyclerViewHolder
 
 data class PerCountryDailyItem(
     val id: Int = 0,
@@ -21,17 +21,17 @@ data class PerCountryDailyItem(
 ) : BaseViewItem
 
 class PerCountryDailyItemViewHolder(itemView: View) :
-    BaseViewHolder<PerCountryDailyItem>(itemView) {
-    private val binding: ItemDailyPercountryBinding = ItemDailyPercountryBinding.bind(itemView)
+    RecyclerViewHolder<PerCountryDailyItem>(itemView) {
+    val binding: ItemDailyPercountryBinding = ItemDailyPercountryBinding.bind(itemView)
 
-    override fun setOnClickListener(listener: (View) -> Unit) {
-        binding.root.setOnClickListener { listener.invoke(it) }
-    }
-
-    override fun bind(item: PerCountryDailyItem) {
+    override fun bind(position: Int, item: PerCountryDailyItem) {
+        super.bind(position, item)
         with(binding) {
             txtInformation.text = itemView.context.getString(item.info)
-            txtDate.text = "${NumberUtils.formatShortDate(item.date)} ${getString(R.string.day_on, item.day.toString())}"
+            txtDate.text = "${NumberUtils.formatShortDate(item.date)} ${getString(
+                R.string.day_on,
+                item.day.toString()
+            )}"
             txtConfirmed.text = getString(
                 R.string.confirmed_case_count,
                 NumberUtils.numberFormat(item.totalConfirmed)
@@ -50,10 +50,5 @@ class PerCountryDailyItemViewHolder(itemView: View) :
             )
 
         }
-    }
-
-
-    companion object {
-        const val LAYOUT = R.layout.item_daily_percountry
     }
 }

@@ -9,22 +9,20 @@ import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ItemOverviewBinding
-import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
-import id.rizmaulana.covid19.ui.adapter.ItemTypeFactory
-import id.rizmaulana.covid19.ui.adapter.ItemTypeFactoryImpl
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.NumberUtils
 import id.rizmaulana.covid19.util.ext.color
 import id.rizmaulana.covid19.util.ext.visible
+import me.ibrahimyilmaz.kiel.core.RecyclerViewHolder
 
 data class OverviewItem(
     val confirmed: Int = 0,
     val recovered: Int = 0,
     val deaths: Int = 0
-): BaseViewItem
+) : BaseViewItem
 
-class OverviewItemViewHolder(itemView: View) : BaseViewHolder<OverviewItem>(itemView) {
-    private val binding: ItemOverviewBinding = ItemOverviewBinding.bind(itemView)
+class OverviewItemViewHolder(itemView: View) : RecyclerViewHolder<OverviewItem>(itemView) {
+    val binding: ItemOverviewBinding = ItemOverviewBinding.bind(itemView)
     private var confirmed: Int = 0
     private var recovered: Int = 0
     private var deaths: Int = 0
@@ -40,23 +38,16 @@ class OverviewItemViewHolder(itemView: View) : BaseViewHolder<OverviewItem>(item
         valueAnimator.start()
     }
 
-    override fun setOnClickListener(listener: (View) -> Unit) {
-        with(binding) {
-            layoutActive.setOnClickListener { listener.invoke(it) }
-            layoutRecovered.setOnClickListener { listener.invoke(it) }
-            layoutDeath.setOnClickListener { listener.invoke(it) }
-        }
-    }
-
-    override fun bind(item: OverviewItem) {
-        if(item.confirmed == confirmed && item.recovered == recovered && item.deaths == deaths) return
+    override fun bind(position: Int, item: OverviewItem) {
+        super.bind(position, item)
+        if (item.confirmed == confirmed && item.recovered == recovered && item.deaths == deaths) return
 
         confirmed = item.confirmed
         recovered = item.recovered
         deaths = item.deaths
         active = confirmed.minus(recovered).minus(deaths)
 
-        with(binding){
+        with(binding) {
             startNumberChangeAnimator(active, txtActive)
             startNumberChangeAnimator(deaths, txtDeaths)
             startNumberChangeAnimator(recovered, txtRecovered)
@@ -98,9 +89,8 @@ class OverviewItemViewHolder(itemView: View) : BaseViewHolder<OverviewItem>(item
         }
     }
 
-    companion object {
-        const val LAYOUT = R.layout.item_overview
 
+    private companion object {
         private const val TEXT_ANIMATION_DURATION = 1000L
         private const val PIE_ANIMATION_DURATION = 1500
         private const val PIE_RADIUS = 75f

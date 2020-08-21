@@ -49,6 +49,10 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
     flavorDimensions "mode"
 
     productFlavors {
@@ -116,6 +120,8 @@ dependencies {
     implementation "com.github.rizmaulana:SheenValidator:$rootProject.sheenValidator"
 
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    implementation "me.ibrahimyilmaz:kiel:$rootProject.kielVersion"
 
     // koin
     implementation "org.koin:koin-android:$rootProject.koinVersion"

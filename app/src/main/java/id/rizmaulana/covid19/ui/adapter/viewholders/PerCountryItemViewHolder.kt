@@ -5,9 +5,9 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ItemPerCountryBinding
-import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.ext.getString
+import me.ibrahimyilmaz.kiel.core.RecyclerViewHolder
 
 data class PerCountryItem(
     val id: Int,
@@ -24,23 +24,15 @@ data class PerCountryItem(
     }
 }
 
-class PerCountryViewHolder(itemView: View) : BaseViewHolder<PerCountryItem>(itemView) {
-    private val binding: ItemPerCountryBinding = ItemPerCountryBinding.bind(itemView)
+class PerCountryViewHolder(itemView: View) : RecyclerViewHolder<PerCountryItem>(itemView) {
+    val binding: ItemPerCountryBinding = ItemPerCountryBinding.bind(itemView)
 
-    override fun setOnClickListener(listener: (View) -> Unit) {
-        binding.root.setOnClickListener { listener.invoke(it) }
-    }
-
-    override fun bind(item: PerCountryItem) {
+    override fun bind(position: Int, item: PerCountryItem) {
+        super.bind(position, item)
         with(binding) {
             txtCountry.text = getString(item.country)
             txtInformation.text = itemView.context.getString(R.string.source, item.source)
             imgIcon.setImageDrawable(itemView.context.resources.getDrawable(item.icon))
         }
-    }
-
-
-    companion object {
-        const val LAYOUT = R.layout.item_per_country
     }
 }

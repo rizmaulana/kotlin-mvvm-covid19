@@ -5,10 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.FragmentDailyListBinding
-import id.rizmaulana.covid19.ui.adapter.DailyFactoryImpl
-import id.rizmaulana.covid19.ui.adapter.VisitableRecyclerAdapter
+import id.rizmaulana.covid19.ui.adapter.createAdapter
 import id.rizmaulana.covid19.ui.base.BaseFragment
 import id.rizmaulana.covid19.util.ext.observe
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -18,9 +16,8 @@ class DailyDataListFragment : BaseFragment() {
     private val viewModel by sharedViewModel<DailyGraphViewModel>()
 
     lateinit var binding: FragmentDailyListBinding
-    private val dailyAdapter by lazy {
-        VisitableRecyclerAdapter(DailyFactoryImpl())
-    }
+
+    private val dailyAdapter = createAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater,

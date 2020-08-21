@@ -3,13 +3,12 @@ package id.rizmaulana.covid19.ui.adapter.viewholders
 import android.view.View
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ItemLocationBinding
-import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
-import id.rizmaulana.covid19.ui.adapter.ItemTypeFactory
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.CaseType
 import id.rizmaulana.covid19.util.CaseTypes
 import id.rizmaulana.covid19.util.NumberUtils
 import id.rizmaulana.covid19.util.ext.visible
+import me.ibrahimyilmaz.kiel.core.RecyclerViewHolder
 
 data class LocationItem(
     val confirmed: Int = 0,
@@ -23,29 +22,19 @@ data class LocationItem(
     val provinceState: String?,
     @CaseTypes val caseType: Int,
     val isPinned: Boolean = false
-): BaseViewItem {
+) : BaseViewItem {
     fun compositeKey() = countryRegion + provinceState
 }
 
-class LocationItemViewHolder(itemView: View) : BaseViewHolder<LocationItem>(itemView) {
-    private val binding: ItemLocationBinding = ItemLocationBinding.bind(itemView)
+class LocationItemViewHolder(itemView: View) : RecyclerViewHolder<LocationItem>(itemView) {
+    val binding: ItemLocationBinding = ItemLocationBinding.bind(itemView)
 
-    override fun setOnClickListener(listener: (View) -> Unit) {
-        binding.root.setOnClickListener { listener.invoke(it) }
-        binding.relativePinned.setOnClickListener { listener.invoke(it) }
-    }
 
-    override fun setOnLongClickListener(listener: (View) -> Unit) {
-        binding.root.setOnLongClickListener {
-            listener.invoke(it)
-            true
-        }
-    }
-
-    override fun bind(item: LocationItem) {
+    override fun bind(position: Int, item: LocationItem) {
+        super.bind(position, item)
         with(binding) {
 
-            relativePinned.visibility = if(item.isPinned) View.VISIBLE else View.GONE
+            relativePinned.visibility = if (item.isPinned) View.VISIBLE else View.GONE
 
             val context = itemView.context
             txtLocation.text = item.locationName
@@ -77,9 +66,5 @@ class LocationItemViewHolder(itemView: View) : BaseViewHolder<LocationItem>(item
                 }
             }
         }
-    }
-
-    companion object {
-        const val LAYOUT = R.layout.item_location
     }
 }

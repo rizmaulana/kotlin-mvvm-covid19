@@ -9,26 +9,23 @@ import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ItemDailyPercountryGraphBinding
-import id.rizmaulana.covid19.ui.adapter.BaseViewHolder
 import id.rizmaulana.covid19.ui.base.BaseViewItem
 import id.rizmaulana.covid19.util.NumberUtils
 import id.rizmaulana.covid19.util.ext.color
 import id.rizmaulana.covid19.util.ext.getString
+import me.ibrahimyilmaz.kiel.core.RecyclerViewHolder
 
 data class PerCountryDailyGraphItem(
     val listData: List<PerCountryDailyItem>
 ) : BaseViewItem
 
 class PerCountryDailyGraphItemViewHolder(itemView: View) :
-    BaseViewHolder<PerCountryDailyGraphItem>(itemView) {
-    private val binding: ItemDailyPercountryGraphBinding =
+    RecyclerViewHolder<PerCountryDailyGraphItem>(itemView) {
+    val binding: ItemDailyPercountryGraphBinding =
         ItemDailyPercountryGraphBinding.bind(itemView)
 
-    override fun setOnClickListener(listener: (View) -> Unit) {
-        binding.root.setOnClickListener { listener.invoke(it) }
-    }
-
-    override fun bind(item: PerCountryDailyGraphItem) {
+    override fun bind(position: Int, item: PerCountryDailyGraphItem) {
+        super.bind(position, item)
         setupChart(item.listData)
         setupData(item.listData)
     }
@@ -112,10 +109,5 @@ class PerCountryDailyGraphItemViewHolder(itemView: View) :
             fillColor = color(colorResId)
             fillAlpha = 100
         }
-    }
-
-
-    companion object {
-        const val LAYOUT = R.layout.item_daily_percountry_graph
     }
 }

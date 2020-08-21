@@ -5,8 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import id.rizmaulana.covid19.databinding.ActivityCountryIndonesiaBinding
-import id.rizmaulana.covid19.ui.adapter.ItemTypeFactoryImpl
-import id.rizmaulana.covid19.ui.adapter.VisitableRecyclerAdapter
+import id.rizmaulana.covid19.ui.adapter.createAdapter
 import id.rizmaulana.covid19.ui.adapter.viewholders.DailyItem
 import id.rizmaulana.covid19.ui.adapter.viewholders.TextItem
 import id.rizmaulana.covid19.ui.base.BaseActivity
@@ -18,12 +17,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class CountryIndonesiaActivity : BaseActivity() {
     private val viewModel by viewModel<CountryIndonesiaViewModel>()
     private lateinit var binding: ActivityCountryIndonesiaBinding
-    private val viewAdapter by lazy {
-        VisitableRecyclerAdapter(
-            ItemTypeFactoryImpl(),
-            ::onItemClicked
-        )
-    }
+    private val viewAdapter = createAdapter(::onItemClicked)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +27,6 @@ class CountryIndonesiaActivity : BaseActivity() {
         initView()
 
         viewModel.loadData()
-
     }
 
     private fun initView() {
@@ -75,7 +68,6 @@ class CountryIndonesiaActivity : BaseActivity() {
             }
         }
     }
-
 
     companion object {
         @JvmStatic
