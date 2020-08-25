@@ -48,9 +48,11 @@ class DetailActivity : BaseActivity() {
         }
     }
 
-    private val detailAdapter = createAdapter(
-        ::onItemClick, ::onLongItemClick
-    )
+    private val detailAdapter by lazy {
+        createAdapter(
+            ::onItemClick, ::onLongItemClick
+        )
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

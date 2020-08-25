@@ -17,7 +17,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class CountryIndonesiaActivity : BaseActivity() {
     private val viewModel by viewModel<CountryIndonesiaViewModel>()
     private lateinit var binding: ActivityCountryIndonesiaBinding
-    private val viewAdapter = createAdapter(::onItemClicked)
+    private val viewAdapter by lazy { createAdapter(::onItemClicked) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

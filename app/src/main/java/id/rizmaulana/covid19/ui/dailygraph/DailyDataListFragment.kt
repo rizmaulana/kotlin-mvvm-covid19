@@ -17,7 +17,7 @@ class DailyDataListFragment : BaseFragment() {
 
     lateinit var binding: FragmentDailyListBinding
 
-    private val dailyAdapter = createAdapter()
+    private val dailyAdapter by lazy { createAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater,

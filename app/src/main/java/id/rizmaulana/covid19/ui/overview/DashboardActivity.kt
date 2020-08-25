@@ -23,10 +23,11 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class DashboardActivity : BaseActivity() {
 
     private val viewModel by viewModel<DashboardViewModel>()
-    private val dailyAdapter = createAdapter(
-        ::onItemClicked
-    )
-
+    private val dailyAdapter by lazy {
+        createAdapter(
+            ::onItemClicked
+        )
+    }
     private lateinit var binding: ActivityDashboardBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
