@@ -9,8 +9,7 @@ import android.view.MenuItem
 import android.view.View
 import id.rizmaulana.covid19.R
 import id.rizmaulana.covid19.databinding.ActivityDashboardBinding
-import id.rizmaulana.covid19.ui.adapter.ItemTypeFactoryImpl
-import id.rizmaulana.covid19.ui.adapter.VisitableRecyclerAdapter
+import id.rizmaulana.covid19.ui.adapter.createAdapter
 import id.rizmaulana.covid19.ui.adapter.viewholders.*
 import id.rizmaulana.covid19.ui.base.BaseActivity
 import id.rizmaulana.covid19.ui.base.BaseViewItem
@@ -25,12 +24,10 @@ class DashboardActivity : BaseActivity() {
 
     private val viewModel by viewModel<DashboardViewModel>()
     private val dailyAdapter by lazy {
-        VisitableRecyclerAdapter(
-            ItemTypeFactoryImpl(),
+        createAdapter(
             ::onItemClicked
         )
     }
-
     private lateinit var binding: ActivityDashboardBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

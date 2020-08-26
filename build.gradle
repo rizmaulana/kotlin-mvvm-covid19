@@ -27,6 +27,7 @@ buildscript {
         sheenValidator = '0.2.3'
         koinVersion = '2.0.1'
         materialEditText = '2.1.4'
+        kielVersion = '1.2.1'
     }
     repositories {
         google()
